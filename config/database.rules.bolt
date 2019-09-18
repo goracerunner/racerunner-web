@@ -1,0 +1,18 @@
+//
+// Types
+//
+
+
+//
+// Functions
+//
+
+
+//
+// Paths
+//
+
+path / {
+  read() { false }
+  write() { false }
+}

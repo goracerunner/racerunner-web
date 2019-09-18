@@ -1,0 +1,24 @@
+@import "variables";
+
+a.link {
+  text-decoration: none;
+  cursor: pointer;
+  color: $link-color;
+  &:hover {
+    color: lighten($link-color, 10%);
+  }
+
+  &.dark {
+    color: $link-color-dark;
+    &:hover {
+      color: lighten($link-color-dark, 10%);
+    }
+  }
+
+  &.footer {
+    color: #8e8e8e;
+    &:hover {
+      color: $link-color;
+    }
+  }
+}
