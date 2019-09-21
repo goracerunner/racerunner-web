@@ -4,7 +4,7 @@ This is project is a online platform for co-ordinating a Race Runner event.
 
 // TODO: add more information about Race Runner
 
-This repository is currently maintained by Ben Yap (contact@benyap.me).
+This repository is currently maintained by Ben Yap (contact@benyap.com).
 
 ## Project structure
 
