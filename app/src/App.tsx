@@ -11,7 +11,7 @@ import HeadMeta from "./modules/base/components/HeadMeta";
 import ErrorBoundary from "./modules/base/components/ErrorBoundary";
 import ScrollToTop from "./modules/base/components/ScrollToTop";
 
-import InProgressPage from "./modules/core/pages/InProgressPage";
+import NotFoundPage from "./modules/core/pages/NotFoundPage";
 
 const Providers: FC = ({ children }) => {
   return (
@@ -35,7 +35,7 @@ const App: FC = () => {
             <BrowserRouter>
               <ScrollToTop>
                 <Switch>
-                  <Route component={InProgressPage} />
+                  <Route component={NotFoundPage} />
                 </Switch>
               </ScrollToTop>
             </BrowserRouter>

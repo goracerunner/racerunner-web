@@ -1,4 +1,5 @@
 import React from "react";
+import clsx from "clsx";
 
 import { ContainerProps } from "./types";
 import useStyles from "./styles";
@@ -8,7 +9,8 @@ import useStyles from "./styles";
  */
 export const Container: React.FC<ContainerProps> = props => {
   const classes = useStyles(props);
-  return <div className={classes.root}>{props.children}</div>;
+  const { children, className } = props;
+  return <div className={clsx(classes.root, className)}>{children}</div>;
 };
 
 Container.defaultProps = {

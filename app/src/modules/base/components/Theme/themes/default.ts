@@ -31,9 +31,6 @@ export default (type: "dark" | "light") =>
       },
       h3: {
         fontFamily: titleFonts
-      },
-      h4: {
-        fontFamily: titleFonts
       }
     },
     // Set the theme colours
