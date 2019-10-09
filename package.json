@@ -29,13 +29,15 @@
     "release:finish": "git checkout develop; git pull; git merge master; git push",
     "robots:dev": "echo User-agent: \\* \\\\nDisallow: / > app/build/robots.txt",
     "robots:prod": "echo User-agent: \\* \\\\nDisallow: > app/build/robots.txt",
-    "gds": "github-deploy-status -u goracerunner -p racerunner-web"
+    "gds": "github-deploy-status -u goracerunner -p racerunner-web",
+    "generate": "plop --plopfile internals/generator/index.js"
   },
   "devDependencies": {
     "@firebase/testing": "0.11.5",
     "@types/mocha": "5.2.7",
     "mocha": "6.1.4",
     "mocha-typescript": "1.1.17",
+    "plop": "2.4.0",
     "rimraf": "2.6.3",
     "standard-version": "7.0.0",
     "typescript": "3.5.3"
