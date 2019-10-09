@@ -17,7 +17,7 @@ test        // this directory contains tests for the security rules for Realtime
 
 ## Project set up
 
-This project uses the [Google Firebase](https://firebase.google.com/) platform.
+This project uses the [Firebase](https://firebase.google.com/) platform.
 
 The root `package.json` file contains packages that are required by all project components.
 These should be installed using the command `yarn` in the root directory. The following project
@@ -47,7 +47,7 @@ To log in with your account:
 firebase login
 ```
 
-### Frontend apps
+### Frontend app
 
 Navigate to the `app` directory.
 
@@ -55,13 +55,13 @@ Navigate to the `app` directory.
 cd app
 ```
 
-To build the frontend apps:
+To build the frontend app:
 
 ```
 yarn build
 ```
 
-To start the development server for the frontend apps:
+To start the development server for the frontend app:
 
 ```
 yarn start
@@ -98,9 +98,6 @@ Use these commands to install them:
 ```
 // Install Firestore emulator
 firebase setup:emulators:firestore
-
-// Install Realtime Database emulator
-firebase setup:emulators:database
 ```
 
 To run the tests, first start the appropriate emulator
@@ -109,9 +106,6 @@ To run the tests, first start the appropriate emulator
 ```
 // Start the Firestore emulator
 yarn emulate:firestore
-
-// Start the Realtime Database emulator
-yarn emulate:database
 ```
 
 Then run the tests using these commands:
@@ -122,9 +116,6 @@ yarn test
 
 // Run Firestore tests
 yarn test:firestore
-
-// Run Realtime Database tests
-yarn test:database
 ```
 
 ## Deployment
