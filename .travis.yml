@@ -27,6 +27,7 @@ jobs:
         - yarn add github-deploy-status@1.4
         - yarn gds --token $GITHUB_TOKEN -a create -e staging -r develop
         - yarn gds --token $GITHUB_TOKEN -a in_progress -e staging -r develop
+        - yarn robots:dev
       deploy:
         edge: true
         provider: firebase
@@ -45,6 +46,7 @@ jobs:
         - yarn add github-deploy-status@1.4
         - yarn gds --token $GITHUB_TOKEN -a create -e production -r master
         - yarn gds --token $GITHUB_TOKEN -a in_progress -e production -r master
+        - yarn robots:prod
       deploy:
         edge: true
         provider: firebase

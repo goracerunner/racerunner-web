@@ -5,8 +5,8 @@ import loadable from "@loadable/component";
 import { initialiseFirebase } from "./firebase";
 import { Logger, waitFor, env } from "./utils";
 
-import Theme from "./modules/core/components/Theme";
-import { ThemedLoader } from "./modules/core/components/Loader";
+import Theme from "./modules/base/components/Theme";
+import { ThemedLoader } from "./modules/base/components/Loader";
 
 const MIN_DELAY = 1 * 1000;
 const MAX_DELAY = 10 * 1000;
