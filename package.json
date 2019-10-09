@@ -1,7 +1,7 @@
 {
   "name": "racerunner-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "install-all": "yarn && cd app && yarn && cd ../functions && yarn && cd ..",
     "build-all": "yarn build:app && yarn build:functions",
