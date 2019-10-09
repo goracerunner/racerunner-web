@@ -1,0 +1,67 @@
+{
+  "name": "racerunner-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "firebase use default && REACT_APP_FIREBASE_CONFIG=\"$(node ./bin/getConfig.js)\" react-scripts start",
+    "start:prod": "firebase use production && REACT_APP_FIREBASE_CONFIG=\"$(node ./bin/getConfig.js)\" react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@loadable/component": "5.10.2",
+    "@material-ui/core": "4.4.1",
+    "@material-ui/icons": "4.4.1",
+    "autosuggest-highlight": "3.1.1",
+    "clsx": "1.0.4",
+    "firebase": "6.6.0",
+    "moment": "2.24.0",
+    "node-sass": "4.12.0",
+    "notistack": "0.9.0",
+    "p-min-delay": "3.1.0",
+    "promise-timeout": "1.3.0",
+    "prop-types": "15.7.2",
+    "react": "16.9.0",
+    "react-autosuggest": "9.4.3",
+    "react-dom": "16.9.0",
+    "react-firebase-hooks": "2.1.0",
+    "react-helmet": "5.2.1",
+    "react-json-view": "1.19.1",
+    "react-router-dom": "5.0.1",
+    "use-breakpoint": "1.0.19",
+    "uuid": "3.3.2"
+  },
+  "devDependencies": {
+    "@types/autosuggest-highlight": "3.1.0",
+    "@types/jest": "24.0.17",
+    "@types/loadable__component": "5.10.0",
+    "@types/node": "12.7.1",
+    "@types/promise-timeout": "1.3.0",
+    "@types/react": "16.9.2",
+    "@types/react-autosuggest": "9.3.11",
+    "@types/react-dom": "16.9.0",
+    "@types/react-helmet": "5.0.9",
+    "@types/react-json-tree": "0.6.11",
+    "@types/react-router-dom": "4.3.4",
+    "@types/uuid": "3.4.5",
+    "firebase-tools": "7.3.1",
+    "react-scripts": "3.1.1",
+    "typescript": "3.5.3"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

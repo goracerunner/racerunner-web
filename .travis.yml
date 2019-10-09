@@ -1,0 +1,60 @@
+language: node_js
+
+node_js:
+  - 8
+
+cache:
+  yarn: true
+  npm: true
+
+stages:
+  - name: Staging
+    if: branch = develop
+  - name: Production
+    if: tag IS present
+
+install:
+  - yarn install-all
+
+script:
+  - yarn build-all
+
+jobs:
+  include:
+    # Deploy commits on develop to staging
+    - stage: Staging
+      before_deploy:
+        - yarn add github-deploy-status@1.4
+        - yarn gds --token $GITHUB_TOKEN -a create -e staging -r develop
+        - yarn gds --token $GITHUB_TOKEN -a in_progress -e staging -r develop
+        - yarn robots:dev
+      deploy:
+        edge: true
+        provider: firebase
+        token: $FIREBASE_TOKEN
+        project: goracerunner-dev
+        on:
+          branch: develop
+      after_deploy:
+        - yarn gds --token $GITHUB_TOKEN -a success -e staging -r develop -l https://goracerunner-dev.web.app
+      after_script:
+        - yarn gds --token $GITHUB_TOKEN -a fail_if_unsuccessful -e staging -r develop
+
+    # Deploy tags to production
+    - stage: Production
+      before_deploy:
+        - yarn add github-deploy-status@1.4
+        - yarn gds --token $GITHUB_TOKEN -a create -e production -r master
+        - yarn gds --token $GITHUB_TOKEN -a in_progress -e production -r master
+        - yarn robots:prod
+      deploy:
+        edge: true
+        provider: firebase
+        token: $FIREBASE_TOKEN
+        project: goracerunner
+        on:
+          tags: true
+      after_deploy:
+        - yarn gds --token $GITHUB_TOKEN -a success -e production -r master -l https://goracerunner.web.app
+      after_script:
+        - yarn gds --token $GITHUB_TOKEN -a fail_if_unsuccessful -e production -r master
