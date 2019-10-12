@@ -26,4 +26,9 @@ export interface LoaderProps {
    * @default false
    */
   hideBackground?: boolean;
+
+  /**
+   * If `true`, the loader will have an animated transition.
+   */
+  animated?: boolean;
 }

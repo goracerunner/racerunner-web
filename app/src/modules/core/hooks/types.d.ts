@@ -2,20 +2,23 @@ import { OptionsObject } from "notistack";
 
 import { Nullable, Maybe } from "../../../types";
 
-export interface AuthHook {
-  (): [Nullable<firebase.auth.IdTokenResult>, () => void];
+export interface UseTransitionOptions {
+  /**
+   * The delay before starting the transition in ms.
+   */
+  delay?: number;
+
+  /**
+   * The duration of the transition in ms.
+   */
+  duration?: number;
 }
 
-export interface AppDrawerStateHook {
-  (): [boolean, () => void, () => void];
+export interface UseTransitionHookResult {
+  in: boolean;
+  style: object;
+  timeout: object;
 }
-
-export type BatchGetHookReturnType<T> = [
-  (key: string) => void,
-  { [key: string]: T },
-  { [key: string]: boolean },
-  { [key: string]: any }
-];
 
 export interface PromiseFeedbackOptions<T = any, E = any> {
   /**

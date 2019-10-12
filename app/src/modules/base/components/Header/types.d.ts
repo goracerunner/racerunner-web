@@ -5,4 +5,9 @@ export interface HeaderProps {
    * @default false
    */
   inverted?: boolean;
+
+  /**
+   * If `true`, the header will be smaller.
+   */
+  reduced?: boolean;
 }

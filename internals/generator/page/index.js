@@ -51,7 +51,7 @@ module.exports = {
     }
   ],
 
-  actions: data => {
+  actions: () => {
     // Generate files
     const actions = [
       // Create the index file
@@ -66,6 +66,13 @@ module.exports = {
         type: "add",
         path: pagePath("{{ properCase name }}Page.tsx"),
         templateFile: "./page/page.tsx.hbs",
+        abortOnFail: true
+      },
+      // Create the styles file
+      {
+        type: "add",
+        path: pagePath("styles.ts"),
+        templateFile: "./page/styles.ts.hbs",
         abortOnFail: true
       }
     ];

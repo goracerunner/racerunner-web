@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
       <Typography variant="body2" className={classes.bottom}>
         &copy; {new Date().getFullYear()}{" "}
         <a href="https://goracerunner.web.app" className="footer link">
-          Go Race Runner
+          Race Runner
         </a>
       </Typography>
     </div>

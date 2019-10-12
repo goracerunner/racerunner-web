@@ -4,6 +4,7 @@ import { Typography } from "@material-ui/core";
 import Email from "../../../base/components/Email";
 import Header from "../../../base/components/Header";
 import Container from "../../../base/components/Container";
+import BackButton from "../../../base/components/BackButton";
 import Footer from "../../../base/components/Footer";
 
 import useStyles from "./styles";
@@ -23,6 +24,9 @@ export const NotFoundPage: FC = () => {
           Sorry, the page you requested could not be found. Please forward any
           enquiries to <Email dark />.
         </Typography>
+        <div className={classes.back}>
+          <BackButton variant="outlined" color="primary" />
+        </div>
       </Container>
       <Footer />
     </div>

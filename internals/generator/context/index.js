@@ -51,7 +51,7 @@ module.exports = {
     }
   ],
 
-  actions: data => {
+  actions: () => {
     // Generate files
     const actions = [
       // Create the index file
