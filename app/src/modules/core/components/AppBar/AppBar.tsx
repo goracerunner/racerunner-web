@@ -1,4 +1,4 @@
-import React, { FC, useContext, useCallback, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Bar from "@material-ui/core/AppBar";
@@ -17,14 +17,10 @@ import useStyles from "./styles";
 /**
  * The AppBar renders the user account menu at the top of the page.
  */
-export const AppBar: FC<AppBarProps> = () => {
+export const AppBar: FC<AppBarProps> = ({ onDrawerOpen }) => {
   const classes = useStyles();
 
   const { user } = useContext(AuthenticationContext);
-
-  const logout = useCallback(() => {
-    window.location.href = "/logout";
-  }, []);
 
   const [menuAnchor, setMenuAnchor] = useState<Nullable<HTMLElement>>(null);
   const closeMenu = () => setMenuAnchor(null);
@@ -40,7 +36,7 @@ export const AppBar: FC<AppBarProps> = () => {
   return (
     <Bar elevation={trigger ? 5 : 0}>
       <Toolbar>
-        <IconButton edge="start" color="inherit">
+        <IconButton edge="start" color="inherit" onClick={onDrawerOpen}>
           <MenuIcon />
         </IconButton>
         <div className={classes.spacer} />
@@ -50,7 +46,6 @@ export const AppBar: FC<AppBarProps> = () => {
             openMenu={openMenu}
             closeMenu={closeMenu}
             menuAnchor={menuAnchor}
-            logout={logout}
           />
         )}
       </Toolbar>

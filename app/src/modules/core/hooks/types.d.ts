@@ -2,6 +2,10 @@ import { OptionsObject } from "notistack";
 
 import { Nullable, Maybe } from "../../../types";
 
+export interface AppDrawerStateHook {
+  (): [boolean, () => void, () => void];
+}
+
 export interface UseTransitionOptions {
   /**
    * The delay before starting the transition in ms.

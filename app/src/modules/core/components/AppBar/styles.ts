@@ -1,7 +1,6 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { AppBarProps } from "./types";
 
-export default makeStyles<Theme, AppBarProps>(
+export default makeStyles<Theme>(
   createStyles({
     spacer: {
       flex: "1"
@@ -21,7 +20,8 @@ export const useAppBarMenuStyles = makeStyles<Theme>(
       marginBottom: "0.4rem"
     },
     avatarButton: {
-      color: "rgba(255, 255, 255, 0.7)"
+      color: "rgba(255, 255, 255, 0.7)",
+      marginRight: "-0.8rem"
     },
     profile: {
       margin: "0.5rem 1rem",

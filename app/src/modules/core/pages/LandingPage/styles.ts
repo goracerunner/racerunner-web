@@ -30,7 +30,8 @@ export default makeStyles<Theme>(theme =>
       }
     },
     subtitle: {
-      textAlign: "center"
+      textAlign: "center",
+      padding: "0 1.5rem"
     },
     signIn: {
       textAlign: "center",

@@ -1,6 +1,11 @@
 import { User } from "firebase";
 
-export interface AppBarProps {}
+export interface AppBarProps {
+  /**
+   * This function will be called when menu button is pressed.
+   */
+  onDrawerOpen?: () => void;
+}
 
 export interface AppBarMenuProps {
   /**
@@ -23,9 +28,4 @@ export interface AppBarMenuProps {
    * A function that will close the menu when called.
    */
   closeMenu: (...any) => any;
-
-  /**
-   * A function that will log out the current user.
-   */
-  logout?: () => any;
 }

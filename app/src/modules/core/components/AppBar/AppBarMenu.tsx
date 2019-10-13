@@ -11,12 +11,15 @@ import Typography from "@material-ui/core/Typography";
 import { AppBarMenuProps } from "./types";
 import { useAppBarMenuStyles } from "./styles";
 
+/**
+ * The AppBarMenu renders a dropdown menu that
+ * shows the current user and a button to log out.
+ */
 export const AppBarMenu: FC<AppBarMenuProps> = ({
   user,
   openMenu,
   menuAnchor,
-  closeMenu,
-  logout
+  closeMenu
 }) => {
   const classes = useAppBarMenuStyles();
 
@@ -43,15 +46,7 @@ export const AppBarMenu: FC<AppBarMenuProps> = ({
           </div>
         </div>
         <Divider />
-        <MenuItem onClick={closeMenu} component={Link} to="/account">
-          Account
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            closeMenu();
-            if (logout) logout();
-          }}
-        >
+        <MenuItem onClick={closeMenu} component={Link} to="/logout">
           Logout
         </MenuItem>
       </Menu>
