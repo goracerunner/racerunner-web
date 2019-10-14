@@ -1,1 +1,1 @@
-export { api } from "./https";
+export { onCreateUser, onDeleteUser, updateClaims } from "./triggers";
