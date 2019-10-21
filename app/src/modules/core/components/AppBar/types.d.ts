@@ -1,4 +1,5 @@
 import { User } from "firebase";
+import { Nullable } from "../../../../types/global";
 
 export interface AppBarProps {
   /**

@@ -3,7 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions";
 
-import { Maybe } from "../../../types";
+import { Maybe } from "../../../types/global";
 
 /**
  * Returns the Firebase Auth instance.

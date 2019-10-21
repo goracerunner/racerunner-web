@@ -1,6 +1,6 @@
 import { useSnackbar } from "notistack";
 
-import { Nullable } from "../../../types";
+import { Nullable } from "../../../types/global";
 
 import { PromiseFeedbackOptions } from "./types";
 

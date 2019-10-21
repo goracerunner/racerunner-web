@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Clear";
 
 import * as snackbarKey from "../../../config/snackbarKey";
-import { Nullable } from "../../../types";
+import { Nullable } from "../../../types/global";
 
 import { useFeedback } from "./useFeedback";
 import { PromiseFeedbackOptions } from "./types";

@@ -1,6 +1,6 @@
 import { OptionsObject } from "notistack";
 
-import { Nullable, Maybe } from "../../../types";
+import { Nullable, Maybe } from "../../../types/global";
 
 export interface AppDrawerStateHook {
   (): [boolean, () => void, () => void];
