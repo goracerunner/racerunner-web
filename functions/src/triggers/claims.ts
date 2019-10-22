@@ -11,6 +11,16 @@ export const writeClaimsHandler: (
   context: functions.EventContext
 ) => any = async (change, ctx) => {
   const userId = ctx.params.uid;
+
+  // Check that user exists
+  try {
+    await auth.getUser(userId);
+  } catch (error) {
+    console.info(`User ${userId} no longer exists, so claims cannot be set.`);
+    return;
+  }
+
+  // Set the claims
   const claims = change.after.data();
   if (claims) {
     const claimsObject = Object.keys(claims).reduce(
