@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import clsx from "clsx";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -14,9 +15,9 @@ import useStyles from "./styles";
  */
 export const Header: FC<HeaderProps> = props => {
   const classes = useStyles(props);
-  const { inverted, reduced } = props;
+  const { inverted, reduced, className } = props;
   return (
-    <div className={classes.title}>
+    <div className={clsx(classes.title, className)}>
       <Logo
         inverted={inverted}
         baseSize={reduced ? 45 : 80}

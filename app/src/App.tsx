@@ -5,6 +5,7 @@ import { SnackbarProvider } from "notistack";
 import { AuthenticationProvider } from "./modules/core/contexts/AuthenticationContext";
 import { AuthorisationProvider } from "./modules/core/contexts/AuthorisationContext";
 import { NavigationProvider } from "./modules/core/contexts/NavigationContext";
+import { AppModeProvider } from "./modules/core/contexts/AppModeContext";
 
 import DefaultTheme from "./modules/base/components/Theme";
 import HeadMeta from "./modules/base/components/HeadMeta";
@@ -24,7 +25,9 @@ const Providers: FC = ({ children }) => {
     <AuthenticationProvider>
       <AuthorisationProvider>
         <NavigationProvider>
-          <SnackbarProvider maxSnack={5}>{children}</SnackbarProvider>
+          <AppModeProvider>
+            <SnackbarProvider maxSnack={5}>{children}</SnackbarProvider>
+          </AppModeProvider>
         </NavigationProvider>
       </AuthorisationProvider>
     </AuthenticationProvider>
@@ -37,8 +40,8 @@ const App: FC = () => {
       <HeadMeta />
       <DefaultTheme>
         <ErrorBoundary>
-          <Providers>
-            <BrowserRouter>
+          <BrowserRouter>
+            <Providers>
               <ScrollToTop>
                 <Switch>
                   <Route exact path="/" component={LandingPage} />
@@ -50,8 +53,8 @@ const App: FC = () => {
                   <Route component={NotFoundPage} />
                 </Switch>
               </ScrollToTop>
-            </BrowserRouter>
-          </Providers>
+            </Providers>
+          </BrowserRouter>
         </ErrorBoundary>
       </DefaultTheme>
     </>

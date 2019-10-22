@@ -26,6 +26,9 @@ export default makeStyles<Theme>(theme =>
     },
     homeIcon: {
       margin: "-0.5rem"
+    },
+    content: {
+      width: "100%"
     }
   })
 );

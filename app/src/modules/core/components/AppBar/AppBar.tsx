@@ -34,21 +34,24 @@ export const AppBar: FC<AppBarProps> = ({ onDrawerOpen }) => {
   });
 
   return (
-    <Bar elevation={trigger ? 5 : 0}>
-      <Toolbar>
-        <IconButton edge="start" color="inherit" onClick={onDrawerOpen}>
-          <MenuIcon />
-        </IconButton>
-        <div className={classes.spacer} />
-        {user && (
-          <AppBarMenu
-            user={user}
-            openMenu={openMenu}
-            closeMenu={closeMenu}
-            menuAnchor={menuAnchor}
-          />
-        )}
-      </Toolbar>
-    </Bar>
+    <>
+      <Bar elevation={trigger ? 5 : 0}>
+        <Toolbar>
+          <IconButton edge="start" color="inherit" onClick={onDrawerOpen}>
+            <MenuIcon />
+          </IconButton>
+          <div className={classes.spacer} />
+          {user && (
+            <AppBarMenu
+              user={user}
+              openMenu={openMenu}
+              closeMenu={closeMenu}
+              menuAnchor={menuAnchor}
+            />
+          )}
+        </Toolbar>
+      </Bar>
+      <div className={classes.buffer} />
+    </>
   );
 };

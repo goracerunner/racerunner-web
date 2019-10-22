@@ -1,5 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 
+import { extractClaims } from "../../../../config/claims";
+
 import AuthenticationContext from "../AuthenticationContext";
 
 import AuthorisationContext from ".";
@@ -11,6 +13,7 @@ import AuthorisationContext from ".";
  */
 export const AuthorisationProvider: FC = ({ children }) => {
   const [authorisationLoaded, setAuthorisationLoaded] = useState(false);
+  const [claims, setClaims] = useState<string[]>([]);
 
   const { user, token } = useContext(AuthenticationContext);
 
@@ -19,7 +22,7 @@ export const AuthorisationProvider: FC = ({ children }) => {
       // This will only authorise ONCE.
       // The user must manually refresh the page to retrieve any new authorisation.
       if (user && token && !authorisationLoaded) {
-        // TODO: implement permissions and claims checking
+        setClaims(Object.keys(extractClaims(token)));
         setAuthorisationLoaded(true);
         return;
       }
@@ -31,7 +34,7 @@ export const AuthorisationProvider: FC = ({ children }) => {
     <AuthorisationContext.Provider
       value={{
         authorisationLoaded,
-        claims: [] // TODO: implement this
+        claims
       }}
     >
       {children}

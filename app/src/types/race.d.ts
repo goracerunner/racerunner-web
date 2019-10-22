@@ -1,4 +1,4 @@
-import { firestore } from "firebase-admin";
+import { firestore } from "firebase/app";
 
 import { Timestamp } from "./global";
 import { UserProfile } from "./users";

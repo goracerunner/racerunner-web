@@ -10,4 +10,9 @@ export interface HeaderProps {
    * If `true`, the header will be smaller.
    */
   reduced?: boolean;
+
+  /**
+   * Styles to apply to the root element.
+   */
+  className?: string;
 }

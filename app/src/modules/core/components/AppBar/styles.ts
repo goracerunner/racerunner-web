@@ -1,9 +1,15 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-export default makeStyles<Theme>(
+export default makeStyles<Theme>(theme =>
   createStyles({
     spacer: {
       flex: "1"
+    },
+    buffer: {
+      height: "3.5rem",
+      [theme.breakpoints.up("md")]: {
+        height: "4rem"
+      }
     }
   })
 );
