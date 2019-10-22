@@ -1,8 +1,130 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
+    //
+    // Helper functions
+    //
+
+    // Type checks
+    function isString(field) { return request.resource.data[field] is string }
+    function isNumber(field) { return request.resource.data[field] is number }
+    function isInt(field) { return request.resource.data[field] is int }
+    function isFloat(field) { return request.resource.data[field] is float }
+    function isBoolean(field) { return request.resource.data[field] is bool }
+    function isList(field) { return request.resource.data[field] is list }
+    function isMap(field) { return request.resource.data[field] is map }
+    function isPath(field) { return request.resource.data[field] is path }
+    function isTimestamp(field) { return request.resource.data[field] is timestamp }
+    function isDuration(field) { return request.resource.data[field] is duration }
+    function isLatlng(field) { return request.resource.data[field] is latlng }
+
+    // Enforce that a field is unchanged
+    function unchanged(field) {
+    	return request.resource.data[field] == resource.data[field]
+		}
+
+    // Enforce that a request has all the specified fields
+    function fields(keys) {
+      return request.resource.data.keys().hasAll(keys)
+    }
+
+    // Retrieve the current data in the requested data
+    function data() {
+      return resource.data
+    }
+
+    // Retrieve the new data that will be written to the document
+    function newData() {
+      return request.resource.data
+    }
+
+
+    // 
+    // Claims
+    //
+
+    // Enforce that the user has the specified claim
+    function hasClaim(claim) {
+      return claim in request.auth.token.keys() && request.auth.token[claim] == true
+    }
+
+    function hasClaimAdmin() { return hasClaim("admin") }
+    function hasClaimManager() { return hasClaim("manager") }
+
+    //
+    // Access checks
+    //
+
+    function loggedIn() {
+      return request.auth != null;
+    }
+
+    // Enforce that a request was from the user of the specified uid
+    function requestFrom(uid) {
+      return request.auth.uid == uid
+    }
+
+    // Enforce that a list field in the resource contains the requester's uid
+    function fieldListsUser(doc) {
+      return doc.hasAny([request.auth.uid])
+    }
+
+    function getData(path) {
+      return get(path("/databases/{database}/documents/" + path).bind({ "database": database })).data
+    }
+
+    //
+    // Request validations
+    //
+
+
+
+    //
+    // Users
+    //
+
+    match /users/{uid} {
+      // Allow all users to get public profiles
+      allow get: if loggedIn()
+      
+      // Only allow admins to list all users
+      allow list: if loggedIn() && hasClaimAdmin()
+
+      // Only accessible by the owner and admins
+      match /protected {
+        match /details {
+          // Allow read if it is the owner or an admin
+          allow get: if loggedIn() &&
+            (requestFrom(uid) || hasClaimAdmin())
+        }
+      }
+
+      // Only accessible by admins
+      match /private {
+        match /claims {
+          allow read, write: if loggedIn() && hasClaimAdmin()
+        }
+      }
+
+      // Allow user to view list of races they are in
+      match /races/{raceUid} {
+        allow read: if loggedIn() && requestFrom(uid)
+      }
+
+      match /managedRaces/{raceUid} {
+        allow read: if loggedIn() && requestFrom(uid) && hasClaimManager()
+      }
+    }
+
+
+    //
+    // Stats
+    //
+
+    match /stats/{stat} {
+      // Only allow admins to view stats
+      allow read: if loggedIn() && hasClaimAdmin()
     }
   }
 }

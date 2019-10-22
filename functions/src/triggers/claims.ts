@@ -6,7 +6,7 @@ import { auth } from "../utils/firebase";
  * Update a user's claims in Firebase auth when their claims in
  * Firestore are changed.
  */
-export const updateClaimsHandler: (
+export const writeClaimsHandler: (
   change: functions.Change<FirebaseFirestore.DocumentSnapshot>,
   context: functions.EventContext
 ) => any = async (change, ctx) => {
