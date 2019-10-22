@@ -53,10 +53,10 @@ export const RaceList: FC<RaceListProps> = ({
 
   const onSelectRace = useCallback(
     (uid: string) => {
-      setMode("race");
+      setMode(viewManaging ? "manage" : "race");
       setRaceId(uid);
     },
-    [setMode, setRaceId]
+    [setMode, setRaceId, viewManaging]
   );
 
   return (

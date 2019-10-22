@@ -7,9 +7,9 @@ import Protected from "../../components/Protected";
 import AppBar from "../../components/AppBar";
 import AppDrawer from "../../components/AppDrawer";
 
-import { DashboardMode } from "./DashboardMode";
-import { RaceMode } from "./RaceMode";
-import { ManageMode } from "./ManageMode";
+import DashboardModePage from "../../../dashboard/pages/DashboardModePage";
+import RaceModePage from "../../../race/pages/RaceModePage";
+import ManageModePage from "../../../manage/pages/ManageModePage";
 
 /**
  * The dashboard page renders the appropriate
@@ -23,15 +23,15 @@ export const DashboardPage: React.FC = () => {
   switch (mode) {
     default:
     case "dashboard": {
-      content = <DashboardMode />;
+      content = <DashboardModePage />;
       break;
     }
     case "race": {
-      content = <RaceMode />;
+      content = <RaceModePage />;
       break;
     }
     case "manage": {
-      content = <ManageMode />;
+      content = <ManageModePage />;
       break;
     }
   }

@@ -1,6 +1,6 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-export const useDashboardStyles = makeStyles<Theme>(theme =>
+export default makeStyles<Theme>(theme =>
   createStyles({
     title: {
       display: "flex",
@@ -17,5 +17,3 @@ export const useDashboardStyles = makeStyles<Theme>(theme =>
     }
   })
 );
-
-export const useRaceStyles = makeStyles<Theme>(theme => createStyles({}));
