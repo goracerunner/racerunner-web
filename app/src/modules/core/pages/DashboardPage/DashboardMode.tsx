@@ -1,12 +1,15 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState, useEffect } from "react";
 
 import Typography from "@material-ui/core/Typography";
 
-import AuthenticationContext from "../../contexts/AuthenticationContext";
-import Authorised from "../../components/Authorised";
+import { useBooleanState } from "../../../base/hooks/useStateFactory";
 import Header from "../../../base/components/Header";
 import Container from "../../../base/components/Container";
 import RaceList from "../../../dashboard/components/RaceList";
+import JoinRaceDialog from "../../../dashboard/components/JoinRaceDialog";
+
+import AuthenticationContext from "../../contexts/AuthenticationContext";
+import Authorised from "../../components/Authorised";
 
 import { useDashboardStyles } from "./styles";
 
@@ -18,6 +21,11 @@ import { useDashboardStyles } from "./styles";
 export const DashboardMode: FC = () => {
   const classes = useDashboardStyles();
   const { user } = useContext(AuthenticationContext);
+  const [
+    joinRaceOpen,
+    openJoinRaceDialog,
+    closeJoinRaceDialog
+  ] = useBooleanState(false);
 
   return (
     <>
@@ -31,7 +39,10 @@ export const DashboardMode: FC = () => {
         <Typography variant="h3" className={classes.subtitle}>
           Races you're in
         </Typography>
-        {user && <RaceList user={user} showJoinRace />}
+        {user && (
+          <RaceList user={user} showJoinRace onJoinRace={openJoinRaceDialog} />
+        )}
+        <JoinRaceDialog open={joinRaceOpen} onClose={closeJoinRaceDialog} />
         <Authorised claims={["manager"]}>
           <Typography variant="h3" className={classes.subtitle}>
             Races you're managing

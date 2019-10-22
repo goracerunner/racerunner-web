@@ -108,13 +108,34 @@ service cloud.firestore {
       }
 
       // Allow user to view list of races they are in
-      match /races/{raceUid} {
+      match /races/{raceId} {
         allow read: if loggedIn() && requestFrom(uid)
       }
 
-      match /managedRaces/{raceUid} {
+      match /managedRaces/{raceId} {
         allow read: if loggedIn() && requestFrom(uid) && hasClaimManager()
       }
+    }
+
+
+    //
+    // Races
+    //
+
+    match /races/{raceId} {
+      // Allow admins to get a race's details
+      allow read: if loggedIn() && hasClaimAdmin()
+
+      // Allow a participant/manager to get details about a race they are in
+      allow get: if loggedIn() && (fieldListsUser(data().participantIds) || fieldListsUser(data().managerIds))
+
+      // Allow admins to create races
+      // TODO: add data shape checking
+      allow create: if loggedIn() && hasClaimAdmin()
+
+      // Allow managers and admins to modify a race
+      // TODO: add data shape checking
+      allow update: if loggedIn() && (fieldListsUser(data().managerIds) || hasClaimAdmin())
     }
 
 

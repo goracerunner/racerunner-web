@@ -8,3 +8,5 @@ export {
   removeRaceManager,
   onDeleteRace
 } from "./triggers";
+
+export { joinRace } from "./call";
