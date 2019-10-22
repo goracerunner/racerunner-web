@@ -1,5 +1,5 @@
 import React, { FC } from "react";
 
 export const ManageMode: FC = () => {
-  return null;
+  return <></>;
 };

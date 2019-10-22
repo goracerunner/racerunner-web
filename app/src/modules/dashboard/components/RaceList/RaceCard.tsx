@@ -15,7 +15,7 @@ export const RaceCard: FC<RaceCardProps> = ({ race, onSelectRace }) => {
 
   const open = useCallback(() => {
     if (onSelectRace) onSelectRace(race.uid);
-  }, [onSelectRace]);
+  }, [onSelectRace, race.uid]);
 
   return (
     <Card className={classes.card}>

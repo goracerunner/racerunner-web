@@ -49,7 +49,7 @@ export const RaceList: FC<RaceListProps> = ({
     }
 
     if (!loading || !races) loadRaces();
-  }, [setLoading, setRaces, loading, races]);
+  }, [setLoading, setRaces, loading, races, store, user.uid, viewManaging]);
 
   const onSelectRace = useCallback(
     (uid: string) => {

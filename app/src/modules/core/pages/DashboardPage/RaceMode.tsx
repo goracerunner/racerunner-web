@@ -9,5 +9,5 @@ export const RaceMode: FC = () => {
     if (!raceId) setMode("dashboard");
   }, [raceId, setMode]);
 
-  return null;
+  return <></>;
 };

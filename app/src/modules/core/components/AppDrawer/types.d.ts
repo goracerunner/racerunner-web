@@ -10,3 +10,11 @@ export interface AppDrawerProps {
    */
   onClose: () => any;
 }
+
+export interface AppDrawerItemsProps {
+  /**
+   * The function to call that will close the drawer. Calling
+   * this function should change the `open` prop to `false`.
+   */
+  onClose: () => any;
+}

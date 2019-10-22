@@ -6,7 +6,7 @@ export const useDashboardStyles = makeStyles<Theme>(theme =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      marginTop: "0.5rem"
+      marginTop: "1rem"
     },
     header: {
       marginTop: "0"

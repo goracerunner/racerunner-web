@@ -30,7 +30,7 @@ export const useLocalStorage: (
     } else {
       window.localStorage.setItem(key, value!);
     }
-  }, [loaded, setLoaded, value, setValue]);
+  }, [loaded, setLoaded, value, setValue, key]);
 
   const clearValue = useCallback(() => window.localStorage.removeItem(key), [
     key
