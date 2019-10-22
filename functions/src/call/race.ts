@@ -56,6 +56,15 @@ export const joinRaceHandler = async (
   const userData = userRecord.data() as UserProfile;
   const raceData = raceRecord.data() as Race;
 
+  // Check if the race is open for registration
+  if (raceData.status !== "registration_open") {
+    console.error(`The race "${raceId}" is currently closed to registrations.`);
+    throw new functions.https.HttpsError(
+      "unavailable",
+      `Registration is not open for this race.`
+    );
+  }
+
   // Check if the user is already in the race
   if (raceData.participantIds.includes(userData.uid)) {
     console.error(
