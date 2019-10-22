@@ -28,7 +28,7 @@ export const Header: FC<HeaderProps> = props => {
         component="div"
         className={classes.titleText}
       >
-        Race Runner
+        Race&nbsp;Runner
       </Typography>
     </div>
   );

@@ -13,7 +13,7 @@ const URL = "https://goracerunner.web.app";
  */
 const HeadMeta: React.FC = () => {
   return (
-    <Helmet titleTemplate="%s // Race Runner" defaultTitle="Race Runner">
+    <Helmet titleTemplate="%s - Race Runner" defaultTitle="Race Runner">
       <meta name="description" content={DESCRIPTION} />
       <meta property="og:description" content={DESCRIPTION} />
       <meta property="og:title" content={TITLE} />

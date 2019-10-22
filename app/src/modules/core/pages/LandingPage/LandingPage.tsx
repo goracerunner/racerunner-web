@@ -59,7 +59,7 @@ export const LandingPage: React.FC = () => {
               <div className={classes.title}>
                 <Logo inverted baseSize={70} className={classes.logo} />
                 <Typography variant="h1" className={classes.titleText}>
-                  Race Runner
+                  Race&nbsp;Runner
                 </Typography>
               </div>
             </Zoom>
