@@ -65,6 +65,32 @@ interface RaceUser {
 }
 
 /**
+ * SUBCOLLECTION: races/{uid}/registrationFields
+ */
+interface RegistrationField {
+  order: number
+	name: string
+  description: string
+  type: "text" | "longtext" | "number" | "list" | "listcustom"
+  optional: boolean
+  placeholder?: string
+  values?: string[]
+  default?: string
+  prefilled?: string
+  validation?: {
+    type: string
+    ... other paramters
+  }
+}
+
+/**
+ * SUBCOLLECTION: races/{uid}/registrations
+ */
+interface Registration extends RaceUser {
+  [key: string]: string
+}
+
+/**
  * SUBCOLLECTION: races/{uid}/nodes
  */
 // TODO:

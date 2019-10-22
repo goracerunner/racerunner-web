@@ -1,15 +1,19 @@
 import React, { useContext } from "react";
 
+import { Nullable } from "../../../../types/global";
+
+import DashboardModePage from "../../../dashboard/pages/DashboardModePage";
+import RaceModePage from "../../../race/pages/RaceModePage";
+import ManageModePage from "../../../manage/pages/ManageModePage";
+
 import { useAppDrawerState } from "../../hooks/useNavigation";
 import AppModeContext from "../../contexts/AppModeContext";
 
 import Protected from "../../components/Protected";
 import AppBar from "../../components/AppBar";
 import AppDrawer from "../../components/AppDrawer";
-
-import DashboardModePage from "../../../dashboard/pages/DashboardModePage";
-import RaceModePage from "../../../race/pages/RaceModePage";
-import ManageModePage from "../../../manage/pages/ManageModePage";
+import { RaceProvider } from "../../contexts/RaceContext";
+import AuthenticationContext from "../../contexts/AuthenticationContext";
 
 /**
  * The dashboard page renders the appropriate
@@ -17,21 +21,30 @@ import ManageModePage from "../../../manage/pages/ManageModePage";
  */
 export const DashboardPage: React.FC = () => {
   const [menuOpen, openDrawer, closeDrawer] = useAppDrawerState();
-  const { mode } = useContext(AppModeContext);
+  const { user } = useContext(AuthenticationContext);
+  const { mode, raceId } = useContext(AppModeContext);
 
-  let content: JSX.Element;
+  let content: Nullable<JSX.Element> = null;
+
   switch (mode) {
-    default:
     case "dashboard": {
       content = <DashboardModePage />;
       break;
     }
     case "race": {
-      content = <RaceModePage />;
+      if (user && user.uid && raceId) {
+        content = (
+          <RaceProvider raceId={raceId} userId={user.uid}>
+            <RaceModePage />
+          </RaceProvider>
+        );
+      }
       break;
     }
     case "manage": {
-      content = <ManageModePage />;
+      if (user && user.uid && raceId) {
+        content = <ManageModePage />;
+      }
       break;
     }
   }

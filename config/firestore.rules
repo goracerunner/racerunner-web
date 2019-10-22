@@ -122,12 +122,21 @@ service cloud.firestore {
     // Races
     //
 
+    function isRaceParticipant(raceId) {
+      return fieldListsUser(getData("races/" + raceId).participantIds)
+    }
+
+    function isRaceManager(raceId) {
+      return fieldListsUser(getData("races/" + raceId).managerIds)
+    }
+    
+
     match /races/{raceId} {
       // Allow admins to get a race's details
       allow read: if loggedIn() && hasClaimAdmin()
 
       // Allow a participant/manager to get details about a race they are in
-      allow get: if loggedIn() && (fieldListsUser(data().participantIds) || fieldListsUser(data().managerIds))
+      allow get: if loggedIn() && (isRaceParticipant(raceId) || isRaceManager(raceId))
 
       // Allow admins to create races
       // TODO: add data shape checking
@@ -135,7 +144,43 @@ service cloud.firestore {
 
       // Allow managers and admins to modify a race
       // TODO: add data shape checking
-      allow update: if loggedIn() && (fieldListsUser(data().managerIds) || hasClaimAdmin())
+      allow update: if loggedIn() && (isRaceManager(raceId) || hasClaimAdmin())
+
+      match /registrationFields/{managerId} {
+        // Allow all participants to see registration fields
+        allow read: if loggedIn() && (isRaceParticipant(raceId) || isRaceManager(raceId))
+
+        // Allow managers to modify registration fields
+        allow write: if loggedIn() && isRaceManager(raceId)
+      }
+
+      match /registrations/{registrationId} {
+        // Allow participants to create a registration once
+        // TODO: add data shape checking
+        allow create: if loggedIn() && isRaceParticipant(raceId)
+
+        // Allow user to view their own registration
+        allow get: if loggedIn() && isRaceParticipant(raceId) && requestFrom(registrationId)
+
+        // Allow all managers to view and update registrations
+        allow read, update: if loggedIn() && isRaceManager(raceId)
+      }
+
+      match /managers/{managerId} {
+        // Allow managers and admins to read managers
+        allow read: if loggedIn() && (isRaceManager(raceId) || hasClaimAdmin())
+
+        // Allow admins to manage managers
+        allow write: if loggedIn() && hasClaimAdmin()
+      }
+
+      match /participants/{participantId} {
+        // Allow participants, managers and admins to read participants
+        allow read: if loggedIn() && (isRaceParticipant(raceId) || isRaceManager(raceId) || hasClaimAdmin())
+
+        // Allow managers and admins to manage participants
+        allow write: if loggedIn() && (isRaceManager(raceId) || hasClaimAdmin())
+      }
     }
 
 

@@ -8,14 +8,13 @@ import { Nullable } from "../../../types/global";
  */
 export const useLocalStorage: (
   key: string,
-  defaultValue: Nullable<string>
-) => [
-  Nullable<string>,
-  (value: Nullable<string>) => void,
-  (key: string) => void
-] = (key, defaultValue) => {
+  defaultValue?: Nullable<string>
+) => [Nullable<string>, (value: Nullable<string>) => void, () => void] = (
+  key,
+  defaultValue
+) => {
   const [loaded, setLoaded] = useState(false);
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState(defaultValue || null);
 
   useEffect(() => {
     // Load data from local storage
