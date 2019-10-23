@@ -58,3 +58,5 @@ export interface PromiseFeedbackOptions<T = any, E = any> {
     options?: OptionsObject;
   };
 }
+
+export interface FeedbackOptions extends OptionsObject {}

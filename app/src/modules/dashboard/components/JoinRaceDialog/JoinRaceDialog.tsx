@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useContext } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useSnackbar } from "notistack";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -11,7 +11,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { useFunction } from "../../../core/hooks/useFirebase";
-import AppModeContext from "../../../core/contexts/AppModeContext";
 
 import { Race } from "../../../../types/race";
 import { JoinRaceDialogProps } from "./types";
@@ -23,13 +22,17 @@ import useStyles from "./styles";
 export const JoinRaceDialog: FC<JoinRaceDialogProps> = ({ open, onClose }) => {
   const classes = useStyles();
 
-  const { setMode, setRaceId } = useContext(AppModeContext);
   const joinRace = useFunction("joinRace");
   const { enqueueSnackbar } = useSnackbar();
 
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("User already in race");
+
+  // Reset the field when the dialog is open
+  useEffect(() => {
+    if (open) setCode("");
+  }, [open, setCode]);
 
   const onCloseHandler = () => {
     if (!loading) onClose();
@@ -52,10 +55,6 @@ export const JoinRaceDialog: FC<JoinRaceDialogProps> = ({ open, onClose }) => {
 
         // Close the dialog
         onCloseHandler();
-
-        // Show the newly joined race
-        setRaceId(race.uid);
-        setMode("race");
       } catch (error) {
         setLoading(false);
         setError(error.toString().replace("Error: ", ""));

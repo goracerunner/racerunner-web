@@ -1,6 +1,10 @@
 import { useState, useCallback } from "react";
 
-import { UseStateFactory, ToggleUseStateFactory } from "./types";
+import {
+  UseStateFactory,
+  ToggleUseStateFactory,
+  UseMapStateFactory
+} from "./types";
 
 /**
  * Create a `useState` hook that returns the state,
@@ -28,4 +32,25 @@ export const useToggleBooleanState: ToggleUseStateFactory<boolean> = (
   const [state, setState] = useState<boolean>(defaultState);
   const toggle = useCallback(() => setState(!state), [setState, state]);
   return [state, toggle];
+};
+
+/**
+ * Create a `useState` hook that initialises a map that can be
+ * used to store arbitrary values. Returns the map and a setter
+ * function that sets only the specified field.
+ * @param defaultState initial value for the state
+ */
+export const useMapState: UseMapStateFactory = (
+  defaultState: {
+    [key: string]: any;
+  } = {}
+) => {
+  const [values, setValues] = useState<{ [key: string]: any }>(defaultState);
+  const setValue = (key: string, value: any) => {
+    setValues({
+      ...values,
+      [key]: value
+    });
+  };
+  return [values, setValue, setValues];
 };

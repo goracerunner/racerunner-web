@@ -35,20 +35,26 @@ export const RaceList: FC<RaceListProps> = ({
   const { setMode, setRaceId } = useContext(AppModeContext);
 
   useEffect(() => {
-    async function loadRaces() {
+    if (!loading || !races) {
       setLoading(true);
-      let racesQuery = store
+      const racesQuery = store
         .doc(`users/${user.uid}`)
         .collection(viewManaging ? "managedRaces" : "races");
-      try {
-        const raceData = await racesQuery.get();
-        setRaces(raceData.docs.map(r => r.data() as RaceInfo));
-      } catch (error) {
-        Logger.error("RaceList", "Failed to load race data", error);
-      }
-    }
 
-    if (!loading || !races) loadRaces();
+      // Set the races whenever the data chanes
+      racesQuery.onSnapshot({
+        next: snap => {
+          try {
+            setRaces(snap.docs.map(r => r.data() as RaceInfo));
+          } catch (error) {
+            Logger.error("RaceList", "Failed to load race data", error);
+          }
+        },
+        error: error => {
+          Logger.error("RaceList", "Failed to load races", error);
+        }
+      });
+    }
   }, [setLoading, setRaces, loading, races, store, user.uid, viewManaging]);
 
   const onSelectRace = useCallback(

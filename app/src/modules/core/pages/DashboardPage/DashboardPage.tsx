@@ -27,6 +27,7 @@ export const DashboardPage: React.FC = () => {
   let content: Nullable<JSX.Element> = null;
 
   switch (mode) {
+    default:
     case "dashboard": {
       content = <DashboardModePage />;
       break;

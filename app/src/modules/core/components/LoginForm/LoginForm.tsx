@@ -90,7 +90,7 @@ export const LoginForm: FC<LoginFormProps> = ({ startLogin }) => {
         </Button>
         {isLoading && (
           <CircularProgress
-            size="2rem"
+            size="1.5rem"
             color="secondary"
             className={classes.loading}
           />

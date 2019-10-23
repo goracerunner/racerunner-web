@@ -1,5 +1,4 @@
 import React, { FC, useContext } from "react";
-import { Link } from "react-router-dom";
 import clsx from "clsx";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -70,7 +69,7 @@ export const AppDrawer: FC<AppDrawerProps> = ({ children, open, onClose }) => {
             disableTouchListener={open}
             placement="left"
           >
-            <Button className={classes.homeButton} component={Link} to="/">
+            <Button className={classes.homeButton} disableRipple>
               <div className={classes.homeIcon}>
                 <Header inverted reduced />
               </div>

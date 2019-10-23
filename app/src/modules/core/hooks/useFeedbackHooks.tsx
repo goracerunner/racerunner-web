@@ -1,5 +1,6 @@
 import React from "react";
 import uuid from "uuid/v4";
+import { useSnackbar, VariantType } from "notistack";
 
 import IconButton from "@material-ui/core/IconButton";
 
@@ -8,8 +9,8 @@ import CloseIcon from "@material-ui/icons/Clear";
 import * as snackbarKey from "../../../config/snackbarKey";
 import { Nullable } from "../../../types/global";
 
-import { useFeedback } from "./useFeedback";
-import { PromiseFeedbackOptions } from "./types";
+import { useFeedbackPromise, useFeedback } from "./useFeedback";
+import { PromiseFeedbackOptions, FeedbackOptions } from "./types";
 
 /**
  * This hook assumes the promise fulfils some action and presents
@@ -68,5 +69,37 @@ export const useActionFeedback = (
     };
   };
 
+  return useFeedbackPromise(options);
+};
+
+/**
+ * This hook returns a function that can be used to configure
+ * when a snackbar is shown based on a predicate.
+ *
+ * @param variant the variant of the snackbar to use
+ * @param key the key to give the snackbar message
+ * @param autoHideDuration the duration for the message to auothide.
+ * @default autoHideDuration 3000
+ */
+export const usePredicateFeedback = (
+  variant: VariantType,
+  key: string,
+  autoHideDuration: number = 3000
+) => {
+  const { closeSnackbar } = useSnackbar();
+  const options: FeedbackOptions = {
+    variant,
+    key,
+    autoHideDuration,
+    action: (
+      <IconButton
+        style={{ color: "white" }}
+        size="small"
+        onClick={() => closeSnackbar(key)}
+      >
+        <CloseIcon />
+      </IconButton>
+    )
+  };
   return useFeedback(options);
 };
