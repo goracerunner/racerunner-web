@@ -38,6 +38,7 @@ export const joinRaceHandler = async (
       `The requested race "${raceId}" does not exist.`
     );
   }
+
   // Check if the user profile exists
   const userRecord = await store
     .collection("users")
@@ -77,7 +78,9 @@ export const joinRaceHandler = async (
   }
 
   if (raceData.managerIds.includes(userData.uid)) {
-    `The user ${userData.name} (${userData.uid}) is already in the race "${raceId}" as a manager.`;
+    console.error(
+      `The user ${userData.name} (${userData.uid}) is already in the race "${raceId}" as a manager.`
+    );
     throw new functions.https.HttpsError(
       "already-exists",
       `You are already in the race "${raceId}".`
