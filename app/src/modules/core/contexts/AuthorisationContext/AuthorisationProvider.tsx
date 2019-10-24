@@ -1,6 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 
-import { useFirestore } from "../../hooks/useFirebase";
+import { extractClaims } from "../../../../config/claims";
+
 import AuthenticationContext from "../AuthenticationContext";
 
 import AuthorisationContext from ".";
@@ -11,10 +12,8 @@ import AuthorisationContext from ".";
  * claims.
  */
 export const AuthorisationProvider: FC = ({ children }) => {
-  const store = useFirestore();
-
   const [authorisationLoaded, setAuthorisationLoaded] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [claims, setClaims] = useState<string[]>([]);
 
   const { user, token } = useContext(AuthenticationContext);
 
@@ -23,20 +22,9 @@ export const AuthorisationProvider: FC = ({ children }) => {
       // This will only authorise ONCE.
       // The user must manually refresh the page to retrieve any new authorisation.
       if (user && token && !authorisationLoaded) {
-        // First check if the user has a profile
-        try {
-          const userProfile = await store
-            .collection("users")
-            .doc(user.uid)
-            .get();
-          if (userProfile.exists) {
-            setVerified(userProfile.data()!.verified);
-          }
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          setAuthorisationLoaded(true);
-        }
+        setClaims(Object.keys(extractClaims(token)));
+        setAuthorisationLoaded(true);
+        return;
       }
     }
     getAuthorisation();
@@ -46,7 +34,7 @@ export const AuthorisationProvider: FC = ({ children }) => {
     <AuthorisationContext.Provider
       value={{
         authorisationLoaded,
-        verified
+        claims
       }}
     >
       {children}

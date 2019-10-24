@@ -6,18 +6,7 @@ This is project is a online platform for co-ordinating a Race Runner event.
 
 This repository is currently maintained by Ben Yap (contact@benyap.com).
 
-## Project structure
-
-```
-app         // this directory contains the source code for the frontend site
-config      // this directory contains configuration and security rules for the Firebase project
-functions   // this directory contains the source code for Firebase functions
-test        // this directory contains tests for the security rules for Realtime database and Firestore
-```
-
 ## Project set up
-
-This project uses the [Google Firebase](https://firebase.google.com/) platform.
 
 The root `package.json` file contains packages that are required by all project components.
 These should be installed using the command `yarn` in the root directory. The following project
@@ -30,6 +19,41 @@ functions/
 ```
 
 Alternatively, use the command `yarn install-all` to install all required packages automatically.
+
+## Project structure
+
+```
+app         // this directory contains the source code for the frontend site
+config      // this directory contains configuration and security rules for the Firebase project
+functions   // this directory contains the source code for Firebase functions
+test        // this directory contains tests for the security rules for Realtime database and Firestore
+```
+
+## Project structure
+
+```
+.
+├── app/                        # source code for the frontend site
+│   ├── bin/                    # scripts for local frontend development
+│   ├── public/                 # public assets
+│   ├── src/                    # frontend source
+│   │   ├── assets/...          # assets (must be imported in source code)
+│   │   ├── modules/...         # the site is split into 'modules' (see the modules section in the Wiki for more information)
+│   │   │   ├── base/...
+│   │   │   ├── core/...
+│   │   │   └   ...
+│   │   ├── styles/...          # global styles
+│   │   ├── utils/...           # shared utilities used by the frontend
+│   │   └   ...
+│   └   ...
+├── config/                     # configuration and security rules for the Firebase project
+├── functions/                  # source code for Firebase functions
+├── internals/                  # scripts and configuration
+├── test/                       # tests for the security rules for Firestore
+├── package.json                # project level scripts and packages
+├── .firebaserc                 # configure the Firebase project that this project deploys to
+└── ...                         # other configuration files
+```
 
 ## Local development
 
@@ -47,7 +71,7 @@ To log in with your account:
 firebase login
 ```
 
-### Frontend apps
+### Frontend app
 
 Navigate to the `app` directory.
 
@@ -55,13 +79,13 @@ Navigate to the `app` directory.
 cd app
 ```
 
-To build the frontend apps:
+To build the frontend app:
 
 ```
 yarn build
 ```
 
-To start the development server for the frontend apps:
+To start the development server for the frontend app:
 
 ```
 yarn start
@@ -87,9 +111,35 @@ To run the functions locally via shell, use this command:
 yarn start
 ```
 
+### File generation
+
+The frontend site (`app`) has file generation to help automate the creation
+of standardised components for this project. For more information about the
+standards and conventions used, see the
+[GitLab wiki](https://gitlab.com/cccvcommunity/cccvcommunity.org/wikis/home) (WIP).
+To use a generator, use this command:
+
+```
+yarn generate <generator>
+```
+
+The following generators are available:
+
+**component**
+
+Create a React component in `app/src/modules/{module}/components`.
+
+**context**
+
+Create a React context in `app/src/modules/{module}/contexts`.
+
+**page**
+
+Create a page in `app/src/modules/{module}/pages`.
+
 ## Testing
 
-There are tests for the security rules for Firestore and Realtime Database.
+There are tests for the security rules for Firestore.
 These are located in the `test` directory.
 
 To run these tests, first make sure you have the appropriate emulators installed.
@@ -98,9 +148,6 @@ Use these commands to install them:
 ```
 // Install Firestore emulator
 firebase setup:emulators:firestore
-
-// Install Realtime Database emulator
-firebase setup:emulators:database
 ```
 
 To run the tests, first start the appropriate emulator
@@ -109,9 +156,6 @@ To run the tests, first start the appropriate emulator
 ```
 // Start the Firestore emulator
 yarn emulate:firestore
-
-// Start the Realtime Database emulator
-yarn emulate:database
 ```
 
 Then run the tests using these commands:
@@ -122,9 +166,6 @@ yarn test
 
 // Run Firestore tests
 yarn test:firestore
-
-// Run Realtime Database tests
-yarn test:database
 ```
 
 ## Deployment

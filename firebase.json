@@ -1,7 +1,4 @@
 {
-  "database": {
-    "rules": "config/database.rules.bolt"
-  },
   "firestore": {
     "rules": "config/firestore.rules",
     "indexes": "config/firestore.indexes.json"

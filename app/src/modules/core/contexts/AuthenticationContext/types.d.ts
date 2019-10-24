@@ -1,6 +1,6 @@
 import { User } from "firebase/app";
 
-import { Nullable } from "../../../../types";
+import { Nullable } from "../../../../types/global";
 
 export interface AuthenticationContextState {
   /**
