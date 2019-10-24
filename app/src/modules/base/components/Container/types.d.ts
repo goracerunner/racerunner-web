@@ -19,4 +19,9 @@ export interface ContainerProps {
    * @default 1rem
    */
   margins?: string;
+
+  /**
+   * Apply custom styling to the container.
+   */
+  className?: string;
 }

@@ -6,7 +6,7 @@ export interface AuthorisationContextState {
   authorisationLoaded: boolean;
 
   /**
-   * Whether the current user has verified to use this platform.
+   * A list of claims that the user has.
    */
-  verified: boolean;
+  claims: string[];
 }

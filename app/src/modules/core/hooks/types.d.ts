@@ -1,21 +1,28 @@
 import { OptionsObject } from "notistack";
 
-import { Nullable, Maybe } from "../../../types";
-
-export interface AuthHook {
-  (): [Nullable<firebase.auth.IdTokenResult>, () => void];
-}
+import { Nullable, Maybe } from "../../../types/global";
 
 export interface AppDrawerStateHook {
   (): [boolean, () => void, () => void];
 }
 
-export type BatchGetHookReturnType<T> = [
-  (key: string) => void,
-  { [key: string]: T },
-  { [key: string]: boolean },
-  { [key: string]: any }
-];
+export interface UseTransitionOptions {
+  /**
+   * The delay before starting the transition in ms.
+   */
+  delay?: number;
+
+  /**
+   * The duration of the transition in ms.
+   */
+  duration?: number;
+}
+
+export interface UseTransitionHookResult {
+  in: boolean;
+  style: object;
+  timeout: object;
+}
 
 export interface PromiseFeedbackOptions<T = any, E = any> {
   /**
@@ -51,3 +58,5 @@ export interface PromiseFeedbackOptions<T = any, E = any> {
     options?: OptionsObject;
   };
 }
+
+export interface FeedbackOptions extends OptionsObject {}

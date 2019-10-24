@@ -13,4 +13,10 @@ export interface EmailProps {
    * @default false
    */
   textOnly?: boolean;
+
+  /**
+   * Use a darker colour to display the Email link.
+   * @default false
+   */
+  dark?: boolean;
 }

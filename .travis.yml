@@ -16,18 +16,17 @@ stages:
 install:
   - yarn install-all
 
-script:
-  - yarn build-all
-
 jobs:
   include:
     # Deploy commits on develop to staging
-    - stage: Staging
+    - stage:
+      script:
+        - PUBLIC_URL=https://goracerunner-dev.web.app yarn build-all
+        - yarn robots:dev
       before_deploy:
         - yarn add github-deploy-status@1.4
         - yarn gds --token $GITHUB_TOKEN -a create -e staging -r develop
         - yarn gds --token $GITHUB_TOKEN -a in_progress -e staging -r develop
-        - yarn robots:dev
       deploy:
         edge: true
         provider: firebase
@@ -42,11 +41,13 @@ jobs:
 
     # Deploy tags to production
     - stage: Production
+      script:
+        - PUBLIC_URL=https://goracerunner.web.app yarn build-all
+        - yarn robots:prod
       before_deploy:
         - yarn add github-deploy-status@1.4
         - yarn gds --token $GITHUB_TOKEN -a create -e production -r master
         - yarn gds --token $GITHUB_TOKEN -a in_progress -e production -r master
-        - yarn robots:prod
       deploy:
         edge: true
         provider: firebase

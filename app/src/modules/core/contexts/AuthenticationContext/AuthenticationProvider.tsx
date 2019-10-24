@@ -3,7 +3,7 @@ import { User } from "firebase/app";
 
 import { useAuth } from "../../hooks/useFirebase";
 import { Logger } from "../../../../utils";
-import { Nullable } from "../../../../types";
+import { Nullable } from "../../../../types/global";
 
 import AuthenticationContext from ".";
 

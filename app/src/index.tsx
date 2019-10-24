@@ -15,7 +15,7 @@ const MAX_DELAY = 10 * 1000;
   const MOUNT_NODE = document.getElementById("root");
 
   // Show loading screen
-  ReactDOM.render(<ThemedLoader />, MOUNT_NODE);
+  ReactDOM.render(<ThemedLoader animated />, MOUNT_NODE);
 
   // Check for valid host
   if (!env.isValidHost()) {

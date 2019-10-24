@@ -1,6 +1,6 @@
 import { Dispatch, ReducerAction, Reducer } from "react";
 
-import { Nullable } from "../../../../types";
+import { Nullable } from "../../../../types/global";
 
 export type NavigationActionType =
   | "setDrawerState"

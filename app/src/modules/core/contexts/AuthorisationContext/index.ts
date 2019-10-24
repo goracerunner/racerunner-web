@@ -7,7 +7,7 @@ import { AuthorisationContextState } from "./types";
  */
 const AuthorisationContext = React.createContext<AuthorisationContextState>({
   authorisationLoaded: false,
-  verified: false
+  claims: []
 });
 
 export default AuthorisationContext;
