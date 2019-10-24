@@ -127,6 +127,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
           // Set errors
           setFormErrors(errors);
           setLoading(false);
+          window.scroll({ top: 0, behavior: "smooth" });
           showError("Form contains errors!", () => true);
         } else {
           // If valid, send registration

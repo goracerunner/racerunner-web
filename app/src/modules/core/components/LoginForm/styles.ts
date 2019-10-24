@@ -8,9 +8,7 @@ export default makeStyles<Theme>(
       position: "relative"
     },
     loading: {
-      position: "absolute",
-      top: "17%",
-      left: "45%"
+      position: "absolute"
     },
     buttons: {
       display: "flex",

@@ -85,16 +85,16 @@ export const LoginForm: FC<LoginFormProps> = ({ startLogin }) => {
           disabled={isLoading}
           onClick={startLoginHandler}
         >
+          {isLoading && (
+            <CircularProgress
+              size="1.5rem"
+              color="secondary"
+              className={classes.loading}
+            />
+          )}
           <FacebookIcon />
           Facebook
         </Button>
-        {isLoading && (
-          <CircularProgress
-            size="1.5rem"
-            color="secondary"
-            className={classes.loading}
-          />
-        )}
       </div>
       {error && (
         <div>

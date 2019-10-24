@@ -5,7 +5,16 @@ export default makeStyles<Theme>(
     title: {
       display: "flex",
       justifyContent: "center",
-      marginTop: "2rem"
+      marginTop: "1rem"
+    },
+    heading: {
+      margin: "0.5rem 0"
+    },
+    paragraph: {
+      marginBottom: "1rem"
+    },
+    section: {
+      margin: "1rem 0"
     }
   })
 );
