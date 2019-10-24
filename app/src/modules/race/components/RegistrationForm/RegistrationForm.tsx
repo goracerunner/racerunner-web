@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useContext, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -112,87 +113,91 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
   }
 
   if (user && fields) {
-    if (fields.length === 0) {
-      // If there are no fields, just register the user.
+    const onRegisterHandler = () => {
       setLoading(true);
-      onRegister(user.uid, {});
-    } else {
-      const onRegisterHandler = () => {
-        setLoading(true);
-
+      if (fields.length === 0) {
+        // If there are no fields, just register the user with some default values.
+        onRegister(user.uid, {
+          uid: user.uid,
+          name: user.displayName,
+          date: new Date()
+        });
+      } else {
         // Validate fields
         const errors = validateFields(fields, formValues);
 
+        // Set errors if any
         if (Object.keys(errors).length > 0) {
-          // Set errors
           setFormErrors(errors);
           setLoading(false);
           window.scroll({ top: 0, behavior: "smooth" });
           showError("Form contains errors!", () => true);
         } else {
           // If valid, send registration
-          onRegister(user.uid, formValues);
+          onRegister(user.uid, {
+            ...formValues,
+            date: new Date()
+          });
         }
-      };
+      }
+    };
 
-      return (
-        <Container>
-          <Typography variant="h2" className={classes.title}>
-            Register
+    return (
+      <Container>
+        <Typography variant="h2" className={classes.title}>
+          Welcome!
+        </Typography>
+        <Paper className={classes.blurb}>
+          <Typography variant="body1">
+            Register for <b>{race.name}</b> below.
           </Typography>
-          <Paper className={classes.blurb}>
-            <Typography variant="h6">Welcome to {race.name}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              Please fill the following form to register!
-            </Typography>
-          </Paper>
-          <Paper className={classes.form}>
-            <div className={classes.fields}>
-              {fields.map(field => (
-                <div key={field.name}>
-                  <RegistrationField
-                    disabled={loading}
-                    field={field}
-                    value={formValues[field.name]}
-                    setValue={value => setValue(field.name, value)}
-                    error={formErrors[field.name]}
-                  />
-                </div>
-              ))}
-            </div>
-            <Button
-              disabled={loading}
-              fullWidth
-              color="primary"
-              variant="contained"
-              size="large"
-              className={classes.button}
-              onClick={onRegisterHandler}
-            >
-              {loading && (
-                <CircularProgress
-                  color="primary"
-                  size="1.5rem"
-                  className={classes.loader}
+        </Paper>
+        <Paper className={classes.form}>
+          <div className={clsx({ [classes.fields]: Boolean(fields.length) })}>
+            {fields.map(field => (
+              <div key={field.name}>
+                <RegistrationField
+                  disabled={loading}
+                  field={field}
+                  value={formValues[field.name]}
+                  setValue={value => setValue(field.name, value)}
+                  error={formErrors[field.name]}
                 />
-              )}
-              Register
-            </Button>
-            <Typography variant="caption" color="textSecondary">
-              By continuing, you are indicating that you accept our{" "}
-              <Link className="dark link" to="/terms">
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link className="dark link" to="/privacy">
-                Privacy Policy
-              </Link>
-              .
-            </Typography>
-          </Paper>
-        </Container>
-      );
-    }
+              </div>
+            ))}
+          </div>
+          <Button
+            disabled={loading}
+            fullWidth
+            color="primary"
+            variant="contained"
+            size="large"
+            className={classes.button}
+            onClick={onRegisterHandler}
+          >
+            {loading && (
+              <CircularProgress
+                color="primary"
+                size="1.5rem"
+                className={classes.loader}
+              />
+            )}
+            Register
+          </Button>
+          <Typography variant="caption" color="textSecondary">
+            By continuing, you are indicating that you accept our{" "}
+            <Link className="dark link" to="/terms">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link className="dark link" to="/privacy">
+              Privacy Policy
+            </Link>
+            .
+          </Typography>
+        </Paper>
+      </Container>
+    );
   }
 
   // TODO: return something when fields are null
