@@ -1,6 +1,6 @@
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
 
-export default makeStyles<Theme>(
+export default makeStyles<Theme>(theme =>
   createStyles({
     title: {
       display: "flex",
@@ -15,6 +15,13 @@ export default makeStyles<Theme>(
     },
     section: {
       margin: "1rem 0"
+    },
+    paper: {
+      marginTop: "1rem",
+      padding: "0.5rem 2rem",
+      [theme.breakpoints.down("xs")]: {
+        padding: "0.1rem 1rem"
+      }
     }
   })
 );
