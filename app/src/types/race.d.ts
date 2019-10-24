@@ -146,11 +146,12 @@ interface RaceRegistrationField {
     | "list"
     | "listcustom"
     | "select"
-    | "checkbox";
+    | "checkbox"
+    | "markdown";
   /**
-   * Whether this field is optional.
+   * Whether this field is required.
    */
-  optional: boolean;
+  required?: boolean;
   /**
    * The placeholder to use for this field.
    */

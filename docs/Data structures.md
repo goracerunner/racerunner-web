@@ -71,8 +71,8 @@ interface RegistrationField {
   order: number
 	name: string
   description: string
-  type: "text" | "longtext" | "number" | "list" | "listcustom"
-  optional: boolean
+  type: "text" | "longtext" | "number" | "list" | "listcustom" | "select" | "checkbox" | "markdown"
+  required?: boolean
   placeholder?: string
   values?: string[]
   default?: string

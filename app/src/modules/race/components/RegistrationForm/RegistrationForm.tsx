@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useContext, useState } from "react";
-import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
@@ -48,7 +48,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
 
   // Retrieve race registration form data.
   const store = useFirestore();
-  const [fields, fieldsLoading] = useCollectionDataOnce<RaceRegistrationField>(
+  const [fields, fieldsLoading] = useCollectionData<RaceRegistrationField>(
     store
       .collection("races")
       .doc(race.uid)

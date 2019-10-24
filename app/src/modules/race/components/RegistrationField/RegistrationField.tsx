@@ -12,6 +12,8 @@ import Typography from "@material-ui/core/Typography";
 
 import { Logger } from "../../../../utils";
 
+import MarkdownRenderer from "../../../core/components/MarkdownRenderer";
+
 import { RegistrationFieldProps } from "./types";
 import useStyles from "./styles";
 
@@ -39,6 +41,14 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
   } = field;
 
   switch (type) {
+    case "markdown": {
+      return (
+        <div className={classes.field}>
+          <MarkdownRenderer source={description} />
+        </div>
+      );
+    }
+
     case "text":
     case "number":
     case "longtext": {
@@ -47,7 +57,7 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
           fullWidth
           multiline={type === "longtext"}
           type={type === "number" ? "number" : "text"}
-          className={clsx(classes.field)}
+          className={classes.field}
           label={label}
           helperText={error || description}
           error={Boolean(error)}

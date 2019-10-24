@@ -15,13 +15,13 @@ export const validateFields = (
   let errors: { [key: string]: string } = {};
 
   fields.forEach(field => {
-    const { optional, type, name, validation } = field;
+    const { required, type, name, validation } = field;
 
     const value = values[name];
     const setError = (error: string) => (errors[name] = error);
 
     // Check for null values if the field is required
-    if (!optional && typeof value !== "boolean" && !Boolean(value)) {
+    if (required && typeof value !== "boolean" && !Boolean(value)) {
       setError(`This cannot be empty.`);
       return;
     }
@@ -90,6 +90,7 @@ export const validateFields = (
         break;
       }
 
+      case "markdown":
       case "list": {
         // No validation required.
         break;
