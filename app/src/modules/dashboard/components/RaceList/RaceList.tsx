@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState, useCallback, useContext } from "react";
+import { Redirect } from "react-router";
 
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
@@ -11,16 +12,20 @@ import { Logger } from "../../../../utils";
 import { Nullable } from "../../../../types/global";
 import { RaceInfo } from "../../../../types/race";
 import { useFirestore } from "../../../core/hooks/useFirebase";
+import AppModeContext from "../../../core/contexts/AppModeContext";
 
 import { RaceCard } from "./RaceCard";
 import { RaceListProps } from "./types";
 import useStyles from "./styles";
-import AppModeContext from "../../../core/contexts/AppModeContext";
 
 /**
  * This component retrieves and shows a user's list of races. If the
  * `viewManaging` prop is `true`, the races managed by the user will
  * be shown instead.
+ *
+ * When the user selects a race, this component will set the race Id
+ * in the `AppModeContext` and redirect the user to the `/race` or
+ * `/manage` page depending on the `viewManaging` prop.
  */
 export const RaceList: FC<RaceListProps> = ({
   user,
@@ -29,10 +34,14 @@ export const RaceList: FC<RaceListProps> = ({
   onJoinRace
 }) => {
   const classes = useStyles();
+
+  const { setRaceId } = useContext(AppModeContext);
+
   const store = useFirestore();
+
   const [loading, setLoading] = useState(false);
   const [races, setRaces] = useState<Nullable<Array<RaceInfo>>>(null);
-  const { setMode, setRaceId } = useContext(AppModeContext);
+  const [redirect, setRedirect] = useState<Nullable<string>>(null);
 
   useEffect(() => {
     if (!loading || !races) {
@@ -59,11 +68,15 @@ export const RaceList: FC<RaceListProps> = ({
 
   const onSelectRace = useCallback(
     (uid: string) => {
-      setMode(viewManaging ? "manage" : "race");
+      setRedirect(viewManaging ? "/manage" : "/race");
       setRaceId(uid);
     },
-    [setMode, setRaceId, viewManaging]
+    [setRaceId, viewManaging, setRedirect]
   );
+
+  if (redirect) {
+    return <Redirect to={redirect} push />;
+  }
 
   return (
     <div className={classes.list}>

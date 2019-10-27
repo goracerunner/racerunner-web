@@ -3,13 +3,14 @@ import Helmet from "react-helmet";
 
 import Typography from "@material-ui/core/Typography";
 
-import Authorised from "../../../core/components/Authorised";
 import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
+
+import Authorised from "../../../core/components/Authorised";
 import Header from "../../../base/components/Header";
 import Container from "../../../base/components/Container";
-import RaceList from "../../../dashboard/components/RaceList";
-import JoinRaceDialog from "../../../dashboard/components/JoinRaceDialog";
+import RaceList from "../../components/RaceList";
+import JoinRaceDialog from "../../components/JoinRaceDialog";
 
 import useStyles from "./styles";
 
@@ -18,9 +19,11 @@ import useStyles from "./styles";
  * register in races and to view races that the user
  * has registered in.
  */
-export const DashboardModePage: FC = () => {
+export const DashboardPage: FC = () => {
   const classes = useStyles();
+
   const { user } = useContext(AuthenticationContext);
+
   const [
     joinRaceOpen,
     openJoinRaceDialog,

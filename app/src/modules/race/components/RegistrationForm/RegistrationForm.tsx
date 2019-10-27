@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useContext, useState } from "react";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import clsx from "clsx";
 
 import Typography from "@material-ui/core/Typography";
@@ -12,14 +12,14 @@ import { RaceRegistrationField } from "../../../../types/race";
 
 import { REGO_FORM_ERROR } from "../../../../config/snackbarKey";
 
+import { useFirestore } from "../../../core/hooks/useFirebase";
+import { useRedirect } from "../../../core/hooks/useNavigation";
+import { usePredicateFeedback } from "../../../core/hooks/useFeedbackHooks";
+import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
+
 import Loader from "../../../base/components/Loader";
 import Container from "../../../base/components/Container";
 import { useMapState } from "../../../base/hooks/useStateFactory";
-
-import { useFirestore } from "../../../core/hooks/useFirebase";
-import { usePredicateFeedback } from "../../../core/hooks/useFeedbackHooks";
-import AppModeContext from "../../../core/contexts/AppModeContext";
-import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
 
 import RegistrationField from "../RegistrationField";
 
@@ -37,11 +37,11 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { setMode } = useContext(AppModeContext);
   const { user } = useContext(AuthenticationContext);
 
   const [loading, setLoading] = useState(false);
   const [prefilled, setPrefilled] = useState(false);
+  const [redirect, setRedirect] = useRedirect("/dashboard");
   const [formValues, setValue, setValues] = useMapState();
   const formErrorHooks = useMapState();
   const formErrors = formErrorHooks[0];
@@ -64,9 +64,9 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
     showError(
       "Failed to load registration form.",
       () => Boolean(!fieldsLoading && !fields),
-      () => setMode("dashboard")
+      () => setRedirect()
     );
-  }, [showError, setMode, fieldsLoading, fields]);
+  }, [showError, setRedirect, fieldsLoading, fields]);
 
   // Populate any pre-filled fields
   useEffect(() => {
@@ -107,6 +107,10 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
   useEffect(() => {
     setFormErrors({});
   }, [formValues, setFormErrors]);
+
+  if (redirect) {
+    return <Redirect to={redirect} push />;
+  }
 
   if (fieldsLoading) {
     return <Loader message="Loading registration form..." />;

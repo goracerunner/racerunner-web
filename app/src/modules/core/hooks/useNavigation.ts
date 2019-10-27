@@ -1,4 +1,4 @@
-import { useContext, useCallback, useEffect } from "react";
+import { useContext, useCallback, useEffect, useState } from "react";
 
 import NavigationContext, {
   createSetDrawerStateAction,
@@ -8,10 +8,13 @@ import NavigationContext, {
   createSetTabAction
 } from "../contexts/NavigationContext";
 
-import { AppDrawerStateHook } from "./types";
+import { Logger } from "../../../utils";
+import { Nullable } from "../../../types/global";
+
 import { AppName } from "../contexts/NavigationContext/types";
 import { TabBar } from "../components/TabBar/types";
-import { Logger } from "../../../utils";
+
+import { AppDrawerStateHook } from "./types";
 
 /**
  * This hook grabs the app drawer's state from the
@@ -104,4 +107,23 @@ export const useGetTabIndex = (tabs: Array<TabBar>) => {
 
   // Return the tab index
   return tab;
+};
+
+/**
+ * A convenience hook that returns a redirect path as the first
+ * element, and a function to set set the redirect path as the
+ * second element. The redirect path is initially `null`, and
+ * can be set using the function that is returned.
+ * @param path the path to redirect to
+ */
+export const useRedirect: (
+  path: string
+) => [Nullable<string>, () => void] = path => {
+  const [redirect, setRedirect] = useState<Nullable<string>>(null);
+
+  const setRedirectPath = useCallback(() => {
+    setRedirect(path);
+  }, [setRedirect, path]);
+
+  return [redirect, setRedirectPath];
 };

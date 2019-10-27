@@ -4,13 +4,15 @@ import Typography from "@material-ui/core/Typography";
 
 import Container from "../../../base/components/Container";
 
-import { RaceDashboardProps } from "./types";
+import { DashboardPlaceholderProps } from "./types";
 import useStyles from "./styles";
 
 /**
- * This component shows a dashboard for the currently selected race.
+ * This component is a placeholder for when a user completes their registration.
  */
-export const RaceDashboard: FC<RaceDashboardProps> = ({ race }) => {
+export const DashboardPlaceholder: FC<DashboardPlaceholderProps> = ({
+  race
+}) => {
   const classes = useStyles();
   return (
     <Container>
