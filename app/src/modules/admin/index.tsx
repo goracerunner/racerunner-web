@@ -14,8 +14,12 @@ const AdminMode: React.FC = () => {
   return (
     <Protected claims={["admin"]}>
       <Switch>
-        <Route exact path="/admin" component={AdminDashboardPage} />
-        <Route component={NotFoundPage} />
+        <Route exact path="/admin">
+          <AdminDashboardPage />
+        </Route>
+        <Route>
+          <NotFoundPage />
+        </Route>
       </Switch>
     </Protected>
   );

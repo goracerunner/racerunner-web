@@ -1,18 +1,17 @@
 import { createMuiTheme } from "@material-ui/core";
+
+import {
+  generateFonts,
+  TITLE_FONT,
+  BODY_FONT
+} from "../../../../../utils/fonts";
 import constants from "../../../../../styles/constants";
 
 // Styleshets
 import "../../../../../styles/scss/base.scss";
 
-/**
- * Generate a font family CSS property with fallbacks.
- * The primary font will be the name of the font passed.
- */
-const generateFonts = (name: string) =>
-  [name, '"Helvetica Neue"', "Arial", "sans-serif"].join(",");
-
-const titleFonts = generateFonts("Bangers");
-const bodyFonts = generateFonts("Open Sans");
+const titleFonts = generateFonts(TITLE_FONT);
+const bodyFonts = generateFonts(BODY_FONT);
 
 /**
  * Create a new theme with the default look for Race Runner.

@@ -29,9 +29,9 @@ export const useFunction = (functionName: string) =>
 /**
  * Converts the results returned by a `useCollection` or
  * `useDocument` hook into an object that can be spread
- * as props for the `FirestoreDisplay` component.
+ * as props for the `DataProvider` component.
  */
-export const useFirestoreDisplay: <T = any>(
+export const useFirestoreData: <T = any>(
   items: [Maybe<T>, boolean, Maybe<Error>]
 ) => {
   data: Maybe<T>;
