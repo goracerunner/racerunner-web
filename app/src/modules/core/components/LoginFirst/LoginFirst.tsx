@@ -11,12 +11,14 @@ import { Redirect } from "react-router";
  * and redirect the user to the landing page.
  */
 export const LoginFirst: FC<LoginFirstProps> = ({ path }) => {
-  const { origin, href } = window.location;
+  const { origin, href, pathname } = window.location;
 
-  // Save the current location
-  const currentPath = href.replace(origin, "");
-  Logger.info("LoginFirst", "Saving redirect path", currentPath);
-  window.localStorage.setItem(LOGIN_REDIRECT, href.replace(origin, ""));
+  // Save the current location if it is not the /logout path
+  if (pathname !== "/logout") {
+    const currentPath = href.replace(origin, "");
+    Logger.info("LoginFirst", "Saving redirect path", currentPath);
+    window.localStorage.setItem(LOGIN_REDIRECT, href.replace(origin, ""));
+  }
 
   return <Redirect to={path || "/"} />;
 };

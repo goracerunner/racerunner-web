@@ -20,7 +20,8 @@ export const LinkCard: FC<LinkCardProps> = ({
   name,
   description,
   link,
-  icon
+  icon,
+  largeTitle
 }) => {
   const classes = useStyles();
   return (
@@ -31,10 +32,10 @@ export const LinkCard: FC<LinkCardProps> = ({
             <div className={classes.title}>
               <div className={classes.icon}>{icon}</div>
               <div>
-                <Typography variant="body1">
+                <Typography variant={largeTitle ? "h5" : "body1"}>
                   <b>{name}</b>
                 </Typography>
-                <Typography variant="caption" color="textSecondary">
+                <Typography variant="body2" color="textSecondary">
                   {description}
                 </Typography>
               </div>

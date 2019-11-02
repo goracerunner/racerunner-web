@@ -6,6 +6,7 @@ import NotFoundPage from "../core/pages/NotFoundPage";
 import Protected from "../core/components/Protected";
 
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
 
 /**
  * This component houses all routes for the app when in admin mode.
@@ -16,6 +17,9 @@ const AdminMode: React.FC = () => {
       <Switch>
         <Route exact path="/admin">
           <AdminDashboardPage />
+        </Route>
+        <Route exact path="/admin/users">
+          <AdminUsersPage />
         </Route>
         <Route>
           <NotFoundPage />

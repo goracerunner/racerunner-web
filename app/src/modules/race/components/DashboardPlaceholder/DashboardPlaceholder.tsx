@@ -15,7 +15,11 @@ export const DashboardPlaceholder: FC<DashboardPlaceholderProps> = ({
   const classes = useStyles();
   return (
     <Container maxWidth="md">
-      <Typography variant="body2" color="textSecondary">
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        className={classes.heading}
+      >
         Welcome to
       </Typography>
       <Typography variant="h3" className={classes.title}>

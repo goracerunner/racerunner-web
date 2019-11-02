@@ -11,7 +11,7 @@ import { DataProvider } from "../../../core/contexts/DataContext";
 import { useStat } from "../../../core/hooks/useData";
 
 import StoryList, { StoryCard } from "../../../core/components/StoryList";
-import LinkList, { LinkCard } from "../../../core/components/LinkList";
+import LinkList from "../../../core/components/LinkList";
 import StatDisplay from "../../../core/components/StatDisplay";
 
 import { Stat } from "../../../../types/stats";
@@ -19,7 +19,7 @@ import { Stat } from "../../../../types/stats";
 import useStyles from "./styles";
 
 /**
- * TODO: add description
+ * The admin dashboard shows important links and statistics for the administrator.
  */
 export const AdminDashboardPage: React.FC = () => {
   const classes = useStyles();
@@ -40,16 +40,18 @@ export const AdminDashboardPage: React.FC = () => {
           {
             id: "users",
             name: "Users",
+            largeTitle: true,
             link: "/admin/users",
             description: "Manage users",
-            icon: <UsersIcon />
+            icon: <UsersIcon fontSize="large" />
           },
           {
             id: "races",
             name: "Races",
+            largeTitle: true,
             link: "/admin/races",
             description: "Manage races",
-            icon: <RaceIcon />
+            icon: <RaceIcon fontSize="large" />
           }
         ]}
       />

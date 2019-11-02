@@ -28,6 +28,12 @@ export interface LinkCardProps {
   link: string;
 
   /**
+   * If this is `true`, the title shown on the link
+   * card will be larger in size.
+   */
+  largeTitle?: boolean;
+
+  /**
    * The icon for the link.
    */
   icon: JSX.Element;

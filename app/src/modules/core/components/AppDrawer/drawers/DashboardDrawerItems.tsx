@@ -36,11 +36,12 @@ export const DashboardDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
             <AdminIcon color={iconColor("admin")} />
           </ListItemIcon>
           <ListItemText
-            primary="Admin dashboard"
             classes={{
               primary: labelStyle("admin")
             }}
-          />
+          >
+            Administration
+          </ListItemText>
         </ListItem>
       </Authorised>
     </List>

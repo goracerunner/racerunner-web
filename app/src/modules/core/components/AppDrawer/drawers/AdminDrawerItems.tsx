@@ -41,7 +41,7 @@ export const AdminDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
             primary: itemStyle()
           }}
         >
-          Admin Dashboard
+          Admin Home
         </ListItemText>
       </ListItem>
       <ListItem button component={Link} to="/admin/users" onClick={onClose}>
