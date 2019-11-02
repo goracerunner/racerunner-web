@@ -10,10 +10,11 @@ import Button from "@material-ui/core/Button";
 import Header from "../../../base/components/Header";
 import DefaultTheme, { DarkTheme } from "../../../base/components/Theme";
 
-import { RaceDrawerItems } from "./RaceDrawerItems";
-import { ManageDrawerItems } from "./ManageDrawerItems";
-import { DashboardDrawerItems } from "./DashboardDrawerItems";
-import { AdminDrawerItems } from "./AdminDrawerItems";
+import { RaceDrawerItems } from "./drawers/RaceDrawerItems";
+import { ManageDrawerItems } from "./drawers/ManageDrawerItems";
+import { DashboardDrawerItems } from "./drawers/DashboardDrawerItems";
+import { AdminDrawerItems } from "./drawers/AdminDrawerItems";
+
 import { AppDrawerProps } from "./types";
 import useStyles from "./styles";
 

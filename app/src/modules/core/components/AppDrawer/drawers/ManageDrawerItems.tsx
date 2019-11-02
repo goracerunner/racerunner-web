@@ -8,12 +8,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 
 import ExitIcon from "@material-ui/icons/ExitToApp";
 
-import { AppDrawerItemsProps } from "./types";
+import { AppDrawerItemsProps } from "../types";
 
 /**
- * Shows the items for the admin mode drawer.
+ * Shows the items for the manage mode drawer.
  */
-export const AdminDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
+export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
   return (
     <List>
       <ListItem button component={Link} to="/dashboard" onClick={onClose}>

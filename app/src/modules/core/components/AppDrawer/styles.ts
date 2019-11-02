@@ -32,3 +32,11 @@ export default makeStyles<Theme>(theme =>
     }
   })
 );
+
+export const useDrawerItemStyles = makeStyles(
+  createStyles({
+    selected: {
+      fontWeight: "bold"
+    }
+  })
+);
