@@ -19,18 +19,20 @@ import { StoryCardProps } from "./types";
  * which contains a title, a small amount of information and
  * links/actions for the user to take in response to the story.
  */
-export const StoryCard: React.FC<StoryCardProps> = ({
-  title,
-  subtitle,
-  appIcon,
-  appLink,
-  onClick,
-  appTooltip,
-  action,
-  openMoreMenu,
-  children
-}) => {
-  const classes = useCardStyles();
+export const StoryCard: React.FC<StoryCardProps> = props => {
+  const classes = useCardStyles(props);
+  const {
+    title,
+    subtitle,
+    small,
+    appIcon,
+    appLink,
+    onClick,
+    appTooltip,
+    action,
+    openMoreMenu,
+    children
+  } = props;
 
   let appButton = null;
 
@@ -55,14 +57,17 @@ export const StoryCard: React.FC<StoryCardProps> = ({
       <CardContent>
         <div className={classes.header}>
           <div>
-            <Typography variant="h6">
+            <Typography variant={small ? "body1" : "h6"}>
               <b>{title || <>&nbsp;</>}</b>
             </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
+            <Typography
+              variant={small ? "caption" : "subtitle2"}
+              color="textSecondary"
+            >
               {subtitle}
             </Typography>
           </div>
-          {appButton}
+          <div className={classes.appButton}>{appButton}</div>
         </div>
         <div className={classes.content}>{children}</div>
       </CardContent>

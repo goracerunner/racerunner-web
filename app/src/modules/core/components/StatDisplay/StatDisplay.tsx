@@ -124,14 +124,14 @@ export const StatDisplay: FC<StatDisplayProps> = ({
           title={`Last updated ${moment(data!.modified.toDate()).fromNow()}`}
         >
           <Typography
-            variant="h3"
+            variant="h4"
             className={clsx(classes.title, classes.icon)}
           >
             <b>{data!.value}</b>
           </Typography>
         </Tooltip>
         {caption && (
-          <Typography variant="body1">
+          <Typography variant="body2">
             {data!.value === 1
               ? singularCaption
                 ? singularCaption

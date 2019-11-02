@@ -11,6 +11,10 @@ import useStyles from "./styles";
 import { StoryCard } from "./StoryCard";
 import { StoryListProps } from "./types";
 
+const MD = 4;
+const SM = 6;
+const XS = 12;
+
 /**
  * The story list component renders a list of stories. A story contains
  * a title, a small amount of information and links/actions for the user
@@ -28,7 +32,7 @@ export const StoryList: React.FC<StoryListProps> = ({
   if (stories && stories.length) {
     // Render stories
     content = stories.map(item => (
-      <Grid key={uuid()} item xs={12} sm={6} md={4}>
+      <Grid key={uuid()} item xs={XS} sm={SM} md={MD}>
         <StoryCard {...item} />
       </Grid>
     ));
@@ -39,13 +43,13 @@ export const StoryList: React.FC<StoryListProps> = ({
         // Filter out any null or false items
         .filter((item: JSX.Element) => Boolean(item))
         .map((story: JSX.Element, index: number) => (
-          <Grid key={index} item xs={12} sm={6} md={4}>
+          <Grid key={index} item xs={XS} sm={SM} md={MD}>
             {story}
           </Grid>
         ));
     } else {
       content = (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={XS} sm={SM} md={MD}>
           {children}
         </Grid>
       );
@@ -53,7 +57,7 @@ export const StoryList: React.FC<StoryListProps> = ({
   } else if (!hideEmptyWelcome) {
     // If there are no stories, render the welcome card
     content = (
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={XS} sm={SM} md={MD}>
         {welcome ? (
           // Give the option to customise the welcome card
           welcome

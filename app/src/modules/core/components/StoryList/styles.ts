@@ -1,4 +1,6 @@
-import { makeStyles, createStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+
+import { StoryCardProps } from "./types";
 
 export default makeStyles(
   createStyles({
@@ -19,7 +21,7 @@ export default makeStyles(
   })
 );
 
-export const useCardStyles = makeStyles(
+export const useCardStyles = makeStyles<Theme, StoryCardProps>(
   createStyles({
     root: {
       height: "100%"
@@ -28,7 +30,12 @@ export const useCardStyles = makeStyles(
       display: "flex",
       justifyContent: "space-between",
       alignItems: "flex-start",
-      paddingBottom: "1rem"
+      paddingBottom: "1rem",
+      position: "relative"
+    },
+    appButton: {
+      position: "absolute",
+      right: 0
     },
     actions: {
       height: "3rem",
@@ -36,9 +43,9 @@ export const useCardStyles = makeStyles(
       justifyContent: "space-between",
       alignItems: "center"
     },
-    content: {
-      height: "6rem"
+    content: ({ small }) => ({
+      height: small ? "4.5rem" : "6rem"
       // overflow: "scroll"
-    }
+    })
   })
 );

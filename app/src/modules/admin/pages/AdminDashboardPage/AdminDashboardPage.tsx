@@ -2,6 +2,7 @@ import React from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Divider from "@material-ui/core/Divider";
 
 import UsersIcon from "@material-ui/icons/Group";
 import RaceIcon from "@material-ui/icons/Flag";
@@ -10,6 +11,7 @@ import { DataProvider } from "../../../core/contexts/DataContext";
 import { useStat } from "../../../core/hooks/useData";
 
 import StoryList, { StoryCard } from "../../../core/components/StoryList";
+import LinkList, { LinkCard } from "../../../core/components/LinkList";
 import StatDisplay from "../../../core/components/StatDisplay";
 
 import { Stat } from "../../../../types/stats";
@@ -33,8 +35,31 @@ export const AdminDashboardPage: React.FC = () => {
       <Typography variant="h4" className={classes.title}>
         <b>Admin Dashboard</b>
       </Typography>
+      <LinkList
+        links={[
+          {
+            id: "users",
+            name: "Users",
+            link: "/admin/users",
+            description: "Manage users",
+            icon: <UsersIcon />
+          },
+          {
+            id: "races",
+            name: "Races",
+            link: "/admin/races",
+            description: "Manage races",
+            icon: <RaceIcon />
+          }
+        ]}
+      />
+      <Divider className={classes.title} />
+      <Typography variant="h6" className={classes.smallTitle}>
+        <b>Statistics</b>
+      </Typography>
       <StoryList>
         <StoryCard
+          small
           title="Users"
           subtitle="Users in the system"
           appIcon={<UsersIcon />}
@@ -46,6 +71,7 @@ export const AdminDashboardPage: React.FC = () => {
           </DataProvider>
         </StoryCard>
         <StoryCard
+          small
           title="Administrators"
           subtitle="Administrators in the system"
         >
@@ -57,7 +83,7 @@ export const AdminDashboardPage: React.FC = () => {
             />
           </DataProvider>
         </StoryCard>
-        <StoryCard title="Managers" subtitle="Managers in the system">
+        <StoryCard small title="Managers" subtitle="Managers in the system">
           <DataProvider<Stat<number>> {...managersStat}>
             <StatDisplay
               caption="managers"
@@ -67,6 +93,7 @@ export const AdminDashboardPage: React.FC = () => {
           </DataProvider>
         </StoryCard>
         <StoryCard
+          small
           title="Races"
           subtitle="Number of races created"
           appIcon={<RaceIcon />}
