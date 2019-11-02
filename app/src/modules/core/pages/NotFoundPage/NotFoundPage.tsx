@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import { Typography } from "@material-ui/core";
+
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import Email from "../../../base/components/Email";
 import Header from "../../../base/components/Header";
-import Container from "../../../base/components/Container";
 import BackButton from "../../../base/components/BackButton";
 import Footer from "../../../base/components/Footer";
 
@@ -13,10 +14,10 @@ export const NotFoundPage: FC = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Container>
+      <Container maxWidth="md">
         <Header />
       </Container>
-      <Container className={classes.container}>
+      <Container maxWidth="md" className={classes.container}>
         <Typography variant="h4" component="h1" className={classes.title}>
           <b>404 Not Found</b>
         </Typography>

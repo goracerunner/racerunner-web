@@ -1,8 +1,7 @@
 import React, { FC } from "react";
 
 import Typography from "@material-ui/core/Typography";
-
-import Container from "../../../base/components/Container";
+import Container from "@material-ui/core/Container";
 
 import { DashboardPlaceholderProps } from "./types";
 import useStyles from "./styles";
@@ -15,7 +14,7 @@ export const DashboardPlaceholder: FC<DashboardPlaceholderProps> = ({
 }) => {
   const classes = useStyles();
   return (
-    <Container>
+    <Container maxWidth="md">
       <Typography variant="body2" color="textSecondary">
         Welcome to
       </Typography>

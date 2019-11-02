@@ -2,13 +2,13 @@ import React, { FC, useContext } from "react";
 import Helmet from "react-helmet";
 
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
 
 import Authorised from "../../../core/components/Authorised";
 import Header from "../../../base/components/Header";
-import Container from "../../../base/components/Container";
 import RaceList from "../../components/RaceList";
 import JoinRaceDialog from "../../components/JoinRaceDialog";
 
@@ -41,7 +41,7 @@ export const DashboardPage: FC = () => {
         </Typography>
         <Header reduced className={classes.header} />
       </div>
-      <Container>
+      <Container maxWidth="md">
         <Typography variant="h3" className={classes.subtitle}>
           Races you're in
         </Typography>

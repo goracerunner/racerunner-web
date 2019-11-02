@@ -1,18 +1,16 @@
 import React from "react";
 
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 import UsersIcon from "@material-ui/icons/Group";
 import RaceIcon from "@material-ui/icons/Flag";
 
 import { DataProvider } from "../../../core/contexts/DataContext";
+import { useStat } from "../../../core/hooks/useData";
 
-import Container from "../../../base/components/Container";
 import StoryList, { StoryCard } from "../../../core/components/StoryList";
 import StatDisplay from "../../../core/components/StatDisplay";
-
-import { useStat } from "../../../core/hooks/useData";
-import { useFirestore } from "../../../core/hooks/useFirebase";
 
 import { Stat } from "../../../../types/stats";
 
@@ -24,8 +22,6 @@ import useStyles from "./styles";
 export const AdminDashboardPage: React.FC = () => {
   const classes = useStyles();
 
-  const store = useFirestore();
-
   // Get statistics
   const usersStat = useStat("users");
   const adminsStat = useStat("admins");
@@ -33,7 +29,7 @@ export const AdminDashboardPage: React.FC = () => {
   const racesStat = useStat("races");
 
   return (
-    <Container>
+    <Container maxWidth="md">
       <Typography variant="h4" className={classes.title}>
         <b>Admin Dashboard</b>
       </Typography>

@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
 
 import { RaceRegistrationField } from "../../../../types/race";
 
@@ -18,7 +19,6 @@ import { usePredicateFeedback } from "../../../core/hooks/useFeedbackHooks";
 import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
 
 import Loader from "../../../base/components/Loader";
-import Container from "../../../base/components/Container";
 import { useMapState } from "../../../base/hooks/useStateFactory";
 
 import RegistrationField from "../RegistrationField";
@@ -147,7 +147,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
     };
 
     return (
-      <Container>
+      <Container maxWidth="md">
         <Typography variant="h2" className={classes.title}>
           Welcome!
         </Typography>

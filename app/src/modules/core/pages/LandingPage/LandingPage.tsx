@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import firebase from "firebase/app";
 
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 import Fade from "@material-ui/core/Fade";
 import Zoom from "@material-ui/core/Zoom";
 
@@ -9,7 +10,6 @@ import { DarkTheme } from "../../../base/components/Theme";
 import Background from "../../../base/components/Background";
 import Logo from "../../../base/components/Logo";
 import Footer from "../../../base/components/Footer";
-import Container from "../../../base/components/Container";
 
 import { useTransition } from "../../hooks/useTransitions";
 import { useAuth } from "../../hooks/useFirebase";
@@ -66,7 +66,7 @@ export const LandingPage: React.FC = () => {
           </div>
           <Fade {...fade}>
             <div>
-              <Container>
+              <Container maxWidth="md">
                 <Typography variant="h6" className={classes.subtitle}>
                   <em>The scavenger hunt experience brought online</em>
                 </Typography>
