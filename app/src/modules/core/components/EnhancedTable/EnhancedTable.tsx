@@ -7,6 +7,9 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import Checkbox from "@material-ui/core/Checkbox";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+import Skeleton, { SkeletonLine, SkeletonAvatar } from "../Skeleton";
 
 import { EnhancedTableToolbar } from "./parts/EnhancedTableToolbar";
 import { EnhancedTableHead } from "./parts/EnhancedTableHead";
@@ -24,7 +27,7 @@ import useStyles from "./styles";
  * to refetch data if it needs to be done asynchronously.
  */
 export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const {
     title,
     dense = false,
@@ -39,7 +42,11 @@ export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
     columns = [],
     onChangePage = () => {},
     onChangeRowsPerPage = () => {},
-    onOpenFilters
+    onOpenFilters,
+    loading,
+    onSort,
+    orderBy,
+    direction
   } = props;
 
   const handleChangePage = (event: unknown, newPage: number) =>
@@ -49,13 +56,25 @@ export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     onChangeRowsPerPage(parseInt(event.target.value, 10));
-    onChangePage(0);
+    // onChangePage(0);
   };
 
   const numSelected = Object.keys(selected).reduce(
     (count, key) => count + (selected[key] ? 1 : 0),
     0
   );
+
+  const handleSetSelected = (data: T[]) => {
+    setSelected(
+      data.reduce(
+        (acc, d) => ({
+          ...acc,
+          [d.id]: selected[d.id] ? undefined : d
+        }),
+        selected
+      )
+    );
+  };
 
   return (
     <div className={classes.root}>
@@ -66,54 +85,84 @@ export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
           onOpenFilters={onOpenFilters}
         />
         <div className={classes.tableWrapper}>
+          {loading && (
+            <div className={classes.loading}>
+              <CircularProgress className={classes.loader} size="3rem" />
+            </div>
+          )}
           <Table className={classes.table} size={dense ? "small" : "medium"}>
             <EnhancedTableHead<T>
+              loading={loading}
               checkbox={checkbox}
               columns={columns}
               rows={rows}
               totalRows={totalRows}
               selected={selected}
-              setSelected={setSelected}
+              setSelected={handleSetSelected}
               numSelected={numSelected}
+              onSort={onSort}
+              orderBy={orderBy}
+              direction={direction}
             />
             <TableBody>
-              {rows.slice(0, rowsPerPage).map((row, rowIndex) => {
-                const isSelected = Boolean(selected[row.id]);
-                return (
-                  <TableRow hover tabIndex={-1} key={row.id}>
-                    {checkbox && (
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isSelected}
-                          onClick={() => setSelected([row])}
-                        />
-                      </TableCell>
-                    )}
-                    {columns
-                      .filter(column => !column.hidden)
-                      .map((column, colIndex) => {
-                        if (column.transform) {
-                          return (
-                            <TableCell
-                              key={`${colIndex}-${rowIndex}`}
-                              padding={
-                                column.disablePadding ? "none" : "default"
-                              }
-                            >
-                              {column.transform(row)}
-                            </TableCell>
-                          );
-                        }
-                        return (
+              {loading
+                ? Array.from(Array(rowsPerPage).keys()).map((_, rowIndex) => (
+                    <TableRow tabIndex={-1} key={rowIndex}>
+                      {checkbox && (
+                        <TableCell padding="checkbox">
+                          <Checkbox disabled color="primary" />
+                        </TableCell>
+                      )}
+                      {columns
+                        .filter(column => !column.hidden)
+                        .map((_, colIndex) => (
                           <TableCell key={`${colIndex}-${rowIndex}`}>
-                            {row[column.id]}
+                            <Skeleton>
+                              {colIndex === 0 && <SkeletonAvatar />}
+                              <SkeletonLine />
+                            </Skeleton>
                           </TableCell>
-                        );
-                      })}
-                  </TableRow>
-                );
-              })}
+                        ))}
+                    </TableRow>
+                  ))
+                : rows.slice(0, rowsPerPage).map((row, rowIndex) => {
+                    const isSelected = Boolean(selected[row.id]);
+                    return (
+                      <TableRow hover tabIndex={-1} key={row.id}>
+                        {checkbox && (
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              disabled={loading}
+                              color="primary"
+                              checked={isSelected}
+                              onClick={() => handleSetSelected([row])}
+                            />
+                          </TableCell>
+                        )}
+                        {columns
+                          .filter(column => !column.hidden)
+                          .map((column, colIndex) => {
+                            if (column.transform) {
+                              return (
+                                <TableCell
+                                  key={`${colIndex}-${rowIndex}`}
+                                  padding={
+                                    column.disablePadding ? "none" : "default"
+                                  }
+                                >
+                                  {column.transform(row)}
+                                </TableCell>
+                              );
+                            }
+                            return (
+                              <TableCell key={`${colIndex}-${rowIndex}`}>
+                                {row[column.id]}
+                              </TableCell>
+                            );
+                          })}
+                      </TableRow>
+                    );
+                  })}
             </TableBody>
           </Table>
         </div>

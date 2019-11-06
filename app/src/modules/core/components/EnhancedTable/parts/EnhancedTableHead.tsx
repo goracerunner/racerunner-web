@@ -5,9 +5,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { Row, EnhancedTableHeadProps } from "../types";
-import { Tooltip } from "@material-ui/core";
 
 /**
  * This component renders the Enhanced table's header.
@@ -26,7 +26,9 @@ export function EnhancedTableHead<T extends Row = Row>(
     setSelected = () => {},
     selected = {},
     rows = [],
-    totalRows = rows.length
+    totalRows = rows.length,
+    loading,
+    onSort = () => {}
   } = props;
 
   const selectedCount = Object.keys(selected).reduce(
@@ -68,6 +70,7 @@ export function EnhancedTableHead<T extends Row = Row>(
               }
             >
               <Checkbox
+                disabled={loading}
                 color="primary"
                 onClick={selectAllHandler}
                 indeterminate={
@@ -79,14 +82,12 @@ export function EnhancedTableHead<T extends Row = Row>(
           </TableCell>
         )}
         {columns.map((column, index) => (
-          <TableCell
-            key={index}
-            align={column.numeric ? "right" : "left"}
-            // TODO: implement sorting
-          >
+          <TableCell key={index} align={column.numeric ? "right" : "left"}>
             <TableSortLabel
+              disabled={loading}
               active={orderBy === column.id}
               direction={direction}
+              onClick={() => onSort(column.id)}
             >
               {column.label}
             </TableSortLabel>

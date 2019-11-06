@@ -5,7 +5,9 @@ import {
   lighten
 } from "@material-ui/core/styles";
 
-export default makeStyles<Theme>(theme =>
+import { EnhancedTableProps } from "./types";
+
+export default makeStyles<Theme, EnhancedTableProps<any>>(
   createStyles({
     root: {
       width: "100%"
@@ -18,7 +20,16 @@ export default makeStyles<Theme>(theme =>
     },
     tableWrapper: {
       overflowX: "auto"
-    }
+    },
+    loading: {
+      position: "relative",
+      display: "flex",
+      justifyContent: "center"
+    },
+    loader: ({ rowsPerPage }) => ({
+      position: "absolute",
+      top: `calc(${rowsPerPage} * 1.5rem)`
+    })
   })
 );
 

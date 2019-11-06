@@ -79,6 +79,11 @@ export interface EnhancedTableProps<T extends Row = Row>
   page?: number;
 
   /**
+   * A function that can be used to set which rows are selected.
+   */
+  setSelected?: (selected: { [key: string]: Maybe<T> }) => void;
+
+  /**
    * Handler for when the user changes the page.
    */
   onChangePage?: (newPage: number) => void;
@@ -158,4 +163,14 @@ export interface EnhancedTableHeadProps<T extends Row> {
    * The direction in which the table is sorted by.
    */
   direction?: SortDirection;
+
+  /**
+   * Show that the table data is loading.
+   */
+  loading?: boolean;
+
+  /**
+   * Callback for handling when a column sort is requested.
+   */
+  onSort?: (column: typeof T) => void;
 }

@@ -2,7 +2,7 @@
  * A user's profile in Firestore.
  * Document path: `users/{uid}`.
  */
-interface UserProfile {
+export interface UserProfile {
   /**
    * The user's uid.
    */
@@ -23,7 +23,7 @@ interface UserProfile {
  * A user's protected details in Firestore.
  * Document path: `users/{uid}/protected/details`.
  */
-interface UserProtectedDetails {
+export interface UserProtectedDetails {
   /**
    * The user's uid.
    */
@@ -43,7 +43,7 @@ interface UserProtectedDetails {
 /**
  * Records when and by whom a claim was assigned to a user.
  */
-interface ClaimAssignment {
+export interface ClaimAssignment {
   /**
    * The UID of the user who assigned this claim.
    */
@@ -64,6 +64,6 @@ interface ClaimAssignment {
  * A user's private claims in Firestore.
  * Document path: `users/{uid}/private/claims`.
  */
-interface UserPrivateClaims {
+export interface UserPrivateClaims {
   [key: string]: ClaimAssignment;
 }
