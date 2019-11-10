@@ -4,6 +4,8 @@ import {
   SortDirection
 } from "../../../core/components/EnhancedTable/types";
 
+export type UserFilters = "all" | "admin" | "manager" | "participant";
+
 export interface UserListProps {}
 
 export interface UserProfileLocal extends UserProfile, Row {}
@@ -25,4 +27,21 @@ export interface UserListSearchParams {
    * The sort direction
    */
   dir?: SortDirection;
+}
+
+interface UserDialogProps {
+  /**
+   * If this is `true`, the dialog will be shown.
+   */
+  open: boolean;
+
+  /**
+   * Handler to close the dialog.
+   */
+  onClose: () => void;
+
+  /**
+   * The user who is currently selected.
+   */
+  user: UserProfileLocal;
 }

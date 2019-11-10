@@ -1,4 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
+import { useSnackbar } from "notistack";
+import clsx from "clsx";
 
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
@@ -6,19 +8,31 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import TextField from "@material-ui/core/TextField";
 
 import MoreIcon from "@material-ui/icons/MoreVert";
+import CancelIcon from "@material-ui/icons/Close";
 
+import { useBooleanState } from "../../../base/hooks/useStateFactory";
 import { useFirestore } from "../../../core/hooks/useFirebase";
 import { useSearch, useSetSearch } from "../../../core/hooks/useSearch";
 
 import EnhancedTable from "../../../core/components/EnhancedTable";
 import { SortDirection } from "../../../core/components/EnhancedTable/types";
 
+import ViewUserProfileDialog from "../ViewUserProfileDialog";
+import EditUserRolesDialog from "../EditUserRolesDialog";
+
 import { Maybe, Nullable } from "../../../../types/global";
 import { Logger } from "../../../../utils";
 
-import { UserListProps, UserProfileLocal, UserListSearchParams } from "./types";
+import {
+  UserListProps,
+  UserProfileLocal,
+  UserListSearchParams,
+  UserFilters
+} from "./types";
 import useStyles from "./styles";
 
 /**
@@ -37,7 +51,9 @@ export const UserList: FC<UserListProps> = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
+  const sortableFields: Array<keyof UserProfileLocal> = ["name"];
   const [rows, setRows] = useState<Array<UserProfileLocal>>([]);
+  const [filteredRows, setFilteredRows] = useState<Array<UserProfileLocal>>([]);
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState<keyof UserProfileLocal>("name");
   const [direction, setDirection] = useState<SortDirection>("asc");
@@ -59,6 +75,7 @@ export const UserList: FC<UserListProps> = () => {
   );
 
   const onSortHandler = (sort: keyof UserProfileLocal) => {
+    if (!sortableFields.includes(sort)) return;
     if (sort === orderBy) {
       const dir = direction === "asc" ? "desc" : "asc";
       setDirection(dir);
@@ -97,7 +114,7 @@ export const UserList: FC<UserListProps> = () => {
         setDirection(dir);
       }
 
-      if (["uid", "name", "photoURL", "id"].includes(order as any)) {
+      if (sortableFields.includes(order as keyof UserProfileLocal)) {
         setOrderBy(order!);
       }
     }
@@ -111,8 +128,40 @@ export const UserList: FC<UserListProps> = () => {
     setRowsPerPageHandler,
     setDirection,
     setOrderBy,
-    rows
+    rows,
+    sortableFields
   ]);
+
+  // Filter menu
+
+  const [filterMenuAnchor, setFilterMenuAnchor] = useState<
+    Nullable<HTMLElement>
+  >(null);
+  const openFilterMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setFilterMenuAnchor(event.currentTarget);
+  };
+  const closeFilterMenu = () => {
+    setFilterMenuAnchor(null);
+  };
+
+  const [userSearch, setUserSearch] = useState("");
+  const [filter, setFilter] = useState<UserFilters>("all");
+  const setFilterHandler = (filter: UserFilters) => () => {
+    setFilter(filter);
+    closeFilterMenu();
+  };
+
+  useEffect(() => {
+    if (userSearch.length === 0) {
+      setFilteredRows(rows);
+    } else {
+      setFilteredRows(
+        rows.filter(
+          row => row.name.toLowerCase().indexOf(userSearch.toLowerCase()) >= 0
+        )
+      );
+    }
+  }, [rows, userSearch, setFilteredRows]);
 
   // Get user data
 
@@ -120,6 +169,9 @@ export const UserList: FC<UserListProps> = () => {
   useEffect(() => {
     async function getData() {
       let ref = store.collection("users").orderBy(orderBy, direction);
+      if (filter !== "all") {
+        ref = ref.where("roles", "array-contains", filter);
+      }
       try {
         const users = (await ref.get()).docs.map(
           doc => doc.data() as UserProfileLocal
@@ -135,7 +187,7 @@ export const UserList: FC<UserListProps> = () => {
       }
     }
     getData();
-  }, [store, orderBy, direction, setRows, setLoading, setPageHandler, page]);
+  }, [store, direction, orderBy, filter]);
 
   // User menu
 
@@ -154,6 +206,23 @@ export const UserList: FC<UserListProps> = () => {
     setMenuAnchor(null);
   };
 
+  // User menu dialogs
+  const [showProfile, openProfile, closeProfile] = useBooleanState(false);
+  const [showRoles, openRoles, closeRoles] = useBooleanState(false);
+  const [showDelete, openDelete, closeDelete] = useBooleanState(false);
+  const { enqueueSnackbar } = useSnackbar();
+
+  // FIXME: implement delete dialog
+  useEffect(() => {
+    if (showDelete) {
+      Logger.warn("UserList", "Deleting a user is not implemented.");
+      closeDelete();
+      enqueueSnackbar("Deleting a user is not available yet.", {
+        variant: "error"
+      });
+    }
+  }, [showDelete, closeDelete, enqueueSnackbar]);
+
   // Return the table
 
   return (
@@ -168,12 +237,17 @@ export const UserList: FC<UserListProps> = () => {
         onChangeRowsPerPage={setRowsPerPageHandler}
         page={page}
         onChangePage={setPageHandler}
-        rows={rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
+        rows={filteredRows.slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage
+        )}
         totalRows={rows.length}
         loading={loading}
         onSort={onSortHandler}
+        sortableFields={sortableFields}
         orderBy={orderBy}
         direction={direction}
+        onOpenFilters={openFilterMenu}
         columns={[
           {
             id: "name",
@@ -206,23 +280,113 @@ export const UserList: FC<UserListProps> = () => {
         ]}
       />
       <Menu
-        anchorEl={menuAnchor}
         keepMounted
+        anchorEl={menuAnchor}
         open={Boolean(menuAnchor)}
         onClose={closeMenu}
       >
         {selectedUser && (
           <div>
-            {/* TODO: implmement menu */}
-            <MenuItem>View profile</MenuItem>
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                openProfile();
+              }}
+            >
+              View profile
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                openRoles();
+              }}
+            >
+              Edit roles
+            </MenuItem>
             <Divider />
-            <MenuItem>Manager status</MenuItem>
-            <MenuItem>Admin status</MenuItem>
-            <Divider />
-            <MenuItem>Delete user</MenuItem>
+            <MenuItem
+              onClick={() => {
+                closeMenu();
+                openDelete();
+              }}
+            >
+              Delete user
+            </MenuItem>
           </div>
         )}
       </Menu>
+      <Menu
+        keepMounted
+        anchorEl={filterMenuAnchor}
+        open={Boolean(filterMenuAnchor)}
+        onClose={closeFilterMenu}
+        transformOrigin={{
+          horizontal: "right",
+          vertical: "top"
+        }}
+      >
+        <ListItem>
+          <TextField
+            onChange={e => setUserSearch(e.target.value)}
+            label="Search users"
+            placeholder="Type a name..."
+            value={userSearch}
+          />
+          {userSearch && (
+            <IconButton
+              size="small"
+              className={classes.cancel}
+              onClick={() => setUserSearch("")}
+            >
+              <CancelIcon />
+            </IconButton>
+          )}
+        </ListItem>
+        <Divider />
+        <div>
+          <MenuItem onClick={setFilterHandler("all")}>
+            <Typography
+              className={clsx({
+                [classes.selected]: filter === "all"
+              })}
+            >
+              Show all users
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={setFilterHandler("admin")}>
+            <Typography
+              className={clsx({
+                [classes.selected]: filter === "admin"
+              })}
+            >
+              Show admins only
+            </Typography>
+          </MenuItem>
+          <MenuItem onClick={setFilterHandler("manager")}>
+            <Typography
+              className={clsx({
+                [classes.selected]: filter === "manager"
+              })}
+            >
+              Show managers only
+            </Typography>
+          </MenuItem>
+        </div>
+      </Menu>
+      {selectedUser && (
+        <>
+          <ViewUserProfileDialog
+            open={showProfile}
+            onClose={closeProfile}
+            user={selectedUser}
+          />
+          <EditUserRolesDialog
+            open={showRoles}
+            onClose={closeRoles}
+            user={selectedUser}
+          />
+        </>
+      )}
     </div>
   );
 };

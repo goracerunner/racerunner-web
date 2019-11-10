@@ -173,4 +173,9 @@ export interface EnhancedTableHeadProps<T extends Row> {
    * Callback for handling when a column sort is requested.
    */
   onSort?: (column: typeof T) => void;
+
+  /**
+   * Specify the fields that can be sorted.
+   */
+  sortableFields?: Array<keyof T>;
 }

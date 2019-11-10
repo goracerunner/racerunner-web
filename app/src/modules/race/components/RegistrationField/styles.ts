@@ -7,6 +7,9 @@ export default makeStyles<Theme>(theme =>
     },
     list: {
       marginTop: "1rem"
+    },
+    checkboxDescription: {
+      marginTop: "0"
     }
   })
 );

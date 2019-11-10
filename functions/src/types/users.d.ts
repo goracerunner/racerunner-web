@@ -17,6 +17,11 @@ export interface UserProfile {
    * A URL to the user's profile image.
    */
   photoURL: string;
+
+  /**
+   * A list of roles assigned to the user.
+   */
+  roles: string[];
 }
 
 /**

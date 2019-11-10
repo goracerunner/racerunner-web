@@ -8,6 +8,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 
 import { Logger } from "../../../../utils";
@@ -118,8 +120,30 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
       break;
     }
 
+    case "checkbox": {
+      return (
+        <div className={classes.field}>
+          <FormControl component="fieldset">
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={value}
+                    onChange={e => setValue(e.target.checked)}
+                  />
+                }
+                label={label}
+              />
+            </FormGroup>
+            <FormHelperText className={classes.checkboxDescription}>
+              {description}
+            </FormHelperText>
+          </FormControl>
+        </div>
+      );
+    }
+
     // FIXME: not implemented yet.
-    case "checkbox":
     case "select": {
       Logger.error("RegistrationField", `${type} field not implemented`);
       break;

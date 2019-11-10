@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 
 import { auth } from "../utils/firebase";
 import { incrementAdmins, incrementManagers } from "../utils/stats";
+import { UserModel } from "../models/UserModel";
 
 /**
  * Update a user's claims in Firebase auth when their claims in
@@ -29,19 +30,7 @@ export const writeClaimsHandler: (
   await checkStatClaim("manager", incrementManagers)(prevClaims, claims);
 
   // Set the claims
-  if (claims) {
-    const claimsObject = Object.keys(claims).reduce(
-      (obj, key) => ({ ...obj, [key]: true }),
-      {}
-    );
-    await auth.setCustomUserClaims(userId, claimsObject);
-    console.info(
-      `Claims for user ${userId} set to ${JSON.stringify(claimsObject)}`
-    );
-  } else {
-    await auth.setCustomUserClaims(userId, {});
-    console.info(`Claims for user ${userId} removed`);
-  }
+  await UserModel.setUserClaims(userId, claims);
 };
 
 /**

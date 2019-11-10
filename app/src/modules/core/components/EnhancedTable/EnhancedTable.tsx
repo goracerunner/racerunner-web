@@ -45,6 +45,7 @@ export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
     onOpenFilters,
     loading,
     onSort,
+    sortableFields,
     orderBy,
     direction
   } = props;
@@ -101,6 +102,7 @@ export function EnhancedTable<T extends Row>(props: EnhancedTableProps<T>) {
               setSelected={handleSetSelected}
               numSelected={numSelected}
               onSort={onSort}
+              sortableFields={sortableFields}
               orderBy={orderBy}
               direction={direction}
             />

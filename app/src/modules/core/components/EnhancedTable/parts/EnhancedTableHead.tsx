@@ -28,7 +28,8 @@ export function EnhancedTableHead<T extends Row = Row>(
     rows = [],
     totalRows = rows.length,
     loading,
-    onSort = () => {}
+    onSort = () => {},
+    sortableFields = []
   } = props;
 
   const selectedCount = Object.keys(selected).reduce(
@@ -81,18 +82,21 @@ export function EnhancedTableHead<T extends Row = Row>(
             </Tooltip>
           </TableCell>
         )}
-        {columns.map((column, index) => (
-          <TableCell key={index} align={column.numeric ? "right" : "left"}>
-            <TableSortLabel
-              disabled={loading}
-              active={orderBy === column.id}
-              direction={direction}
-              onClick={() => onSort(column.id)}
-            >
-              {column.label}
-            </TableSortLabel>
-          </TableCell>
-        ))}
+        {columns.map((column, index) => {
+          const canSort = sortableFields.includes(column.id);
+          return (
+            <TableCell key={index} align={column.numeric ? "right" : "left"}>
+              <TableSortLabel
+                disabled={loading || !canSort}
+                active={canSort && orderBy === column.id}
+                direction={direction}
+                onClick={() => onSort(column.id)}
+              >
+                {column.label}
+              </TableSortLabel>
+            </TableCell>
+          );
+        })}
       </TableRow>
     </TableHead>
   );

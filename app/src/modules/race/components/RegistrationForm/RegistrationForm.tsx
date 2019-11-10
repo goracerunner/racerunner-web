@@ -158,17 +158,19 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
         </Paper>
         <Paper className={classes.form}>
           <div className={clsx({ [classes.fields]: Boolean(fields.length) })}>
-            {fields.map(field => (
-              <div key={field.name}>
-                <RegistrationField
-                  disabled={loading}
-                  field={field}
-                  value={formValues[field.name]}
-                  setValue={value => setValue(field.name, value)}
-                  error={formErrors[field.name]}
-                />
-              </div>
-            ))}
+            {fields
+              .filter(field => !field.hidden)
+              .map(field => (
+                <div key={field.name}>
+                  <RegistrationField
+                    disabled={loading}
+                    field={field}
+                    value={formValues[field.name]}
+                    setValue={value => setValue(field.name, value)}
+                    error={formErrors[field.name]}
+                  />
+                </div>
+              ))}
           </div>
           <Button
             disabled={loading}

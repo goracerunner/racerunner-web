@@ -172,6 +172,10 @@ export interface RaceRegistrationField {
    * Any validation that needs to be applied to this field.
    */
   validation?: RaceRegistrationFieldValidation;
+  /**
+   * If this is `true`, this field will not be shown on the registration form.
+   */
+  hidden?: boolean;
 }
 
 export interface RaceRegistrationFieldValidation {
