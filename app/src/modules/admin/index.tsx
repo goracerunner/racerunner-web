@@ -7,6 +7,7 @@ import Protected from "../core/components/Protected";
 
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminRacesPage from "./pages/AdminRacesPage";
 
 /**
  * This component houses all routes for the app when in admin mode.
@@ -20,6 +21,9 @@ const AdminMode: React.FC = () => {
         </Route>
         <Route exact path="/admin/users">
           <AdminUsersPage />
+        </Route>
+        <Route exact path="/admin/races">
+          <AdminRacesPage />
         </Route>
         <Route>
           <NotFoundPage />
