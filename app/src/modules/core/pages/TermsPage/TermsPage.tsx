@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import Container from "@material-ui/core/Container";
 
 import Header from "../../../base/components/Header";
 import Footer from "../../../base/components/Footer";
-import Container from "../../../base/components/Container";
 import Email from "../../../base/components/Email";
 
 import useStyles from "./styles";
@@ -22,7 +22,7 @@ export const TermsPage: React.FC = () => {
       <Helmet>
         <title>Terms Of Use</title>
       </Helmet>
-      <Container>
+      <Container maxWidth="md">
         <div className={classes.title}>
           <Header reduced />
         </div>

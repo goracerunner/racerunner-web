@@ -27,7 +27,8 @@ export const createUserHandler: (
   const userProfile: UserProfile = {
     uid: user.uid,
     name: user.displayName || "unknown",
-    photoURL: user.photoURL || "/avatar/unknown.png"
+    photoURL: user.photoURL || "/avatar/unknown.png",
+    roles: []
   };
 
   const userDetails: UserProtectedDetails = {

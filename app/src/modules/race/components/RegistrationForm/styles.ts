@@ -4,7 +4,7 @@ export default makeStyles<Theme>(theme =>
   createStyles({
     title: {
       textAlign: "center",
-      marginBottom: "1rem"
+      margin: "1rem 0"
     },
     button: {
       margin: "0.5rem 0"

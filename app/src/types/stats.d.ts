@@ -4,7 +4,7 @@ import { firestore } from "firebase/app";
  * A statistic in Firestore.
  * Document path: `stats/{stat}`.
  */
-interface Stat<T> {
+export interface Stat<T> {
   /**
    * The value of the statistic.
    */

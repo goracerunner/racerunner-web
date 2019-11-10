@@ -1,12 +1,3 @@
-export {
-  onCreateUser,
-  onDeleteUser,
-  writeClaims,
-  addRaceParticipant,
-  removeRaceParticipant,
-  addRaceManager,
-  removeRaceManager,
-  onDeleteRace
-} from "./triggers";
-
-export { joinRace } from "./call";
+export * from "./triggers";
+export * from "./call";
+export * from "./once";

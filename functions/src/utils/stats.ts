@@ -23,5 +23,7 @@ const incrementStat = (statName: string) => async (increment: number) => {
     );
 };
 
-export const incrementUsers = incrementStat("users");
 export const incrementRaces = incrementStat("races");
+export const incrementUsers = incrementStat("users");
+export const incrementAdmins = incrementStat("admins");
+export const incrementManagers = incrementStat("managers");

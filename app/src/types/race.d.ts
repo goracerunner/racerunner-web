@@ -6,14 +6,14 @@ import { UserProfile } from "./users";
 /**
  * The status of a race.
  */
-type RaceStatus =
+export type RaceStatus =
   | "registration_open"
   | "registration_closed"
   | "in_progress"
   | "closed"
   | "results";
 
-interface RaceBase<T = Timestamp> {
+export interface RaceBase<T = Timestamp> {
   /**
    * The uid for the race. This is a name that is used to
    * uniquely identify the race.
@@ -67,18 +67,18 @@ interface RaceBase<T = Timestamp> {
  * A race's details in Firestore.
  * Document path: `races/{uid}`.
  */
-interface Race extends RaceBase<firestore.Timestamp> {}
+export interface Race extends RaceBase<firestore.Timestamp> {}
 
 /**
  * Input for a race's details in Firestore.
  * Document path: `races/{uid}`.
  */
-interface RaceInput extends RaceBase<Date> {}
+export interface RaceInput extends RaceBase<Date> {}
 
 /**
  * A race's short-hand info.
  */
-interface RaceInfoBase<T extends Timestamp> {
+export interface RaceInfoBase<T extends Timestamp> {
   /**
    * The race's unique identifier.
    */
@@ -105,7 +105,7 @@ interface RaceInfoBase<T extends Timestamp> {
  * Document path: `users/{uid}/races`.
  * Document path: `users/{uid}/managedRaces`.
  */
-interface RaceInfo extends RaceInfoBase<firestore.Timestamp> {}
+export interface RaceInfo extends RaceInfoBase<firestore.Timestamp> {}
 
 /**
  * Input for a race's short-hand info.
@@ -119,7 +119,7 @@ interface RaceInfoInput extends RaceInfoBase<Date> {}
  * the registration form for a race.
  * Document path: `races/{uid}/registrationFields`
  */
-interface RaceRegistrationField {
+export interface RaceRegistrationField {
   /**
    * The order of the field.
    */
@@ -172,9 +172,13 @@ interface RaceRegistrationField {
    * Any validation that needs to be applied to this field.
    */
   validation?: RaceRegistrationFieldValidation;
+  /**
+   * If this is `true`, this field will not be shown on the registration form.
+   */
+  hidden?: boolean;
 }
 
-interface RaceRegistrationFieldValidation {
+export interface RaceRegistrationFieldValidation {
   /**
    * The type of validation to use.
    */

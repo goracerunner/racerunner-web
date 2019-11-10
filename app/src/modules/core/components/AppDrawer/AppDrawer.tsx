@@ -1,18 +1,20 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import clsx from "clsx";
+import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
-import Tooltip from "@material-ui/core/Tooltip";
 
-import AppModeContext from "../../contexts/AppModeContext";
 import Header from "../../../base/components/Header";
 import DefaultTheme, { DarkTheme } from "../../../base/components/Theme";
 
-import { RaceDrawerItems } from "./RaceDrawerItems";
-import { ManageDrawerItems } from "./ManageDrawerItems";
-import { DashboardDrawerItems } from "./DashboardDrawerItems";
+import { RaceDrawerItems } from "./drawers/RaceDrawerItems";
+import { ManageDrawerItems } from "./drawers/ManageDrawerItems";
+import { DashboardDrawerItems } from "./drawers/DashboardDrawerItems";
+import { AdminDrawerItems } from "./drawers/AdminDrawerItems";
+
 import { AppDrawerProps } from "./types";
 import useStyles from "./styles";
 
@@ -21,13 +23,13 @@ import useStyles from "./styles";
  */
 export const AppDrawer: FC<AppDrawerProps> = ({ children, open, onClose }) => {
   const classes = useStyles();
-  const { mode } = useContext(AppModeContext);
+  const { pathname } = useLocation();
 
-  let content: JSX.Element;
+  let content: JSX.Element = <></>;
 
-  // Show the appropriate menu items based on the app mode.
-  switch (mode) {
-    default:
+  // Show the appropriate menu items based on the path.
+  const path = /^\/(\w+)/.exec(pathname) || [];
+  switch (path[1]) {
     case "dashboard": {
       content = <DashboardDrawerItems onClose={onClose} />;
       break;
@@ -38,6 +40,10 @@ export const AppDrawer: FC<AppDrawerProps> = ({ children, open, onClose }) => {
     }
     case "manage": {
       content = <ManageDrawerItems onClose={onClose} />;
+      break;
+    }
+    case "admin": {
+      content = <AdminDrawerItems onClose={onClose} />;
       break;
     }
   }
@@ -62,19 +68,17 @@ export const AppDrawer: FC<AppDrawerProps> = ({ children, open, onClose }) => {
             })
           }}
         >
-          <Tooltip
-            title="Home"
-            disableHoverListener={open}
-            disableFocusListener={open}
-            disableTouchListener={open}
-            placement="left"
+          <Button
+            className={classes.homeButton}
+            disableRipple
+            onClick={onClose}
+            component={Link}
+            to="/"
           >
-            <Button className={classes.homeButton} disableRipple>
-              <div className={classes.homeIcon}>
-                <Header inverted reduced />
-              </div>
-            </Button>
-          </Tooltip>
+            <div className={classes.homeIcon}>
+              <Header inverted reduced />
+            </div>
+          </Button>
           <Divider />
           {content}
         </Drawer>

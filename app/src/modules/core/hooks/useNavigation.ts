@@ -1,4 +1,5 @@
-import { useContext, useCallback, useEffect } from "react";
+import { useContext, useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 
 import NavigationContext, {
   createSetDrawerStateAction,
@@ -8,10 +9,13 @@ import NavigationContext, {
   createSetTabAction
 } from "../contexts/NavigationContext";
 
-import { AppDrawerStateHook } from "./types";
+import { Logger } from "../../../utils";
+import { Nullable, Maybe } from "../../../types/global";
+
 import { AppName } from "../contexts/NavigationContext/types";
 import { TabBar } from "../components/TabBar/types";
-import { Logger } from "../../../utils";
+
+import { AppDrawerStateHook } from "./types";
 
 /**
  * This hook grabs the app drawer's state from the
@@ -104,4 +108,79 @@ export const useGetTabIndex = (tabs: Array<TabBar>) => {
 
   // Return the tab index
   return tab;
+};
+
+/**
+ * A convenience hook that returns a redirect path as the first
+ * element, and a function to set set the redirect path as the
+ * second element. The redirect path is initially `null`, and
+ * can be set using the function that is returned.
+ * @param path the path to redirect to
+ */
+export const useRedirect: (
+  path: string
+) => [Nullable<string>, () => void] = path => {
+  const [redirect, setRedirect] = useState<Nullable<string>>(null);
+
+  const setRedirectPath = useCallback(() => {
+    setRedirect(path);
+  }, [setRedirect, path]);
+
+  return [redirect, setRedirectPath];
+};
+
+/**
+ * A convenience hook that checks the current path name
+ * (using `react-router`'s `useLocation` hook) and detects
+ * if the component is on the required path.
+ *
+ * The first argument is the root path that is being checked for.
+ * The next two arguments are the values the function will return
+ * if the path is matched or not matched repsectively.
+ *
+ * This hook returns a function that accepts another string which
+ * can be used to further customise the match. If the function
+ * is called without any arguments, an exact match of the `path`
+ * is required.
+ *
+ * Example 1:
+ * ```
+ * usePathMatch('dashboard', 'selected', 'disabled')()
+ * ```
+ *
+ * The path `'/dashboard'` will return `'selected'`.
+ *
+ * The path `'/dashboard/help'` will return `'disabled'`.
+ *
+ * The path `'/help/dashboard'` will return `'disabled'`.
+ *
+ * Example 2:
+ * ```
+ * usePathMatch('admin', 'selected', 'disabled')('users')
+ * ```
+ *
+ * The path `'/admin'` will return `'disabled'`.
+ *
+ * The path `'/admin/users'` will return `'selected'`.
+ *
+ * The path `'/admin/users/help'` will return `'selected'`.
+ *
+ * The path `'/admin/user'` will return `'disabled'`.
+ *
+ * @param path the root path we want to check for
+ * @param selected the value to return if we are on the required path
+ * @param notSelected the value to return if we are not on the required path
+ */
+export const usePathMatch = function<T extends string>(
+  path: string,
+  selected: Maybe<T>,
+  notSelected: Maybe<T>
+) {
+  const { pathname } = useLocation();
+  return (match?: string) =>
+    new RegExp(`^\\/${path}${match ? `\\/${match}($|\\/).*` : `$`}`).test(
+      pathname
+    )
+      ? (selected as T)
+      : (notSelected as T);
 };

@@ -1,7 +1,7 @@
 import { firestore } from "firebase/app";
 
-type Timestamp = Date | firestore.Timestamp;
+export type Timestamp = Date | firestore.Timestamp;
 
-type Nullable<T> = T | null;
+export type Nullable<T> = T | null;
 
-type Maybe<T> = T | undefined;
+export type Maybe<T> = T | undefined;
