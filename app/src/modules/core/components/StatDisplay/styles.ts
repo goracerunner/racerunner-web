@@ -2,7 +2,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import { generateFonts, BODY_FONT } from "../../../../utils/fonts";
 
-export default makeStyles<Theme>(theme =>
+export default makeStyles<Theme>(
   createStyles({
     root: {
       display: "flex",

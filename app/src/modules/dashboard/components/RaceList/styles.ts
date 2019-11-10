@@ -2,7 +2,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import constants from "../../../../styles/constants";
 
-export default makeStyles<Theme>(theme =>
+export default makeStyles<Theme>(
   createStyles({
     list: {
       marginBottom: "1.5rem"
@@ -20,7 +20,7 @@ export default makeStyles<Theme>(theme =>
   })
 );
 
-export const useCardStyles = makeStyles<Theme>(theme =>
+export const useCardStyles = makeStyles<Theme>(
   createStyles({
     card: {
       marginBottom: "0.5rem"
