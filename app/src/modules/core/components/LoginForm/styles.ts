@@ -13,11 +13,15 @@ export default makeStyles<Theme>(
     buttons: {
       display: "flex",
       flexDirection: "column",
-      margin: "auto",
-      maxWidth: "18rem"
+      margin: "1rem auto",
+      maxWidth: "18rem",
+      position: "relative",
+      justifyContent: "center",
+      alignItems: "center"
     },
     button: {
-      margin: "1rem 0"
+      marginBottom: "0.5rem",
+      width: "100%"
     },
     facebook: {
       color: "white",
@@ -25,6 +29,7 @@ export default makeStyles<Theme>(
       "&:hover": {
         background: constants.color.external.facebookDark
       }
-    }
+    },
+    google: {}
   })
 );

@@ -10,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import ClearIcon from "@material-ui/icons/Clear";
 import FacebookIcon from "../icons/FacebookIcon";
+import GoogleIcon from "../icons/GoogleIcon";
 
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
 
@@ -36,64 +37,81 @@ export const LoginForm: FC<LoginFormProps> = ({ startLogin }) => {
   const [error, setError] = useState("");
 
   // This function clears local state and starts the login flow.
-  const startLoginHandler = useCallback(() => {
-    // Clear errors and show loading
-    setError("");
-    closeSnackbar(snackbarKey.LOGIN_ERROR);
+  const startLoginHandler = useCallback(
+    (provider: string) => () => {
+      // Clear errors and show loading
+      setError("");
+      closeSnackbar(snackbarKey.LOGIN_ERROR);
 
-    showLoading();
-    enqueueSnackbar("Signing in...", {
-      key: snackbarKey.LOGIN_LOADING,
-      persist: true
-    });
-
-    // Log in
-    if (startLogin) startLogin();
-
-    // Show error if page does not redirect
-    setTimeout(() => {
-      hideLoading();
-      closeSnackbar(snackbarKey.LOGIN_LOADING);
-
-      // setError("Sorry, but your request timed out. Please try again.");
-      enqueueSnackbar("Sorry, but your request timed out. Please try again.", {
-        key: snackbarKey.LOGIN_ERROR,
-        variant: "error",
-        persist: true,
-        action: (
-          <IconButton onClick={() => closeSnackbar(snackbarKey.LOGIN_ERROR)}>
-            <ClearIcon />
-          </IconButton>
-        )
+      showLoading();
+      enqueueSnackbar("Signing in...", {
+        key: snackbarKey.LOGIN_LOADING,
+        persist: true
       });
-    }, LOGIN_TIMEOUT);
-  }, [
-    setError,
-    closeSnackbar,
-    showLoading,
-    enqueueSnackbar,
-    startLogin,
-    hideLoading
-  ]);
+
+      // Log in
+      if (startLogin) startLogin(provider);
+
+      // Show error if page does not redirect
+      setTimeout(() => {
+        hideLoading();
+        closeSnackbar(snackbarKey.LOGIN_LOADING);
+
+        // setError("Sorry, but your request timed out. Please try again.");
+        enqueueSnackbar(
+          "Sorry, but your request timed out. Please try again.",
+          {
+            key: snackbarKey.LOGIN_ERROR,
+            variant: "error",
+            persist: true,
+            action: (
+              <IconButton
+                onClick={() => closeSnackbar(snackbarKey.LOGIN_ERROR)}
+              >
+                <ClearIcon />
+              </IconButton>
+            )
+          }
+        );
+      }, LOGIN_TIMEOUT);
+    },
+    [
+      setError,
+      closeSnackbar,
+      showLoading,
+      enqueueSnackbar,
+      startLogin,
+      hideLoading
+    ]
+  );
 
   return (
     <div className={classes.root}>
       <div className={classes.buttons}>
+        {isLoading && (
+          <CircularProgress
+            size="1.5rem"
+            color="secondary"
+            className={classes.loading}
+          />
+        )}
         <Button
           className={clsx(classes.button, classes.facebook)}
           variant="contained"
           disabled={isLoading}
-          onClick={startLoginHandler}
+          onClick={startLoginHandler("facebook")}
         >
-          {isLoading && (
-            <CircularProgress
-              size="1.5rem"
-              color="secondary"
-              className={classes.loading}
-            />
-          )}
           <FacebookIcon />
           Facebook
+        </Button>
+        <Button
+          className={clsx(classes.button, classes.google)}
+          variant="contained"
+          disabled={isLoading}
+          onClick={startLoginHandler("google")}
+        >
+          <GoogleIcon />
+          Google
         </Button>
       </div>
       {error && (

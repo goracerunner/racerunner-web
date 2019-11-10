@@ -20,6 +20,7 @@ import Authenticated, {
 } from "../../components/Authenticated";
 
 import useStyles from "./styles";
+import { Logger } from "../../../../utils";
 
 /**
  * Render the landing page for the site.
@@ -29,7 +30,15 @@ export const LandingPage: React.FC = () => {
   const auth = useAuth();
 
   const startLogin = useCallback(
-    () => auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider()),
+    (provider: string) => {
+      if (provider === "facebook") {
+        auth.signInWithRedirect(new firebase.auth.FacebookAuthProvider());
+      } else if (provider === "google") {
+        auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
+      } else {
+        Logger.error("LandingPage", `Unrecognised auth provider: ${provider}`);
+      }
+    },
     [auth]
   );
 
