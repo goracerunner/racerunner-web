@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 
 import { store } from "../utils/firebase";
+import { Logger } from "../utils/logger";
 import { incrementUsers } from "../utils/stats";
 
 import { UserProfile, UserProtectedDetails } from "../types/users";
@@ -12,14 +13,13 @@ export const createUserHandler: (
   user: functions.auth.UserRecord,
   context: functions.EventContext
 ) => any = async (user, ctx) => {
-  const userInfo = `${user.displayName} (${user.email})`;
   const userRecord = store.collection("users").doc(user.uid);
 
   // Check if user record already exists
   // This function shouldn't get triggered here normally
   const userData = await userRecord.get();
   if (userData.exists) {
-    console.warn(`User record already exists for ${userInfo}`);
+    Logger.error(`User record already exists for <user|${user.uid}>.`);
     return;
   }
   // Create the user profile add protected/private data
@@ -52,7 +52,7 @@ export const createUserHandler: (
       uid: user.uid
     });
 
-  console.info(`Created new user: ${userInfo}`);
+  Logger.info(`Created new <user|${user.uid}>.`);
 };
 
 /**
@@ -62,7 +62,6 @@ export const deleteUserHandler: (
   user: functions.auth.UserRecord,
   context: functions.EventContext
 ) => any = async (user, ctx) => {
-  const userInfo = `${user.displayName} (${user.email})`;
   const userRecord = store.collection("users").doc(user.uid);
 
   // Delete user profile
@@ -85,6 +84,6 @@ export const deleteUserHandler: (
     await userRecord.delete();
     await incrementUsers(-1);
 
-    console.info(`Deleted user ${userInfo}`);
+    Logger.info(`Created new <user|${user.uid}>.`);
   }
 };

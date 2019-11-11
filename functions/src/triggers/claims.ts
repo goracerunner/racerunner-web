@@ -1,7 +1,9 @@
 import * as functions from "firebase-functions";
 
 import { auth } from "../utils/firebase";
+import { Logger } from "../utils/logger";
 import { incrementAdmins, incrementManagers } from "../utils/stats";
+
 import { UserModel } from "../models/UserModel";
 
 /**
@@ -18,7 +20,9 @@ export const writeClaimsHandler: (
   try {
     await auth.getUser(userId);
   } catch (error) {
-    console.info(`User ${userId} no longer exists, so claims cannot be set.`);
+    Logger.error(
+      `<user|${userId} no longer exists so their claims cannot be set.`
+    );
     return;
   }
 

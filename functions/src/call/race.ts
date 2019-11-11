@@ -1,6 +1,10 @@
 import * as functions from "firebase-functions";
 
 import { validateClaims, store } from "../utils/firebase";
+import { Logger } from "../utils/logger";
+
+import { RaceModel } from "../models/RaceModel";
+
 import { UserProfile } from "../types/users";
 import { Race } from "../types/race";
 
@@ -18,7 +22,7 @@ export const joinRaceHandler = async (
   const { raceId } = data;
 
   if (!raceId) {
-    console.error(`No raceId provided.`);
+    Logger.error("JoinRace failed: no raceId provided.");
     throw new functions.https.HttpsError(
       "invalid-argument",
       "No raceId provided."
@@ -32,7 +36,9 @@ export const joinRaceHandler = async (
     .get();
 
   if (!raceRecord.exists) {
-    console.error(`The requested race "${raceId}" does not exist.`);
+    Logger.error(
+      `JoinRace failed: the requested <race|${raceId}> does not exist.`
+    );
     throw new functions.https.HttpsError(
       "not-found",
       `The requested race "${raceId}" does not exist.`
@@ -46,7 +52,9 @@ export const joinRaceHandler = async (
     .get();
 
   if (!userRecord.exists) {
-    console.error(`The user record for "${context.auth!.uid}" does not exist.`);
+    Logger.error(
+      `JoinRace failed: <user|${context.auth!.uid}> does not exist.`
+    );
     throw new functions.https.HttpsError(
       "unauthenticated",
       `The requested user record does not exist.`
@@ -59,7 +67,9 @@ export const joinRaceHandler = async (
 
   // Check if the race is open for registration
   if (raceData.status !== "registration_open") {
-    console.error(`The race "${raceId}" is currently closed to registrations.`);
+    Logger.warn(
+      `JoinRace failed: <race|${raceId}> is not accepting registrations.`
+    );
     throw new functions.https.HttpsError(
       "unavailable",
       `Registration is not open for this race.`
@@ -68,8 +78,8 @@ export const joinRaceHandler = async (
 
   // Check if the user is already in the race
   if (raceData.participantIds.includes(userData.uid)) {
-    console.error(
-      `The user ${userData.name} (${userData.uid}) is already in the race "${raceId}".`
+    Logger.warn(
+      `JoinRace failed: <user|${userData.uid}> is already in <race|${raceId}>.`
     );
     throw new functions.https.HttpsError(
       "already-exists",
@@ -78,8 +88,8 @@ export const joinRaceHandler = async (
   }
 
   if (raceData.managerIds.includes(userData.uid)) {
-    console.error(
-      `The user ${userData.name} (${userData.uid}) is already in the race "${raceId}" as a manager.`
+    Logger.warn(
+      `JoinRace failed: <user|${userData.uid}> is already in <race|${raceId}> as a manager.`
     );
     throw new functions.https.HttpsError(
       "already-exists",
@@ -88,10 +98,7 @@ export const joinRaceHandler = async (
   }
 
   // Add the user to the participants list
-  await raceRecord.ref
-    .collection("participants")
-    .doc(userData.uid)
-    .set(userData);
+  await RaceModel.addParticipant(raceId, userData);
 
   return raceData;
 };

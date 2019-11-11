@@ -1,5 +1,6 @@
 import { store, auth } from "../utils/firebase";
 import { Race } from "../types/race";
+import { Logger } from "../utils/logger";
 
 const userRef = (uid: string) => store.collection("users").doc(uid);
 
@@ -31,13 +32,11 @@ export class UserModel {
           // Transform the 'uid' claim to 'user'
           .map(c => (c === "uid" ? "user" : c))
       });
-      console.info(
-        `Claims for user ${uid} set to ${JSON.stringify(claimsObject)}`
-      );
+      Logger.info(`Set claims for <user|${uid}>.`, claimsObject);
     } else {
       await auth.setCustomUserClaims(uid, {});
       await userRef(uid).update({ roles: [] });
-      console.info(`Claims for user ${uid} removed`);
+      Logger.info(`Removed claims for <user|${uid}>.`);
     }
   }
 
@@ -51,7 +50,7 @@ export class UserModel {
         description: race.description,
         eventData: race.eventDate
       });
-    console.info(`UserModel: added race "${race.uid}" to user ${uid}.`);
+    Logger.debug(`Added <race|${race.uid}> to <user|${uid}>.`);
   }
 
   public static async addManagedRaceToUser(uid: string, race: Race) {
@@ -64,7 +63,7 @@ export class UserModel {
         description: race.description,
         eventData: race.eventDate
       });
-    console.info(`UserModel: added managed race "${race.uid}" to user ${uid}.`);
+    Logger.debug(`Added <race|${race.uid}> to <user|${uid}>'s managed races.`);
   }
 
   public static async removeRaceFromUser(uid: string, raceId: string) {
@@ -72,7 +71,7 @@ export class UserModel {
       .collection("races")
       .doc(raceId)
       .delete();
-    console.info(`UserModel: removed race "${raceId}" from user ${uid}.`);
+    Logger.debug(`Removed <race|${raceId}> from <user|${uid}>.`);
   }
 
   public static async removeManagedRaceFromUser(uid: string, raceId: string) {
@@ -80,8 +79,8 @@ export class UserModel {
       .collection("managedRaces")
       .doc(raceId)
       .delete();
-    console.info(
-      `UserModel: removed managed race "${raceId}" from user ${uid}.`
+    Logger.debug(
+      `Removed <race|${raceId}> from <user|${uid}>'s managed races.`
     );
   }
 }

@@ -1,7 +1,10 @@
 import * as admin from "firebase-admin";
 
 import { store } from "../utils/firebase";
+import { Logger } from "../utils/logger";
+
 import { Race } from "../types/race";
+import { UserProfile } from "../types/users";
 
 const raceRef = (raceId: string) => store.collection("races").doc(raceId);
 
@@ -21,9 +24,17 @@ export class RaceModel {
     await raceRef(raceId).update({
       registrationCount: admin.firestore.FieldValue.increment(increment)
     });
-    console.info(
-      `RaceModel: incremented registration count of race (${raceId}) by ${increment}.`
+    Logger.debug(
+      `Incremented registration count by ${increment} for <race|${raceId}>.`
     );
+  }
+
+  public static async addParticipant(raceId: string, userData: UserProfile) {
+    await raceRef(raceId)
+      .collection("participants")
+      .doc(userData.uid)
+      .set(userData);
+    Logger.info(`Added <user|${userData.uid}> to <race|${raceId}>.`);
   }
 
   public static async addParticipantToParticipantList(
@@ -33,8 +44,8 @@ export class RaceModel {
     await raceRef(raceId).update({
       participantIds: admin.firestore.FieldValue.arrayUnion(participantId)
     });
-    console.info(
-      `RaceModel: added participant ${participantId} to race (${raceId}) participant list.`
+    Logger.debug(
+      `Added <participant|${participantId}> to <race|${raceId}> participant list.`
     );
   }
 
@@ -45,8 +56,8 @@ export class RaceModel {
     await raceRef(raceId).update({
       participantIds: admin.firestore.FieldValue.arrayRemove(participantId)
     });
-    console.info(
-      `RaceModel: removed participant ${participantId} from race (${raceId}) participant list.`
+    Logger.debug(
+      `Removed <participant|${participantId}> from <race|${raceId}> participant list.`
     );
   }
 
@@ -57,8 +68,8 @@ export class RaceModel {
     await raceRef(raceId).update({
       managerIds: admin.firestore.FieldValue.arrayUnion(managerId)
     });
-    console.info(
-      `RaceModel: added manager ${managerId} to race (${raceId}) manager list.`
+    Logger.debug(
+      `Added <manager|${managerId}> to <race|${raceId}> manager list.`
     );
   }
 
@@ -69,8 +80,8 @@ export class RaceModel {
     await raceRef(raceId).update({
       managerIds: admin.firestore.FieldValue.arrayRemove(managerId)
     });
-    console.info(
-      `RaceModel: removed manager ${managerId} from race (${raceId}) manager list.`
+    Logger.debug(
+      `Removed <manager|${managerId}> from <race|${raceId}> manager list.`
     );
   }
 }

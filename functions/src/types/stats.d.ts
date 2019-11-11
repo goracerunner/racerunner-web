@@ -1,4 +1,5 @@
 import { firestore } from "firebase/app";
+import { Timestamp } from "./global";
 
 /**
  * A statistic in Firestore.
@@ -15,3 +16,47 @@ export interface Stat<T> {
    */
   modified: firestore.Timestamp;
 }
+
+interface LogMessageBase<T extends Timestamp> {
+  /**
+   * The date and time of the log message.
+   */
+  date: T;
+
+  /**
+   * The source of the log message.
+   */
+  source: "function" | "app-participant" | "app-manager" | "app-admin";
+
+  /**
+   * The severity of the log message.
+   */
+  level: "debug" | "info" | "warn" | "error";
+
+  /**
+   * The type of log message. This is primarly used to determine
+   * how the log message should be displayed visually.
+   */
+  logType: "message";
+
+  /**
+   * The log message.
+   */
+  message?: string;
+
+  /**
+   * Additional information related to the log message.
+   */
+  data?: object;
+}
+
+/**
+ * A log message in Firestore.
+ * Document path: `logs/{logId}`.
+ */ export interface LogMessage extends LogMessageBase<firestore.Timestamp> {}
+
+/**
+ * Input for a log message in Firestore.
+ * Document path: `logs/{logId}`.
+ */
+export interface LogMessageInput extends LogMessageBase<Date> {}

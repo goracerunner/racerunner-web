@@ -111,9 +111,9 @@ interface Registration extends RaceUser {
  */
 interface Log {
   date: timestamp;
-  source: "function" | "app-participant" | "app-manager";
+  source: "function" | "app-participant" | "app-manager" | "app-admin";
   level: "debug" | "info" | "warn" | "error";
-  subject: string;
-  messages: string[];
+  message: string;
+  data: object;
 }
 ```

@@ -1,7 +1,10 @@
 import * as functions from "firebase-functions";
 
 import { store } from "../utils/firebase";
+import { Logger } from "../utils/logger";
+
 import { UserModel } from "../models/UserModel";
+
 import { UserProfile } from "../types/users";
 
 const userRef = (uid: string) => store.collection("users").doc(uid);
@@ -31,5 +34,9 @@ export const addUserRolesHandler = async (
       })
   );
 
-  resp.send(`${count} user${count === 1 ? "" : "s"} updated.`);
+  Logger.info(
+    `AddUserRoles: updated roles for ${count} user${count === 1 ? "" : "s"}.`
+  );
+
+  resp.send(`Updated roles for ${count} user${count === 1 ? "" : "s"}.`);
 };
