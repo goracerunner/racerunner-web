@@ -19,7 +19,7 @@ export interface LinkCardProps {
   /**
    * A (very) short description of the link.
    */
-  description: string;
+  description?: string;
 
   /**
    * The URL to access the link. This will be passed to a

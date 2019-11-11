@@ -4,7 +4,7 @@ export interface DataProviderProps<T = any> {
   /**
    * True if the data is loading.
    */
-  loading: boolean;
+  loading?: boolean;
 
   /**
    * An error if something went wrong.

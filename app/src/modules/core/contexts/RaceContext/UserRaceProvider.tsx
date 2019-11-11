@@ -10,9 +10,10 @@ import RaceContext from ".";
 import { RaceProviderProps } from "./types";
 
 /**
- * This component retrieves the data for the given race for the current user.
+ * This component retrieves the data for the given race for
+ * the current user as a participant.
  */
-export const RaceProvider: FC<RaceProviderProps> = ({
+export const UserRaceProvider: FC<RaceProviderProps> = ({
   userId,
   raceId,
   children

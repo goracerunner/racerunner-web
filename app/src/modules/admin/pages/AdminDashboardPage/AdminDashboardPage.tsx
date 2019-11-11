@@ -40,18 +40,14 @@ export const AdminDashboardPage: React.FC = () => {
           {
             id: "users",
             name: "Users",
-            largeTitle: true,
             link: "/admin/users",
-            description: "Manage users",
-            icon: <UsersIcon fontSize="large" />
+            icon: <UsersIcon />
           },
           {
             id: "races",
             name: "Races",
-            largeTitle: true,
             link: "/admin/races",
-            description: "Manage races",
-            icon: <RaceIcon fontSize="large" />
+            icon: <RaceIcon />
           }
         ]}
       />

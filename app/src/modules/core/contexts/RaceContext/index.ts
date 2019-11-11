@@ -12,4 +12,5 @@ const RaceContext = React.createContext<RaceContextState>({
 
 export default RaceContext;
 
-export { RaceProvider } from "./RaceProvider";
+export { UserRaceProvider } from "./UserRaceProvider";
+export { ManagerRaceProvider } from "./ManagerRaceProvider";

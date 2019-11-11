@@ -18,7 +18,7 @@ export const DataProvider = function<T>({
     <DataContext.Provider
       value={{
         contextExists: true,
-        loading,
+        loading: loading || false,
         error,
         data
       }}

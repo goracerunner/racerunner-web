@@ -41,14 +41,12 @@ export interface RaceBase<T = Timestamp> {
   owner: UserProfile;
 
   /**
-   * The list of participant ids for the race. This is the
-   * source of truth for the participants in the race.
+   * The list of participant ids for the race.
    */
   participantIds: string[];
 
   /**
-   * The list of managers in the race. This is the source of
-   * truth for the managers in the race.
+   * The list of managers in the race.
    */
   managerIds: string[];
 
@@ -61,6 +59,11 @@ export interface RaceBase<T = Timestamp> {
    * The status of the race.
    */
   status: RaceStatus;
+
+  /**
+   * The number of registrations.
+   */
+  registrationCount: number;
 }
 
 /**

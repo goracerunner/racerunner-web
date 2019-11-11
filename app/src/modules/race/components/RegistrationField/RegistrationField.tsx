@@ -128,7 +128,7 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={value}
+                    checked={value || false}
                     onChange={e => setValue(e.target.checked)}
                   />
                 }

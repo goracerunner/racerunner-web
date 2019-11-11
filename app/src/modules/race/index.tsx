@@ -2,46 +2,55 @@ import React, { useContext } from "react";
 import { Switch, Route } from "react-router-dom";
 import { Redirect } from "react-router";
 
+import AppModeContext from "../core/contexts/AppModeContext";
+import AuthenticationContext from "../core/contexts/AuthenticationContext";
+import { UserRaceProvider } from "../core/contexts/RaceContext";
+
 import NotFoundPage from "../core/pages/NotFoundPage";
 
-import AppModeContext from "../core/contexts/AppModeContext";
-import { RaceProvider } from "../core/contexts/RaceContext";
-import AuthenticationContext from "../core/contexts/AuthenticationContext";
-
 import RaceDashboardPage from "./pages/RaceDashboardPage";
+
+/**
+ * This component provides race information to the routes (children) if
+ * there is a race selected. If there is no race, it will redirect to
+ * the dashboard.
+ */
+const RaceRoutesProvider: React.FC = ({ children }) => {
+  const { raceId } = useContext(AppModeContext);
+  const { user } = useContext(AuthenticationContext);
+
+  // Only render the routes if there is a race selected and there is a user.
+  if (user) {
+    if (raceId) {
+      return (
+        <UserRaceProvider userId={user.uid} raceId={raceId}>
+          <Switch>
+            {children}
+            <Route>
+              <NotFoundPage />
+            </Route>
+          </Switch>
+        </UserRaceProvider>
+      );
+    } else {
+      // If there is no race selected, return to the dashboard
+      return <Redirect to="/dashboard" />;
+    }
+  }
+  return null;
+};
 
 /**
  * This component displays the appropriate components
  * when the app is in race mode.
  */
 const RaceMode: React.FC = () => {
-  const { raceId } = useContext(AppModeContext);
-  const { user } = useContext(AuthenticationContext);
-
   return (
-    <Switch>
+    <RaceRoutesProvider>
       <Route exact path="/race">
-        {() => {
-          // Only render the race dashboard if there is a race selected and there is a user.
-          if (user) {
-            if (raceId) {
-              return (
-                <RaceProvider userId={user.uid} raceId={raceId}>
-                  <RaceDashboardPage />
-                </RaceProvider>
-              );
-            } else {
-              // If there is no race selected, return to the dashboard
-              return <Redirect to="/dashboard" />;
-            }
-          }
-          return null;
-        }}
+        <RaceDashboardPage />
       </Route>
-      <Route>
-        <NotFoundPage />
-      </Route>
-    </Switch>
+    </RaceRoutesProvider>
   );
 };
 

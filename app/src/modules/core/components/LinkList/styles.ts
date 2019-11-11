@@ -1,19 +1,21 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-export default makeStyles<Theme>(theme =>
+import { LinkCardProps } from "./types";
+
+export default makeStyles<Theme, LinkCardProps>(theme =>
   createStyles({
     empty: {
       marginBottom: "10rem"
     },
-    card: {
-      height: "8rem",
+    card: ({ description }) => ({
+      height: description ? "8rem" : "5rem",
       overflow: "hidden",
       paddingRight: "1rem",
       [theme.breakpoints.down("xs")]: {
         height: "6rem",
         paddingRight: "3rem"
       }
-    },
+    }),
     content: {
       height: "100%",
       display: "flex",

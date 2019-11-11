@@ -7,7 +7,9 @@ import {
   removeRaceParticipantHandler,
   addRaceManagerHandler,
   removeRaceManagerHandler,
-  deleteRaceHandler
+  deleteRaceHandler,
+  addRaceRegistrationHandler,
+  removeRaceRegistrationHandler
 } from "./race";
 
 // Closest region is `asia-northeast1`, but does not allow serving cloud
@@ -56,3 +58,13 @@ export const onDeleteRace = functions
   .region(REGION)
   .firestore.document(`races/{raceId}`)
   .onDelete(deleteRaceHandler);
+
+export const addRaceRegistration = functions
+  .region(REGION)
+  .firestore.document(`races/{raceId}/registrations/{registrationId}`)
+  .onCreate(addRaceRegistrationHandler);
+
+export const removeRaceRegistration = functions
+  .region(REGION)
+  .firestore.document(`races/{raceId}/registrations/{registrationId}`)
+  .onDelete(removeRaceRegistrationHandler);

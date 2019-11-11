@@ -1,4 +1,5 @@
 import React from "react";
+import Helmet from "react-helmet";
 import { Switch, Route } from "react-router-dom";
 
 import NotFoundPage from "../core/pages/NotFoundPage";
@@ -15,6 +16,9 @@ import AdminRacesPage from "./pages/AdminRacesPage";
 const AdminMode: React.FC = () => {
   return (
     <Protected claims={["admin"]}>
+      <Helmet>
+        <title>Administration</title>
+      </Helmet>
       <Switch>
         <Route exact path="/admin">
           <AdminDashboardPage />

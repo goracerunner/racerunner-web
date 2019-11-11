@@ -14,6 +14,18 @@ export class RaceModel {
     return (await raceRef(raceId).get()).data() as Race;
   }
 
+  public static async incrementRegistrations(
+    raceId: string,
+    increment: 1 | -1
+  ) {
+    await raceRef(raceId).update({
+      registrationCount: admin.firestore.FieldValue.increment(increment)
+    });
+    console.info(
+      `RaceModel: incremented registration count of race (${raceId}) by ${increment}.`
+    );
+  }
+
   public static async addParticipantToParticipantList(
     raceId: string,
     participantId: string

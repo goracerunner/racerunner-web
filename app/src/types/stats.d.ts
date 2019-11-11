@@ -13,5 +13,5 @@ export interface Stat<T> {
   /**
    * The date the statistic was last modified.
    */
-  modified: firestore.Timestamp;
+  modified?: firestore.Timestamp;
 }

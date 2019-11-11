@@ -7,18 +7,18 @@
  * COLLECTION: users
  */
 interface User {
-	uid: string
-  name: string
-  photoURL: string
+  uid: string;
+  name: string;
+  photoURL: string;
 }
 
 /**
  * SUBCOLLECTION: users/{uid}/protected
  */
 interface UserDetails {
-  uid: string
-  email: string
-  registered: timestamp
+  uid: string;
+  email: string;
+  registered: timestamp;
 }
 
 /**
@@ -28,10 +28,10 @@ interface UserDetails {
  * These collections are populated automatically when the user is added to a race.
  */
 interface RaceInfo {
-  uid: string
-  name: string
-  description: string
-  eventDate: timestamp
+  uid: string;
+  name: string;
+  description: string;
+  eventDate: timestamp;
 }
 ```
 
@@ -42,15 +42,16 @@ interface RaceInfo {
  * COLLECTION: races
  */
 interface Race {
-	uid: string
-  name: string
-  description: string
-  archived: boolean
-  owner: User
-  participantIds: string[] 	// (auto)
-  managerIds: string[] 			// (auto)
-  eventDate: timestamp
-  status: "registration_open" | "registration_closed" | "in_progress" | "closed" | "results"
+	uid: string;
+  name: string;
+  description: string;
+  archived: boolean;
+  owner: User;
+  registrationCount: number;
+  participantIds: string[]; 	// (auto)
+  managerIds: string[]; 			// (auto)
+  eventDate: timestamp;
+  status: "registration_open" | "registration_closed" | "in_progress" | "closed" | "results";
 }
 
 /**
@@ -59,26 +60,26 @@ interface Race {
  * These collections should trigger auto updates to Race
  */
 interface RaceUser {
-	uid: string
-  name: string
-  photoURL: string
+	uid: string;
+  name: string;
+  photoURL: string;
 }
 
 /**
  * SUBCOLLECTION: races/{uid}/registrationFields
  */
 interface RegistrationField {
-  order: number
-	name: string
-  description: string
-  type: "text" | "longtext" | "number" | "list" | "listcustom" | "select" | "checkbox" | "markdown"
-  required?: boolean
-  placeholder?: string
-  values?: string[]
-  default?: string
-  prefilled?: string
+  order: number;
+	name: string;
+  description: string;
+  type: "text" | "longtext" | "number" | "list" | "listcustom" | "select" | "checkbox" | "markdown";
+  required?: boolean;
+  placeholder?: string;
+  values?: string[];
+  default?: string;
+  prefilled?: string;
   validation?: {
-    type: string
+    type: string;
     ... other paramters
   }
 }
@@ -87,7 +88,7 @@ interface RegistrationField {
  * SUBCOLLECTION: races/{uid}/registrations
  */
 interface Registration extends RaceUser {
-  [key: string]: string
+  [key: string]: string;
 }
 
 /**
@@ -109,11 +110,10 @@ interface Registration extends RaceUser {
  * COLLECTION: logs
  */
 interface Log {
-	date: timestamp
-	source: "function" | "app-participant" | "app-manager"
-	level: "debug" | "info" | "warn" | "error"
-	subject: string
-	messages: string[]
+  date: timestamp;
+  source: "function" | "app-participant" | "app-manager";
+  level: "debug" | "info" | "warn" | "error";
+  subject: string;
+  messages: string[];
 }
 ```
-

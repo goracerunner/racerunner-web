@@ -16,14 +16,10 @@ import useStyles from "./styles";
  * This component renders a card that shows a
  * link with a description and icon.
  */
-export const LinkCard: FC<LinkCardProps> = ({
-  name,
-  description,
-  link,
-  icon,
-  largeTitle
-}) => {
-  const classes = useStyles();
+export const LinkCard: FC<LinkCardProps> = props => {
+  const classes = useStyles(props);
+  const { name, description, link, icon, largeTitle } = props;
+
   return (
     <Grid item xs={12} sm={4} md={3}>
       <Card>

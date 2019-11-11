@@ -121,7 +121,11 @@ export const StatDisplay: FC<StatDisplayProps> = ({
     content = (
       <>
         <Tooltip
-          title={`Last updated ${moment(data!.modified.toDate()).fromNow()}`}
+          title={
+            data!.modified
+              ? `Last updated ${moment(data!.modified.toDate()).fromNow()}`
+              : `No update history available.`
+          }
         >
           <Typography
             variant="h4"

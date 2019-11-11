@@ -124,3 +124,25 @@ export const removeRaceManagerHandler = async (
 
   console.info(`Finished removing manager ${managerId} from race <${raceId}>.`);
 };
+
+/**
+ * Update registration count when a registration is added.
+ */
+export const addRaceRegistrationHandler = async (
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) => {
+  const { raceId } = context.params;
+  await RaceModel.incrementRegistrations(raceId, 1);
+};
+
+/**
+ * Update registration count when a registration is removed.
+ */
+export const removeRaceRegistrationHandler = async (
+  snapshot: FirebaseFirestore.DocumentSnapshot,
+  context: functions.EventContext
+) => {
+  const { raceId } = context.params;
+  await RaceModel.incrementRegistrations(raceId, -1);
+};
