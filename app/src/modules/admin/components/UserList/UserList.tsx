@@ -61,9 +61,10 @@ export const UserList: FC<UserListProps> = () => {
   const setRowsPerPageHandler = useCallback(
     (rows: number) => {
       setRowsPerPage(rows);
-      setSearch({ rows: rows.toString() });
+      setPage(0);
+      setSearch({ rows: rows.toString(), page: "1" });
     },
-    [setRowsPerPage, setSearch]
+    [setRowsPerPage, setSearch, setPage]
   );
 
   const setPageHandler = useCallback(
