@@ -1,7 +1,8 @@
 import React from "react";
 
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
+
+import ManagerPageContainer from "../../components/ManagerPageContainer";
 
 // import useStyles from "./styles";
 
@@ -10,10 +11,10 @@ import Container from "@material-ui/core/Container";
  */
 export const ManagerSettingsPage: React.FC = () => {
   return (
-    <Container maxWidth="md" style={{ marginTop: "2rem" }}>
+    <ManagerPageContainer title="Settings">
       <Typography variant="button" color="error">
         <b>This feature is currently unavailable.</b>
       </Typography>
-    </Container>
+    </ManagerPageContainer>
   );
 };

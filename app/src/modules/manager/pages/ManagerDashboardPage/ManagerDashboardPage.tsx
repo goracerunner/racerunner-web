@@ -10,6 +10,7 @@ import ManagerIcon from "@material-ui/icons/PermIdentity";
 import RaceIcon from "@material-ui/icons/Flag";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 import TeamsIcon from "@material-ui/icons/People";
+import UserIcon from "@material-ui/icons/AccountCircle";
 
 import RaceContext from "../../../core/contexts/RaceContext";
 import { DataProvider } from "../../../core/contexts/DataContext";
@@ -60,16 +61,16 @@ export const ManagerDashboardPage: React.FC = () => {
       <LinkList
         links={[
           {
-            id: "registrations",
-            name: "Registrations",
-            link: "/manage/registrations",
-            icon: <RegistrationIcon />
-          },
-          {
             id: "managers",
             name: "Managers",
             link: "/manage/managers",
             icon: <ManagerIcon />
+          },
+          {
+            id: "participants",
+            name: "Participants",
+            link: "/manage/participants",
+            icon: <UserIcon />
           },
           {
             id: "teams",
@@ -82,6 +83,12 @@ export const ManagerDashboardPage: React.FC = () => {
             name: "Nodes",
             link: "/manage/nodes",
             icon: <RaceIcon />
+          },
+          {
+            id: "registrations",
+            name: "Registrations",
+            link: "/manage/registrations",
+            icon: <RegistrationIcon />
           },
           {
             id: "settings",

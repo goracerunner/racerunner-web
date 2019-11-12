@@ -11,10 +11,11 @@ import Protected from "../core/components/Protected";
 import NotFoundPage from "../core/pages/NotFoundPage";
 
 import ManagerDashboardPage from "./pages/ManagerDashboardPage";
-import ManagerRegistrationsPage from "./pages/ManagerRegistrationsPage";
 import ManagerManagersPage from "./pages/ManagerManagersPage";
+import ManagerParticipantsPage from "./pages/ManagerParticipantsPage";
 import ManagerTeamsPage from "./pages/ManagerTeamsPage";
 import ManagerNodesPage from "./pages/ManagerNodesPage";
+import ManagerRegistrationsPage from "./pages/ManagerRegistrationsPage";
 import ManagerSettingsPage from "./pages/ManagerSettingsPage";
 
 /**
@@ -54,23 +55,26 @@ const ManagerMode: React.FC = () => {
   return (
     <Protected claims={["manager"]}>
       <Helmet>
-        <title>Manage race</title>
+        <title>Race management</title>
       </Helmet>
       <RaceRoutesProvider>
         <Route exact path="/manage">
           <ManagerDashboardPage />
         </Route>
-        <Route exact path="/manage/registrations">
-          <ManagerRegistrationsPage />
-        </Route>
         <Route exact path="/manage/managers">
           <ManagerManagersPage />
+        </Route>
+        <Route exact path="/manage/participants">
+          <ManagerParticipantsPage />
         </Route>
         <Route exact path="/manage/teams">
           <ManagerTeamsPage />
         </Route>
         <Route exact path="/manage/nodes">
           <ManagerNodesPage />
+        </Route>
+        <Route exact path="/manage/registrations">
+          <ManagerRegistrationsPage />
         </Route>
         <Route exact path="/manage/settings">
           <ManagerSettingsPage />

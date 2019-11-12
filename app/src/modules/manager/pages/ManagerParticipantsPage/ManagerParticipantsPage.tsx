@@ -9,9 +9,9 @@ import ManagerPageContainer from "../../components/ManagerPageContainer";
 /**
  * TODO: add description
  */
-export const ManagerNodesPage: React.FC = () => {
+export const ManagerParticipantsPage: React.FC = () => {
   return (
-    <ManagerPageContainer title="Nodes">
+    <ManagerPageContainer title="Participants">
       <Typography variant="button" color="error">
         <b>This feature is currently unavailable.</b>
       </Typography>
