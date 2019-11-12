@@ -86,14 +86,18 @@ export function EnhancedTableHead<T extends Row = Row>(
           const canSort = sortableFields.includes(column.id);
           return (
             <TableCell key={index} align={column.numeric ? "right" : "left"}>
-              <TableSortLabel
-                disabled={loading || !canSort}
-                active={canSort && orderBy === column.id}
-                direction={direction}
-                onClick={() => onSort(column.id)}
-              >
-                {column.label}
-              </TableSortLabel>
+              <Tooltip title={column.tooltip || ""} placement="top-start">
+                <div>
+                  <TableSortLabel
+                    disabled={loading || !canSort}
+                    active={canSort && orderBy === column.id}
+                    direction={direction}
+                    onClick={() => onSort(column.id)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
+                </div>
+              </Tooltip>
             </TableCell>
           );
         })}

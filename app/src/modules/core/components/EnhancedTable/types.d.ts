@@ -30,6 +30,12 @@ export interface ColumnDefinition<T extends Row = Row> {
   label: string;
 
   /**
+   * Tooltip to show for the column. This is shown when the user
+   * mouses over the column name.
+   */
+  tooltip?: string;
+
+  /**
    * If this is `true`, the column will be hidden.
    */
   hidden?: boolean;

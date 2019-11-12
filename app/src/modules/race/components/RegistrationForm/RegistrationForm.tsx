@@ -122,7 +122,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
       if (fields.length === 0) {
         // If there are no fields, just register the user with some default values.
         onRegister(user.uid, {
-          uid: user.uid,
+          id: user.uid,
           name: user.displayName,
           date: new Date()
         });
@@ -140,6 +140,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
           // If valid, send registration
           onRegister(user.uid, {
             ...formValues,
+            id: user.uid,
             date: new Date()
           });
         }

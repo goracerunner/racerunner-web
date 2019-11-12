@@ -124,7 +124,7 @@ export const StatDisplay: FC<StatDisplayProps> = ({
           title={
             data!.modified
               ? `Last updated ${moment(data!.modified.toDate()).fromNow()}`
-              : `No update history available.`
+              : ""
           }
         >
           <Typography
