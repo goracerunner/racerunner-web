@@ -36,8 +36,9 @@ import {
 import useStyles from "./styles";
 
 /**
- * This component retrieves user data from Firestore and displays it in
- * an Enhanced table which allows the user to sort through the list.
+ * This component retrieves user data from Firestore and displays
+ * it in an Enhanced table which allows the user to filter and
+ * sort through the list.
  */
 export const UserList: FC<UserListProps> = () => {
   const classes = useStyles();

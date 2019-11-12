@@ -18,3 +18,35 @@ export interface AppDrawerItemsProps {
    */
   onClose: () => any;
 }
+
+export interface AppDrawerItemProps {
+  /**
+   * Callback function to closer the drawer when the item is clicked.
+   */
+  onClose: () => void;
+
+  /**
+   * The icon to use for the item.
+   */
+  Icon;
+
+  /**
+   * The color of the icon.
+   */
+  iconColor?: "inherit" | "disabled";
+
+  /**
+   * The style to apply to the item text.
+   */
+  itemStyle?: string;
+
+  /**
+   * The link for the item.
+   */
+  to: string;
+
+  /**
+   * The name of the item.
+   */
+  name: string;
+}
