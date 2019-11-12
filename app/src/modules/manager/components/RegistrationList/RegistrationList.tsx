@@ -156,7 +156,7 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
                   variant="body2"
                   component="div"
                   style={{
-                    width: "5rem"
+                    minWidth: "5rem"
                   }}
                 >
                   {date.format("D MMM YYYY hh:mm a")}
