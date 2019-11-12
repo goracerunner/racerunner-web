@@ -1,12 +1,12 @@
 import React, { FC, useState, useCallback, useEffect } from "react";
 import { useSnackbar } from "notistack";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { firestore } from "firebase/app";
 import moment from "moment";
 
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
+import green from "@material-ui/core/colors/green";
 
 import MoreIcon from "@material-ui/icons/MoreVert";
 import TrueIcon from "@material-ui/icons/CheckCircle";
@@ -47,26 +47,21 @@ const SHOWN_FIELD_TYPES = [
  */
 export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
   const classes = useStyles();
+  const store = useFirestore();
   const { enqueueSnackbar } = useSnackbar();
 
   // Table state
   const setSearch = useSetSearch();
-
   const rowsPerPageOptions = [5, 10, 25, 50];
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   const [columns, setColumns] = useState<
     Array<ColumnDefinition<RegistrationLocal>>
   >([{ id: "id", label: "" }]);
   const [selectedColumns, setSelectedColumns] = useState<{
     [key: string]: boolean;
-  }>({});
-  const [rows, setRows] = useState<Array<RegistrationLocal>>([]);
-  const [filteredRows, setFilteredRows] = useState<Array<RegistrationLocal>>(
-    []
-  );
+  }>({ id: true });
 
   const setRowsPerPageHandler = useCallback(
     (rows: number) => {
@@ -87,14 +82,16 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
 
   // Get user data
 
-  const store = useFirestore();
+  const [rows, setRows] = useState<Array<RegistrationLocal>>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function getData() {
       let ref = store
         .collection("races")
         .doc(raceId)
         .collection("registrations")
-        .orderBy("date", "asc");
+        .orderBy("date", "desc");
       try {
         const registrations = (await ref.get()).docs.map(
           doc => doc.data() as RegistrationLocal
@@ -113,33 +110,40 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
 
   // Get registration fields data
 
-  const [fields, fieldsLoading, fieldsError] = useCollectionData<
-    RaceRegistrationField
-  >(
-    store
-      .collection("races")
-      .doc(raceId)
-      .collection("registrationFields")
-      .orderBy("order")
-  );
+  const [fields, setFields] = useState<Array<RaceRegistrationField>>([]);
+  const [fieldsLoading, setFieldsLoading] = useState(true);
 
   useEffect(() => {
-    if (fieldsError) {
-      enqueueSnackbar("Failed to retrieve registration fields.", {
-        variant: "error"
-      });
-      Logger.error(
-        "RegistrationList",
-        "Failed to retrieve registration fields",
-        fieldsError
-      );
+    async function getData() {
+      let ref = store
+        .collection("races")
+        .doc(raceId)
+        .collection("registrationFields")
+        .orderBy("order");
+      try {
+        const fields = (await ref.get()).docs.map(
+          doc => doc.data() as RaceRegistrationField
+        );
+        setFields(fields);
+        setFieldsLoading(false);
+      } catch (error) {
+        enqueueSnackbar("Failed to retrieve registration fields.", {
+          variant: "error"
+        });
+        Logger.error(
+          "RegistrationList",
+          "Failed to retrieve registration fields",
+          error
+        );
+      }
     }
-  }, [fieldsError, enqueueSnackbar]);
+    getData();
+  }, [store, enqueueSnackbar, raceId]);
 
   useEffect(() => {
     // Set the default columns once we get the fields.
     if (fields && fields.length && columns.length <= 1) {
-      const columns: Array<ColumnDefinition<RegistrationLocal>> = [
+      const newColumns: Array<ColumnDefinition<RegistrationLocal>> = [
         {
           id: "date",
           label: "Date",
@@ -151,7 +155,9 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
                 <Typography
                   variant="body2"
                   component="div"
-                  className={classes.date}
+                  style={{
+                    width: "5rem"
+                  }}
                 >
                   {date.format("D MMM YYYY hh:mm a")}
                 </Typography>
@@ -172,7 +178,7 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
               const value = data[field.name];
               if (field.type === "checkbox" && typeof value === "boolean") {
                 if (value === true) {
-                  return <TrueIcon className={classes.trueIcon} />;
+                  return <TrueIcon style={{ color: green[700] }} />;
                 } else if (value === false) {
                   return <FalseIcon color="error" />;
                 }
@@ -189,9 +195,9 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
           };
           return column;
         })
-        .forEach(column => columns.push(column));
+        .forEach(column => newColumns.push(column));
       // Add options menu column
-      columns.push({
+      newColumns.push({
         id: "id",
         label: "",
         disablePadding: true,
@@ -205,19 +211,12 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
           </IconButton>
         )
       });
-      setColumns(columns);
+      setColumns(newColumns);
       setSelectedColumns(
-        columns.reduce((map, col) => ({ ...map, [col.id]: true }), {})
+        newColumns.reduce((map, col) => ({ ...map, [col.id]: true }), {})
       );
     }
-  }, [
-    fields,
-    setColumns,
-    columns,
-    selectedColumns,
-    classes.date,
-    classes.trueIcon
-  ]);
+  }, [fields, columns.length, setColumns, selectedColumns]);
 
   // Registration menu
 
@@ -252,19 +251,22 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
 
   const [filterField, setFilterField] = useState<Nullable<string>>(null);
   const [filterValue, setFilterValue] = useState<string>("");
+  const [filteredRows, setFilteredRows] = useState<Array<RegistrationLocal>>(
+    []
+  );
 
   useEffect(() => {
     if (filterField && filterValue && fields) {
       const selectedField = fields.find(f => f.name === filterField);
       if (selectedField) {
         setFilteredRows(
-          rows.filter(
-            row =>
-              row[filterField] &&
-              (row[filterField].toString() as string)
-                .toLowerCase()
-                .indexOf(filterValue) >= 0
-          )
+          [...rows].filter(row => {
+            const value = row[filterField];
+            return (
+              (value.toString() as string).toLowerCase().indexOf(filterValue) >=
+              0
+            );
+          })
         );
       }
     } else {
