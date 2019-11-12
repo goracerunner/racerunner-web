@@ -1,18 +1,11 @@
 import React, { FC, useState, useEffect, useCallback } from "react";
 import { useSnackbar } from "notistack";
-import clsx from "clsx";
 
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import TextField from "@material-ui/core/TextField";
 
 import MoreIcon from "@material-ui/icons/MoreVert";
-import CancelIcon from "@material-ui/icons/Close";
 
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
 import { useFirestore } from "../../../core/hooks/useFirebase";
@@ -26,6 +19,9 @@ import EditUserRolesDialog from "../EditUserRolesDialog";
 
 import { Maybe, Nullable } from "../../../../types/global";
 import { Logger } from "../../../../utils";
+
+import { OptionsMenu } from "./parts/OptionsMenu";
+import { FilterMenu } from "./parts/FilterMenu";
 
 import {
   UserListProps,
@@ -148,7 +144,7 @@ export const UserList: FC<UserListProps> = () => {
 
   const [userSearch, setUserSearch] = useState("");
   const [filter, setFilter] = useState<UserFilters>("all");
-  const setFilterHandler = (filter: UserFilters) => () => {
+  const setFilterHandler = (filter: UserFilters) => {
     setFilter(filter);
     closeFilterMenu();
   };
@@ -196,16 +192,18 @@ export const UserList: FC<UserListProps> = () => {
   const [selectedUser, setSelectedUser] = useState<Nullable<UserProfileLocal>>(
     null
   );
-  const [menuAnchor, setMenuAnchor] = useState<Nullable<HTMLElement>>(null);
-  const openMenu = (
+  const [optionsMenuAnchor, setOptionsMenuAnchor] = useState<
+    Nullable<HTMLElement>
+  >(null);
+  const openOptionsMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
     user: UserProfileLocal
   ) => {
-    setMenuAnchor(event.currentTarget);
+    setOptionsMenuAnchor(event.currentTarget);
     setSelectedUser(user);
   };
-  const closeMenu = () => {
-    setMenuAnchor(null);
+  const closeOptionsMenu = () => {
+    setOptionsMenuAnchor(null);
   };
 
   // User menu dialogs
@@ -272,7 +270,7 @@ export const UserList: FC<UserListProps> = () => {
             transform: (data: UserProfileLocal) => (
               <IconButton
                 onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                  openMenu(event, data);
+                  openOptionsMenu(event, data);
                 }}
               >
                 <MoreIcon />
@@ -281,113 +279,34 @@ export const UserList: FC<UserListProps> = () => {
           }
         ]}
       />
-      <Menu
-        keepMounted
-        anchorEl={menuAnchor}
-        open={Boolean(menuAnchor)}
-        onClose={closeMenu}
-      >
-        {selectedUser && (
-          <div>
-            <MenuItem
-              onClick={() => {
-                closeMenu();
-                openProfile();
-              }}
-            >
-              View profile
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                closeMenu();
-                openRoles();
-              }}
-            >
-              Edit roles
-            </MenuItem>
-            <Divider />
-            <MenuItem
-              onClick={() => {
-                closeMenu();
-                openDelete();
-              }}
-            >
-              Delete user
-            </MenuItem>
-          </div>
-        )}
-      </Menu>
-      <Menu
-        keepMounted
-        anchorEl={filterMenuAnchor}
-        open={Boolean(filterMenuAnchor)}
-        onClose={closeFilterMenu}
-        transformOrigin={{
-          horizontal: "right",
-          vertical: "top"
-        }}
-      >
-        <ListItem>
-          <TextField
-            onChange={e => setUserSearch(e.target.value)}
-            label="Search users"
-            placeholder="Type a name..."
-            value={userSearch}
-          />
-          {userSearch && (
-            <IconButton
-              size="small"
-              className={classes.cancel}
-              onClick={() => setUserSearch("")}
-            >
-              <CancelIcon />
-            </IconButton>
-          )}
-        </ListItem>
-        <Divider />
-        <div>
-          <MenuItem onClick={setFilterHandler("all")}>
-            <Typography
-              className={clsx({
-                [classes.selected]: filter === "all"
-              })}
-            >
-              Show all users
-            </Typography>
-          </MenuItem>
-          <MenuItem onClick={setFilterHandler("admin")}>
-            <Typography
-              className={clsx({
-                [classes.selected]: filter === "admin"
-              })}
-            >
-              Show admins only
-            </Typography>
-          </MenuItem>
-          <MenuItem onClick={setFilterHandler("manager")}>
-            <Typography
-              className={clsx({
-                [classes.selected]: filter === "manager"
-              })}
-            >
-              Show managers only
-            </Typography>
-          </MenuItem>
-        </div>
-      </Menu>
+      <OptionsMenu
+        menuAnchor={optionsMenuAnchor}
+        closeMenu={closeOptionsMenu}
+        openProfile={openProfile}
+        openRoles={openRoles}
+        openDelete={openDelete}
+      />
+      <FilterMenu
+        menuAnchor={filterMenuAnchor}
+        closeMenu={closeFilterMenu}
+        filter={filter}
+        userSearch={userSearch}
+        setFilter={setFilterHandler}
+        setUserSearch={setUserSearch}
+      />
       {selectedUser && (
-        <>
-          <ViewUserProfileDialog
-            open={showProfile}
-            onClose={closeProfile}
-            user={selectedUser}
-          />
-          <EditUserRolesDialog
-            open={showRoles}
-            onClose={closeRoles}
-            user={selectedUser}
-          />
-        </>
+        <ViewUserProfileDialog
+          open={showProfile}
+          onClose={closeProfile}
+          user={selectedUser}
+        />
+      )}
+      {selectedUser && (
+        <EditUserRolesDialog
+          open={showRoles}
+          onClose={closeRoles}
+          user={selectedUser}
+        />
       )}
     </div>
   );

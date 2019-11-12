@@ -18,7 +18,12 @@ export default makeStyles<Theme>(
       position: "absolute",
       right: "1rem",
       top: "1.4rem"
-    },
+    }
+  })
+);
+
+export const useFilterStyles = makeStyles<Theme>(
+  createStyles({
     selected: {
       fontWeight: "bold"
     }

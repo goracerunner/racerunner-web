@@ -224,16 +224,18 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
   const [selectedRego, setSelectedRego] = useState<Nullable<RegistrationLocal>>(
     null
   );
-  const [menuAnchor, setMenuAnchor] = useState<Nullable<HTMLElement>>(null);
+  const [optionsMenuAnchor, setOptionsMenuAnchor] = useState<
+    Nullable<HTMLElement>
+  >(null);
   const openMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
     rego: RegistrationLocal
   ) => {
-    setMenuAnchor(event.currentTarget);
+    setOptionsMenuAnchor(event.currentTarget);
     setSelectedRego(rego);
   };
-  const closeMenu = () => {
-    setMenuAnchor(null);
+  const closeOptionsMenu = () => {
+    setOptionsMenuAnchor(null);
   };
 
   // Filter menu
@@ -293,8 +295,8 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
         onOpenFilters={openFilterMenu}
       />
       <FilterMenu
-        filterMenuAnchor={filterMenuAnchor}
-        closeFilterMenu={closeFilterMenu}
+        menuAnchor={filterMenuAnchor}
+        closeMenu={closeFilterMenu}
         columns={columns}
         selectedColumns={selectedColumns}
         setSelectedColumns={setSelectedColumns}
@@ -305,8 +307,8 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
       />
       {selectedRego && (
         <OptionsMenu
-          closeMenu={closeMenu}
-          menuAnchor={menuAnchor}
+          closeMenu={closeOptionsMenu}
+          menuAnchor={optionsMenuAnchor}
           setShowRawData={setShowRawData}
         />
       )}

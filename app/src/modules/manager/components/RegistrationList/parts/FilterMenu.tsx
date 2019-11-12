@@ -26,8 +26,8 @@ const UNFILTERABLE = ["id", "date"];
  * This component renders the filtering options for a registration table.
  */
 export const FilterMenu: FC<RegistrationFilterMenuProps> = ({
-  filterMenuAnchor,
-  closeFilterMenu,
+  menuAnchor,
+  closeMenu,
   columns,
   selectedColumns,
   setSelectedColumns,
@@ -45,9 +45,9 @@ export const FilterMenu: FC<RegistrationFilterMenuProps> = ({
   return (
     <Menu
       keepMounted
-      anchorEl={filterMenuAnchor}
-      open={Boolean(filterMenuAnchor)}
-      onClose={closeFilterMenu}
+      anchorEl={menuAnchor}
+      open={Boolean(menuAnchor)}
+      onClose={closeMenu}
       transformOrigin={{
         horizontal: "right",
         vertical: "top"

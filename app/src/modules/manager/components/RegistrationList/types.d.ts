@@ -27,12 +27,12 @@ export interface RegistrationFilterMenuProps {
   /**
    * The anchor for the menu.
    */
-  filterMenuAnchor: Nullable<HTMLElement>;
+  menuAnchor: Nullable<HTMLElement>;
 
   /**
    * Callback to close the filter menu.
    */
-  closeFilterMenu: () => void;
+  closeMenu: () => void;
 
   /**
    * A list of column names to show in the filter menu.
