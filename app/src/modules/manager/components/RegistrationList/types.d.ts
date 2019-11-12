@@ -11,7 +11,7 @@ export interface RegistrationLocal extends Row {
 
 export interface RegistrationListProps {
   /**
-   * The to show registrations for.
+   * The race to show registrations for.
    */
   raceId: string;
 

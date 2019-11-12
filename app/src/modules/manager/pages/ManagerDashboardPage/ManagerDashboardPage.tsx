@@ -49,7 +49,11 @@ export const ManagerDashboardPage: React.FC = () => {
           <b>{race.name}</b>
           <RaceStatus status={race.status} className={classes.status} />
         </Typography>
-        <Typography variant="subtitle2" color="textSecondary">
+        <Typography
+          className={classes.subtitle}
+          variant="subtitle2"
+          color="textSecondary"
+        >
           {race.description}
         </Typography>
       </div>

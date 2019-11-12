@@ -1,6 +1,7 @@
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
 
 import constants from "../../../../styles/constants";
+import { generateFonts, BODY_FONT } from "../../../../utils/fonts";
 
 import { LoaderProps } from "./types";
 
@@ -31,8 +32,8 @@ export default makeStyles<Theme, LoaderProps>(
     spinner: {
       color: constants.color.secondary
     },
-    styledTitle: {
-      fontFamily: "Bangers"
+    unstyledTitle: {
+      fontFamily: generateFonts(BODY_FONT)
     }
   })
 );

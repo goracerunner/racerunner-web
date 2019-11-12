@@ -6,6 +6,9 @@ export default makeStyles<Theme>(
       marginTop: "3rem",
       marginBottom: "2rem"
     },
+    subtitle: {
+      marginTop: "0.5rem"
+    },
     smallTitle: {
       marginBottom: "1rem"
     },

@@ -26,7 +26,8 @@ export const Loader: React.FC<LoaderProps> = props => {
     hideBackground,
     hideSpinner,
     unstyledTitle,
-    animated
+    animated,
+    inverted
   } = props;
 
   const zoom = useTransition(
@@ -43,7 +44,11 @@ export const Loader: React.FC<LoaderProps> = props => {
             className={clsx(classes.spinner, classes.loaderItem)}
             variant={hideSpinner ? "static" : "indeterminate"}
           />
-          <Logo inverted className={classes.loaderItem} baseSize={60} />
+          <Logo
+            inverted={!inverted}
+            className={classes.loaderItem}
+            baseSize={60}
+          />
         </div>
       </Fade>
       <Zoom {...zoom}>
@@ -51,7 +56,7 @@ export const Loader: React.FC<LoaderProps> = props => {
           <Typography
             variant="h3"
             className={clsx(classes.text, {
-              [classes.styledTitle]: !unstyledTitle
+              [classes.unstyledTitle]: unstyledTitle
             })}
           >
             {title}

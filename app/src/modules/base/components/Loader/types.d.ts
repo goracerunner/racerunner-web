@@ -31,4 +31,9 @@ export interface LoaderProps {
    * If `true`, the loader will have an animated transition.
    */
   animated?: boolean;
+
+  /**
+   * If `true`, an inverted logo will be shown (black).
+   */
+  inverted?: boolean;
 }
