@@ -160,7 +160,7 @@ export const RegistrationForm: FC<RegistrationFormProps> = ({
         <Paper className={classes.form}>
           <div className={clsx({ [classes.fields]: Boolean(fields.length) })}>
             {fields
-              .filter(field => !field.hidden)
+              .filter(field => !field.managersOnly)
               .map(field => (
                 <div key={field.name}>
                   <RegistrationField

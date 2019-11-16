@@ -156,7 +156,6 @@ service cloud.firestore {
 
       match /registrations/{registrationId} {
         // Allow participants to create a registration once
-        // TODO: add data shape checking
         allow create: if loggedIn() && isRaceParticipant(raceId)
 
         // Allow user to view their own registration

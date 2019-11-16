@@ -22,7 +22,9 @@ export const ViewRawRegistrationDialog: FC<ViewRawRegistrationDialogProps> = ({
   // const classes = useStyles();
   return (
     <Dialog open={open} maxWidth="sm" fullWidth onClose={onClose}>
-      <DialogTitle>Registration for {registration.name}</DialogTitle>
+      <DialogTitle>
+        Registration for <b>{registration.name}</b>
+      </DialogTitle>
       <DialogContent>
         <JsonView
           style={{ fontSize: "1.2rem" }}

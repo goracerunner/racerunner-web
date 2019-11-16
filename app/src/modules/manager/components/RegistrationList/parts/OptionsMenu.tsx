@@ -11,7 +11,8 @@ import { RegistrationOptionsMenuProps } from "../types";
 export const OptionsMenu: FC<RegistrationOptionsMenuProps> = ({
   menuAnchor,
   closeMenu,
-  setShowRawData
+  showRawData,
+  showEditData
 }) => {
   return (
     <Menu
@@ -22,11 +23,19 @@ export const OptionsMenu: FC<RegistrationOptionsMenuProps> = ({
     >
       <MenuItem
         onClick={() => {
-          setShowRawData(true);
+          showRawData();
           closeMenu();
         }}
       >
         View raw data
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          showEditData();
+          closeMenu();
+        }}
+      >
+        Edit managed fields
       </MenuItem>
     </Menu>
   );

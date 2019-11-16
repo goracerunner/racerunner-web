@@ -85,5 +85,10 @@ export interface RegistrationOptionsMenuProps {
   /**
    * Callback to show the selected registration data.
    */
-  setShowRawData: (shown: boolean) => void;
+  showRawData: () => void;
+
+  /**
+   * Callback to show the dialog to edit the registration data.
+   */
+  showEditData: () => void;
 }

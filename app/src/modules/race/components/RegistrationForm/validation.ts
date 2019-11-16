@@ -91,12 +91,12 @@ export const validateFields = (
       }
 
       case "markdown":
+      case "checkbox":
       case "list": {
         // No validation required.
         break;
       }
 
-      case "checkbox":
       case "select": {
         Logger.error(
           "RegistrationForm(validateField)",

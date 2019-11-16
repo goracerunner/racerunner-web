@@ -17,7 +17,6 @@ import { useFirestore } from "../../../core/hooks/useFirebase";
 
 import EnhancedTable from "../../../core/components/EnhancedTable";
 import { ColumnDefinition } from "../../../core/components/EnhancedTable/types";
-import ViewRawRegistrationDialog from "../ViewRawRegistrationDialog";
 
 import { Logger, text } from "../../../../utils";
 
@@ -26,6 +25,9 @@ import { OptionsMenu } from "./parts/OptionsMenu";
 
 import { Nullable } from "../../../../types/global";
 import { RaceRegistrationField } from "../../../../types/race";
+
+import ViewRawRegistrationDialog from "../ViewRawRegistrationDialog";
+import EditRegistrationManagedFieldsDialog from "../EditRegistrationManagedFieldsDialog";
 
 import { RegistrationListProps, RegistrationLocal } from "./types";
 import useStyles from "./styles";
@@ -93,11 +95,13 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
         .collection("registrations")
         .orderBy("date", "desc");
       try {
-        const registrations = (await ref.get()).docs.map(
-          doc => doc.data() as RegistrationLocal
-        );
-        setRows(registrations);
-        setLoading(false);
+        ref.onSnapshot(snapshot => {
+          const registrations = snapshot.docs.map(
+            doc => doc.data() as RegistrationLocal
+          );
+          setRows(registrations);
+          setLoading(false);
+        });
       } catch (error) {
         enqueueSnackbar("Failed to retrieve registrations", {
           variant: "error"
@@ -277,6 +281,7 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
   // Options menu
 
   const [showRawData, setShowRawData] = useState(false);
+  const [showEditData, setShowEditData] = useState(false);
 
   return (
     <div className={classes.root}>
@@ -311,13 +316,23 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
         <OptionsMenu
           closeMenu={closeOptionsMenu}
           menuAnchor={optionsMenuAnchor}
-          setShowRawData={setShowRawData}
+          showRawData={() => setShowRawData(true)}
+          showEditData={() => setShowEditData(true)}
         />
       )}
       {selectedRego && (
         <ViewRawRegistrationDialog
           open={showRawData}
           onClose={() => setShowRawData(false)}
+          registration={selectedRego}
+        />
+      )}
+      {selectedRego && (
+        <EditRegistrationManagedFieldsDialog
+          open={showEditData}
+          onClose={() => setShowEditData(false)}
+          raceId={raceId}
+          managedFields={fields.filter(field => field.managersOnly)}
           registration={selectedRego}
         />
       )}

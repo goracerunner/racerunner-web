@@ -176,9 +176,10 @@ export interface RaceRegistrationField {
    */
   validation?: RaceRegistrationFieldValidation;
   /**
-   * If this is `true`, this field will not be shown on the registration form.
+   * If this is `true`, this field will not be shown on the registration
+   * form and can be managed by race managers.
    */
-  hidden?: boolean;
+  managersOnly?: boolean;
 }
 
 export interface RaceRegistrationFieldValidation {

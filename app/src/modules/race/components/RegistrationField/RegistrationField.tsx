@@ -39,7 +39,8 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
     description,
     default: defaultvalue,
     placeholder,
-    values
+    values,
+    required
   } = field;
 
   switch (type) {
@@ -60,7 +61,7 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
           multiline={type === "longtext"}
           type={type === "number" ? "number" : "text"}
           className={classes.field}
-          label={label}
+          label={`${label}${required ? " *" : ""}`}
           helperText={error || description}
           error={Boolean(error)}
           disabled={disabled}
@@ -82,7 +83,9 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
             disabled={disabled}
             error={Boolean(error)}
           >
-            <FormLabel component="legend">{label}</FormLabel>
+            <FormLabel component="legend">{`${label}${
+              required ? " *" : ""
+            }`}</FormLabel>
             <FormHelperText>{error || description}</FormHelperText>
             <RadioGroup
               value={value || ""}
@@ -132,7 +135,7 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
                     onChange={e => setValue(e.target.checked)}
                   />
                 }
-                label={label}
+                label={`${label}${required ? " *" : ""}`}
               />
             </FormGroup>
             <FormHelperText className={classes.checkboxDescription}>
