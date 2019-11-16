@@ -162,8 +162,8 @@ service cloud.firestore {
         // Allow user to view their own registration
         allow get: if loggedIn() && isRaceParticipant(raceId) && requestFrom(registrationId)
 
-        // Allow all managers to view and update registrations
-        allow read, update: if loggedIn() && isRaceManager(raceId)
+        // Allow all managers to view, update and delete registrations
+        allow read, update, delete: if loggedIn() && isRaceManager(raceId)
       }
 
       match /managers/{managerId} {

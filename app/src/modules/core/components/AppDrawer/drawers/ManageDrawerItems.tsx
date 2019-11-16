@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import RegistrationIcon from "@material-ui/icons/AssignmentInd";
 import ManagerIcon from "@material-ui/icons/PermIdentity";
+import ParticipantsIcon from "@material-ui/icons/AccountCircle";
 import NodesIcon from "@material-ui/icons/Flag";
 import TeamsIcon from "@material-ui/icons/People";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
@@ -41,20 +42,20 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         Icon={DashboardIcon}
       />
       <AppDrawerItem
-        to="/manage/registrations"
-        onClose={onClose}
-        iconColor={iconColor("registrations")}
-        itemStyle={itemStyle("registrations")}
-        name="Registrations"
-        Icon={RegistrationIcon}
-      />
-      <AppDrawerItem
         to="/manage/managers"
         onClose={onClose}
         iconColor={iconColor("managers")}
         itemStyle={itemStyle("managers")}
         name="Managers"
         Icon={ManagerIcon}
+      />
+      <AppDrawerItem
+        to="/manage/participants"
+        onClose={onClose}
+        iconColor={iconColor("participants")}
+        itemStyle={itemStyle("participants")}
+        name="Participants"
+        Icon={ParticipantsIcon}
       />
       <AppDrawerItem
         to="/manage/teams"
@@ -71,6 +72,14 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         itemStyle={itemStyle("nodes")}
         name="Nodes"
         Icon={NodesIcon}
+      />
+      <AppDrawerItem
+        to="/manage/registrations"
+        onClose={onClose}
+        iconColor={iconColor("registrations")}
+        itemStyle={itemStyle("registrations")}
+        name="Registrations"
+        Icon={RegistrationIcon}
       />
       <AppDrawerItem
         to="/manage/settings"

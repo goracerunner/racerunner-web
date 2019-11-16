@@ -113,7 +113,7 @@ export const ManagerDashboardPage: React.FC = () => {
         >
           <DataProvider<Stat<number>>
             data={{
-              value: race.registrationCount
+              value: race.registrationIds.length
             }}
           >
             <StatDisplay

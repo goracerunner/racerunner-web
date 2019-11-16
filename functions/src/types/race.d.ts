@@ -41,14 +41,17 @@ export interface RaceBase<T = Timestamp> {
   owner: UserProfile;
 
   /**
-   * The list of participant ids for the race. This is the
-   * source of truth for the participants in the race.
+   * The list of participant ids for the race.
    */
   participantIds: string[];
 
   /**
-   * The list of managers in the race. This is the source of
-   * truth for the managers in the race.
+   * The list of registration ids fir the race.
+   */
+  registrationIds: string[];
+
+  /**
+   * The list of managers in the race.
    */
   managerIds: string[];
 
@@ -78,7 +81,7 @@ export interface RaceInput extends RaceBase<Date> {}
 /**
  * A race's short-hand info.
  */
-interface RaceInfoBase<T extends Timestamp> {
+export interface RaceInfoBase<T extends Timestamp> {
   /**
    * The race's unique identifier.
    */
@@ -112,4 +115,77 @@ export interface RaceInfo extends RaceInfoBase<firestore.Timestamp> {}
  * Document path: `users/{uid}/races`.
  * Document path: `users/{uid}/managedRaces`.
  */
-export interface RaceInfoInput extends RaceInfoBase<Date> {}
+interface RaceInfoInput extends RaceInfoBase<Date> {}
+
+/**
+ * A race registration field. These objects are used to populate
+ * the registration form for a race.
+ * Document path: `races/{uid}/registrationFields`
+ */
+export interface RaceRegistrationField {
+  /**
+   * The order of the field.
+   */
+  order: number;
+  /**
+   * The name of the field.
+   */
+  name: string;
+  /**
+   * The human friendly name for the field.
+   */
+  label: string;
+  /**
+   * The description for the field.
+   */
+  description: string;
+  /**
+   * The type of field.
+   */
+  type:
+    | "text"
+    | "longtext"
+    | "number"
+    | "list"
+    | "listcustom"
+    | "select"
+    | "checkbox"
+    | "markdown";
+  /**
+   * Whether this field is required.
+   */
+  required?: boolean;
+  /**
+   * The placeholder to use for this field.
+   */
+  placeholder?: string;
+  /**
+   * The list of values for this field if this is a `list` or `listcustom` field.
+   */
+  values?: string[];
+  /**
+   * The default value for this field.
+   */
+  default?: string;
+  /**
+   * A macro that will help pre-fill this field from a user's profile.
+   */
+  prefilled?: string;
+  /**
+   * Any validation that needs to be applied to this field.
+   */
+  validation?: RaceRegistrationFieldValidation;
+  /**
+   * If this is `true`, this field will not be shown on the registration form.
+   */
+  hidden?: boolean;
+}
+
+export interface RaceRegistrationFieldValidation {
+  /**
+   * The type of validation to use.
+   */
+  type: "value" | "email" | "mobile";
+  min?: number;
+  max?: number;
+}

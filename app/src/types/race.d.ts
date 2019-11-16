@@ -46,6 +46,11 @@ export interface RaceBase<T = Timestamp> {
   participantIds: string[];
 
   /**
+   * The list of registration ids fir the race.
+   */
+  registrationIds: string[];
+
+  /**
    * The list of managers in the race.
    */
   managerIds: string[];
@@ -59,11 +64,6 @@ export interface RaceBase<T = Timestamp> {
    * The status of the race.
    */
   status: RaceStatus;
-
-  /**
-   * The number of registrations.
-   */
-  registrationCount: number;
 }
 
 /**

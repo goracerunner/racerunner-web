@@ -132,8 +132,8 @@ export const addRaceRegistrationHandler = async (
   snapshot: FirebaseFirestore.DocumentSnapshot,
   context: functions.EventContext
 ) => {
-  const { raceId } = context.params;
-  await RaceModel.incrementRegistrations(raceId, 1);
+  const { raceId, registrationId } = context.params;
+  await RaceModel.addRegistrationToRegistrationList(raceId, registrationId);
 };
 
 /**
@@ -143,6 +143,9 @@ export const removeRaceRegistrationHandler = async (
   snapshot: FirebaseFirestore.DocumentSnapshot,
   context: functions.EventContext
 ) => {
-  const { raceId } = context.params;
-  await RaceModel.incrementRegistrations(raceId, -1);
+  const { raceId, registrationId } = context.params;
+  await RaceModel.removeRegistrationFromRegistrationList(
+    raceId,
+    registrationId
+  );
 };

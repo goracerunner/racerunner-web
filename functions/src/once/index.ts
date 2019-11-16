@@ -2,6 +2,7 @@ import * as functions from "firebase-functions";
 
 import { addUserRolesHandler } from "./addUserRoles";
 import { addRegistrationIdsHandler } from "./addRegistrationIds";
+import { addRegistrationIdListHandler } from "./addRegistrationIdList";
 
 const REGION = "asia-northeast1";
 
@@ -17,3 +18,7 @@ export const addUserRoles = functions
 export const addRegistrationIds = functions
   .region(REGION)
   .https.onRequest(addRegistrationIdsHandler);
+
+export const addRegistationIdList = functions
+  .region(REGION)
+  .https.onRequest(addRegistrationIdListHandler);

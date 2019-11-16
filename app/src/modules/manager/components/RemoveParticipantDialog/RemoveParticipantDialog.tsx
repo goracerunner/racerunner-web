@@ -10,18 +10,20 @@ import Button from "@material-ui/core/Button";
 
 import { useFirestore } from "../../../core/hooks/useFirebase";
 
-import { RemoveManagerDialogProps } from "./types";
 import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
+
+import { RemoveParticipantDialogProps } from "./types";
 // import useStyles from "./styles";
 
 /**
- * This dialog confirms if a manager should be removed from a race.
+ * This dialog confirms if a participant should be removed from a race.
  */
-export const RemoveManagerDialog: FC<RemoveManagerDialogProps> = ({
+export const RemoveParticipantDialog: FC<RemoveParticipantDialogProps> = ({
   open,
   onClose,
   race,
-  manager
+  participant,
+  registered
 }) => {
   const store = useFirestore();
   const { enqueueSnackbar } = useSnackbar();
@@ -33,26 +35,21 @@ export const RemoveManagerDialog: FC<RemoveManagerDialogProps> = ({
     // Don't take this action if the user is not available
     if (!user) return;
 
-    if (user.uid === manager.uid) {
-      // Don't allow a user to remove themselves
-      enqueueSnackbar("You cannot remove yourself as a manager.", {
-        variant: "error"
-      });
-    } else {
-      // FIXME: Move these Firestore calls to a RaceModel class.
-      const raceRef = store.collection("races").doc(race.uid);
+    // FIXME: Move these Firestore calls to a RaceModel class.
+    const raceRef = store.collection("races").doc(race.uid);
+    await raceRef
+      .collection("participants")
+      .doc(participant.uid)
+      .delete();
+    if (registered) {
       await raceRef
-        .collection("managers")
-        .doc(manager.uid)
+        .collection("registrations")
+        .doc(participant.uid)
         .delete();
-      await raceRef
-        .collection("participants")
-        .doc(manager.uid)
-        .set(manager);
-      enqueueSnackbar(`Removed ${manager.name} from manager list.`, {
-        variant: "success"
-      });
     }
+    enqueueSnackbar(`Removed ${participant.name} from the race.`, {
+      variant: "success"
+    });
   };
 
   return (
@@ -62,15 +59,15 @@ export const RemoveManagerDialog: FC<RemoveManagerDialogProps> = ({
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to remove <b>{manager.name}</b>'s manager role?
-          They will become a participant in the race and will no longer be able
-          to view the race management dashboard.
+          Are you sure you want to remove <b>{participant.name}</b> from this
+          race?
+          {registered && " Their registration will be removed."}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
         <Button onClick={onRemoveHandler} color="primary" variant="contained">
-          Remove manager
+          Remove participant
         </Button>
       </DialogActions>
     </Dialog>

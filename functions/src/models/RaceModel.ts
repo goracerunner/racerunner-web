@@ -17,15 +17,27 @@ export class RaceModel {
     return (await raceRef(raceId).get()).data() as Race;
   }
 
-  public static async incrementRegistrations(
+  public static async addRegistrationToRegistrationList(
     raceId: string,
-    increment: 1 | -1
+    registrationId: string
   ) {
     await raceRef(raceId).update({
-      registrationCount: admin.firestore.FieldValue.increment(increment)
+      registrationIds: admin.firestore.FieldValue.arrayUnion(registrationId)
     });
     Logger.debug(
-      `Incremented registration count by ${increment} for <race|${raceId}>.`
+      `Added <registration|${registrationId}> to <race|${raceId}> registration list.`
+    );
+  }
+
+  public static async removeRegistrationFromRegistrationList(
+    raceId: string,
+    registrationId: string
+  ) {
+    await raceRef(raceId).update({
+      registrationIds: admin.firestore.FieldValue.arrayRemove(registrationId)
+    });
+    Logger.debug(
+      `Removed <registration|${registrationId}> from <race|${raceId}> registration list.`
     );
   }
 

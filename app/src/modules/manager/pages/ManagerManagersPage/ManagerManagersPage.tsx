@@ -22,8 +22,6 @@ export const ManagerManagersPage: React.FC = () => {
   const classes = useStyles();
   const { race } = useContext(RaceContext);
 
-  let content: Nullable<JSX.Element> = null;
-
   const [manager, setManager] = useState<Nullable<UserProfile>>(null);
   const [
     showRemoveManager,
@@ -38,6 +36,8 @@ export const ManagerManagersPage: React.FC = () => {
     setManager(manager);
     openRemoveManager();
   };
+
+  let content: Nullable<JSX.Element> = null;
 
   if (race) {
     content = (
