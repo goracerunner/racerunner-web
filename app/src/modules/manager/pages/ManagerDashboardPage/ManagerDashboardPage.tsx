@@ -142,6 +142,9 @@ export const ManagerDashboardPage: React.FC = () => {
           small
           title="Participants"
           subtitle="Users who have joined the race"
+          appIcon={<UserIcon />}
+          appTooltip="View participants"
+          appLink="/manage/participants"
         >
           <DataProvider<Stat<number>>
             data={{
