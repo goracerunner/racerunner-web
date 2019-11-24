@@ -8,8 +8,9 @@ import useStyles from "./styles";
 /**
  * This component renders a title above the content (children).
  */
-export const Property: FC<PropertyProps> = ({ title, children }) => {
-  const classes = useStyles();
+export const Property: FC<PropertyProps> = props => {
+  const classes = useStyles(props);
+  const { title, children } = props;
   return (
     <div className={classes.property}>
       <Typography variant="button" color="textSecondary">

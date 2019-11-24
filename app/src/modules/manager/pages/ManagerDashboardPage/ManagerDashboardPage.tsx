@@ -28,7 +28,7 @@ import { Stat } from "../../../../types/stats";
 import useStyles from "./styles";
 
 /**
- * TODO: add description
+ * This component shows links to management pages for the selected race.
  */
 export const ManagerDashboardPage: React.FC = () => {
   const classes = useStyles();

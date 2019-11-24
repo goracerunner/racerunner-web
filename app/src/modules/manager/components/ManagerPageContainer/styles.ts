@@ -8,6 +8,9 @@ export default makeStyles<Theme>(
     },
     subtitle: {
       marginTop: "0.5rem"
+    },
+    container: {
+      marginBottom: "3rem"
     }
   })
 );

@@ -34,7 +34,7 @@ export const ManagerPageContainer: FC<ManagerPageContainerProps> = ({
   }
 
   return (
-    <Container maxWidth={maxWidth}>
+    <Container maxWidth={maxWidth} className={classes.container}>
       <div className={classes.title}>
         <Typography variant="h4">
           <b>{title}</b>

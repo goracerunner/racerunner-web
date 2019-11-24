@@ -1,9 +1,11 @@
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-export default makeStyles<Theme>(
+import { PropertyProps } from "./types";
+
+export default makeStyles<Theme, PropertyProps>(
   createStyles({
-    property: {
-      marginBottom: "1rem"
-    }
+    property: ({ noMargin }) => ({
+      marginBottom: noMargin ? 0 : "1rem"
+    })
   })
 );
