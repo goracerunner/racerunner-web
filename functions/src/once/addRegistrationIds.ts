@@ -1,15 +1,15 @@
 import * as functions from "firebase-functions";
 
-import { store } from "../utils/firebase";
+import { store, localHttps } from "../utils/firebase";
 import { Logger } from "../utils/logger";
 
-const raceRef = (uid: string) => store.collection("races").doc(uid);
+import { raceRef } from "./utils";
 
 /**
  * This function updates each registration document
  * to have its document id as a field in the doc.
  */
-export const addRegistrationIdsHandler = async (
+const addRegistrationIdsHandler = async (
   req: functions.https.Request,
   resp: functions.Response
 ) => {
@@ -46,3 +46,7 @@ export const addRegistrationIdsHandler = async (
 
   resp.send(`Updated ${count} registration${count === 1 ? "" : "s"}.`);
 };
+
+export const addRegistrationIds = localHttps.onRequest(
+  addRegistrationIdsHandler
+);

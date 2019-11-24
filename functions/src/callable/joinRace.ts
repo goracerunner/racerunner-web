@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 
-import { validateClaims, store } from "../utils/firebase";
+import { validateClaims, store, https } from "../utils/firebase";
 import { Logger } from "../utils/logger";
 
 import { RaceModel } from "../models/RaceModel";
@@ -12,7 +12,7 @@ import { Race } from "../types/race";
  * An authenticated user can call this function to join
  * a race if they know the race's id.
  */
-export const joinRaceHandler = async (
+const joinRaceHandler = async (
   data: { raceId?: string },
   context: functions.https.CallableContext
 ) => {
@@ -102,3 +102,5 @@ export const joinRaceHandler = async (
 
   return raceData;
 };
+
+export const joinRace = https.onCall(joinRaceHandler);

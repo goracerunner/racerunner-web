@@ -17,6 +17,14 @@ export interface Stat<T> {
   modified: firestore.Timestamp;
 }
 
+export type LogSource =
+  | "function"
+  | "app-participant"
+  | "app-manager"
+  | "app-admin";
+
+export type LogLevel = "debug" | "info" | "warn" | "error";
+
 interface LogMessageBase<T extends Timestamp> {
   /**
    * The date and time of the log message.
@@ -26,12 +34,12 @@ interface LogMessageBase<T extends Timestamp> {
   /**
    * The source of the log message.
    */
-  source: "function" | "app-participant" | "app-manager" | "app-admin";
+  source: LogSource;
 
   /**
    * The severity of the log message.
    */
-  level: "debug" | "info" | "warn" | "error";
+  level: LogLevel;
 
   /**
    * The type of log message. This is primarly used to determine

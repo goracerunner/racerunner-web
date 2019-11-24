@@ -1,0 +1,9 @@
+export { onDeleteRace } from "./deleteRace";
+export { addRaceParticipant } from "./addRaceParticipant";
+export { removeRaceParticipant } from "./removeRaceParticipant";
+export { addRaceManager } from "./addRaceManager";
+export { removeRaceManager } from "./removeRaceManager";
+export { addRaceRegistration } from "./addRaceRegistration";
+export { removeRaceRegistration } from "./removeRaceRegistration";
+export { addTeam } from "./addTeam";
+export { removeTeam } from "./removeTeam";

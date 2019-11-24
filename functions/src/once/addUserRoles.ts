@@ -1,19 +1,19 @@
 import * as functions from "firebase-functions";
 
-import { store } from "../utils/firebase";
+import { store, localHttps } from "../utils/firebase";
 import { Logger } from "../utils/logger";
 
 import { UserModel } from "../models/UserModel";
 
 import { UserProfile } from "../types/users";
 
-const userRef = (uid: string) => store.collection("users").doc(uid);
+import { userRef } from "./utils";
 
 /**
  * This function updates the roles array in the user's
  * profile according to their claims.
  */
-export const addUserRolesHandler = async (
+const addUserRolesHandler = async (
   req: functions.https.Request,
   resp: functions.Response
 ) => {
@@ -24,10 +24,12 @@ export const addUserRolesHandler = async (
       .map(userDoc => userDoc.data() as UserProfile)
       .map(async user => {
         console.log(`Getting claims for user ${user.name} (${user.uid})`);
-        const claims = (await userRef(user.uid)
-          .collection("private")
-          .doc("claims")
-          .get()).data();
+        const claims = (
+          await userRef(user.uid)
+            .collection("private")
+            .doc("claims")
+            .get()
+        ).data();
 
         await UserModel.setUserClaims(user.uid, claims);
         count += 1;
@@ -40,3 +42,5 @@ export const addUserRolesHandler = async (
 
   resp.send(`Updated roles for ${count} user${count === 1 ? "" : "s"}.`);
 };
+
+export const addUserRoles = localHttps.onRequest(addUserRolesHandler);

@@ -7,20 +7,16 @@ export default firebase;
 
 export const store = firebase.firestore();
 export const auth = firebase.auth();
+export const config = functions.config;
 
-/**
- * Create a realtime database reference in Firebase.
- * @param path the path to the data in the database.
- */
-export const ref = (path: string) => firebase.database().ref(path);
+const REGION = "us-central1";
+const LOCAL_REGION = "asia-northeast1";
 
-/**
- * Construct a ref and get the value of the data once.
- * @param path the path to teh data in the database.
- */
-export const getRef = async <T>(path: string) => {
-  return (await ref(path).once("value")).val() as T;
-};
+export const https = functions.region(REGION).https;
+export const localHttps = functions.region(LOCAL_REGION).https;
+export const users = functions.region(LOCAL_REGION).auth.user();
+export const document = functions.region(LOCAL_REGION).firestore.document;
+export const pubsub = functions.region(LOCAL_REGION).pubsub;
 
 /**
  * Validate that a functions context is authenticated with the
