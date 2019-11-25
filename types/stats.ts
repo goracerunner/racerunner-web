@@ -1,4 +1,4 @@
-import { firestore } from "firebase/app";
+import { firestore } from "./local";
 import { Timestamp } from "./global";
 
 /**

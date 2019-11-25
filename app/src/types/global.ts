@@ -1,4 +1,4 @@
-import { firestore } from "firebase/app";
+import { firestore } from "./local";
 
 export type Timestamp = Date | firestore.Timestamp;
 

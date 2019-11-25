@@ -1,6 +1,3 @@
-import { firestore } from "firebase";
-import { Timestamp } from "./global";
-
 /**
  * A user's profile in Firestore.
  * Document path: `users/{uid}`.
@@ -20,6 +17,11 @@ export interface UserProfile {
    * A URL to the user's profile image.
    */
   photoURL: string;
+
+  /**
+   * A list of roles assigned to the user.
+   */
+  roles: string[];
 }
 
 /**
@@ -40,13 +42,13 @@ export interface UserProtectedDetails {
   /**
    * The date the user's account was registered.
    */
-  registered: firestore.Timestamp;
+  registered: Date;
 }
 
 /**
  * Records when and by whom a claim was assigned to a user.
  */
-interface ClaimAssignmentBase<T extends Timestamp> {
+export interface ClaimAssignment {
   /**
    * The UID of the user who assigned this claim.
    */
@@ -60,13 +62,8 @@ interface ClaimAssignmentBase<T extends Timestamp> {
   /**
    * The date the claim was assigned.
    */
-  date: T;
+  date: Date;
 }
-
-export interface ClaimAssignment
-  extends ClaimAssignmentBase<firestore.Timestamp> {}
-
-export interface ClaimAssignmentInput extends ClaimAssignmentBase<Date> {}
 
 /**
  * A user's private claims in Firestore.

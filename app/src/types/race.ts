@@ -1,5 +1,4 @@
-import { firestore } from "firebase/app";
-
+import { firestore } from "./local";
 import { Timestamp } from "./global";
 import { UserProfile } from "./users";
 
@@ -41,6 +40,16 @@ export interface RaceBase<T = Timestamp> {
   owner: UserProfile;
 
   /**
+   * The date of the event.
+   */
+  eventDate: T;
+
+  /**
+   * The status of the race.
+   */
+  status: RaceStatus;
+
+  /**
    * The list of participant ids for the race.
    */
   participantIds: string[];
@@ -56,14 +65,9 @@ export interface RaceBase<T = Timestamp> {
   managerIds: string[];
 
   /**
-   * The date of the event.
+   * The list of teams in the race.
    */
-  eventDate: T;
-
-  /**
-   * The status of the race.
-   */
-  status: RaceStatus;
+  teamIds: string[];
 }
 
 /**
