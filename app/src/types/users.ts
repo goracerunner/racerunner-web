@@ -1,6 +1,13 @@
 /**
  * A user's profile in Firestore.
- * Document path: `users/{uid}`.
+ *
+ * Document path: `users/{userId}`.
+ *
+ * Document path: `races/{raceId}/managers/{managerId}`.
+ *
+ * Document path: `races/{raceId}/participants/{participantId}`.
+ *
+ * Document path: `races/{raceId}/teams/{teamId}/members/{memberId}`.
  */
 export interface UserProfile {
   /**
@@ -21,11 +28,24 @@ export interface UserProfile {
   /**
    * A list of roles assigned to the user.
    */
-  roles: string[];
+  roles?: string[];
+}
+
+/**
+ * A race participant's profile in Firestore.
+ *
+ * Document path: `races/{raceId}/participants/{participantId}`.
+ */
+export interface RaceParticipantProfile extends UserProfile {
+  /**
+   * The team that the user belongs to.
+   */
+  teamId?: string;
 }
 
 /**
  * A user's protected details in Firestore.
+ *
  * Document path: `users/{uid}/protected/details`.
  */
 export interface UserProtectedDetails {
@@ -67,6 +87,7 @@ export interface ClaimAssignment {
 
 /**
  * A user's private claims in Firestore.
+ *
  * Document path: `users/{uid}/private/claims`.
  */
 export interface UserPrivateClaims {

@@ -72,13 +72,15 @@ export interface RaceBase<T = Timestamp> {
 
 /**
  * A race's details in Firestore.
- * Document path: `races/{uid}`.
+ *
+ * Document path: `races/{raceId}`.
  */
 export interface Race extends RaceBase<firestore.Timestamp> {}
 
 /**
  * Input for a race's details in Firestore.
- * Document path: `races/{uid}`.
+ *
+ * Document path: `races/{raceId}`.
  */
 export interface RaceInput extends RaceBase<Date> {}
 
@@ -109,22 +111,27 @@ export interface RaceInfoBase<T extends Timestamp> {
 
 /**
  * A race's short-hand info.
- * Document path: `users/{uid}/races`.
- * Document path: `users/{uid}/managedRaces`.
+ *
+ * Document path: `users/{userId}/races/{raceId}`.
+ *
+ * Document path: `users/{userId}/managedRaces/{raceId}`.
  */
 export interface RaceInfo extends RaceInfoBase<firestore.Timestamp> {}
 
 /**
  * Input for a race's short-hand info.
- * Document path: `users/{uid}/races`.
- * Document path: `users/{uid}/managedRaces`.
+ *
+ * Document path: `users/{userId}/races/{raceId}`.
+ *
+ * Document path: `users/{userId}/managedRaces/{raceId}`.
  */
-interface RaceInfoInput extends RaceInfoBase<Date> {}
+export interface RaceInfoInput extends RaceInfoBase<Date> {}
 
 /**
  * A race registration field. These objects are used to populate
  * the registration form for a race.
- * Document path: `races/{uid}/registrationFields`
+ *
+ * Document path: `races/{raceId}/registrationFields/{fieldId}`
  */
 export interface RaceRegistrationField {
   /**

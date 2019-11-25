@@ -1,8 +1,8 @@
-import { store, auth } from "../utils/firebase";
-import { Race } from "../types/race";
+import { auth } from "../utils/firebase";
 import { Logger } from "../utils/logger";
+import { userRef } from "../utils/refs";
 
-const userRef = (uid: string) => store.collection("users").doc(uid);
+import { Race } from "../types/race";
 
 /**
  * A list of recognised roles which can be assigned through a user's claims.
@@ -48,7 +48,7 @@ export class UserModel {
         uid: race.uid,
         name: race.name,
         description: race.description,
-        eventData: race.eventDate
+        eventDate: race.eventDate
       });
     Logger.debug(`Added <race|${race.uid}> to <user|${uid}>.`);
   }
@@ -61,7 +61,7 @@ export class UserModel {
         uid: race.uid,
         name: race.name,
         description: race.description,
-        eventData: race.eventDate
+        eventDate: race.eventDate
       });
     Logger.debug(`Added <race|${race.uid}> to <user|${uid}>'s managed races.`);
   }

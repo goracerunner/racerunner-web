@@ -1,12 +1,10 @@
 import * as admin from "firebase-admin";
 
-import { store } from "../utils/firebase";
 import { Logger } from "../utils/logger";
+import { raceRef } from "../utils/refs";
 
 import { Race } from "../types/race";
 import { UserProfile } from "../types/users";
-
-const raceRef = (raceId: string) => store.collection("races").doc(raceId);
 
 /**
  * This class provides a set of convenience methods for modifying
@@ -95,5 +93,19 @@ export class RaceModel {
     Logger.debug(
       `Removed <manager|${managerId}> from <race|${raceId}> manager list.`
     );
+  }
+
+  public static async addTeamToTeamList(raceId: string, teamId: string) {
+    await raceRef(raceId).update({
+      teamIds: admin.firestore.FieldValue.arrayUnion(teamId)
+    });
+    Logger.debug(`Added <team|${teamId}> to <race|${raceId}> team list.`);
+  }
+
+  public static async removeTeamFromTeamList(raceId: string, teamId: string) {
+    await raceRef(raceId).update({
+      teamIds: admin.firestore.FieldValue.arrayRemove(teamId)
+    });
+    Logger.debug(`Removed <tema|${teamId}> from <race|${raceId}> team list.`);
   }
 }

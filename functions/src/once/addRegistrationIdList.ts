@@ -3,7 +3,7 @@ import * as functions from "firebase-functions";
 import { store, localHttps } from "../utils/firebase";
 import { Logger } from "../utils/logger";
 
-import { raceRef } from "./utils";
+import { raceRef } from "../utils/refs";
 
 /**
  * This function adds all registration ids for each

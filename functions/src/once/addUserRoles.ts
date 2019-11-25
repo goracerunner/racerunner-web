@@ -7,7 +7,7 @@ import { UserModel } from "../models/UserModel";
 
 import { UserProfile } from "../types/users";
 
-import { userRef } from "./utils";
+import { userRef } from "../utils/refs";
 
 /**
  * This function updates the roles array in the user's

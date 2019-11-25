@@ -15,10 +15,10 @@ import { useFirestore } from "../../../core/hooks/useFirebase";
 
 import { RaceStatus } from "../../../../types/race";
 
-import { RACE_STATUS_INFO } from "../RaceStatus";
+import RaceStatusLabel, { RACE_STATUS_INFO } from "../RaceStatus";
 
 import { RaceStatusDialogProps } from "./types";
-// import useStyles from "./styles";
+import useStyles from "./styles";
 
 /**
  * This dialog allows the user to change the status of a race.
@@ -29,8 +29,11 @@ export const RaceStatusDialog: FC<RaceStatusDialogProps> = ({
   raceId,
   status: currentStatus
 }) => {
+  const classes = useStyles();
+
   const store = useFirestore();
   const { enqueueSnackbar } = useSnackbar();
+
   const setRaceStatus = (selectedStatus: RaceStatus) => async () => {
     onClose();
     await store
@@ -67,7 +70,11 @@ export const RaceStatusDialog: FC<RaceStatusDialogProps> = ({
               onClick={setRaceStatus(status.id)}
             >
               <ListItemText
-                primary={status.label}
+                primary={
+                  <div className={classes.label}>
+                    <RaceStatusLabel status={status.id} />
+                  </div>
+                }
                 secondary={status.description}
               ></ListItemText>
             </ListItem>

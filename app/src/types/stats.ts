@@ -3,6 +3,7 @@ import { Timestamp } from "./global";
 
 /**
  * A statistic in Firestore.
+ *
  * Document path: `stats/{stat}`.
  */
 export interface Stat<T> {
@@ -60,11 +61,14 @@ interface LogMessageBase<T extends Timestamp> {
 
 /**
  * A log message in Firestore.
+ *
  * Document path: `logs/{logId}`.
- */ export interface LogMessage extends LogMessageBase<firestore.Timestamp> {}
+ */
+export interface LogMessage extends LogMessageBase<firestore.Timestamp> {}
 
 /**
  * Input for a log message in Firestore.
+ *
  * Document path: `logs/{logId}`.
  */
 export interface LogMessageInput extends LogMessageBase<Date> {}

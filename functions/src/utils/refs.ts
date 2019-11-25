@@ -8,5 +8,10 @@ export const teamRef = (raceId: string, teamId: string) =>
     .collection("teams")
     .doc(teamId);
 
+export const participantRef = (raceId: string, participantId: string) =>
+  raceRef(raceId)
+    .collection("participants")
+    .doc(participantId);
+
 export const userRef = (userId: string) =>
   store.collection("users").doc(userId);

@@ -7,3 +7,5 @@ export { addRaceRegistration } from "./addRaceRegistration";
 export { removeRaceRegistration } from "./removeRaceRegistration";
 export { addTeam } from "./addTeam";
 export { removeTeam } from "./removeTeam";
+export { addTeamMember } from "./addTeamMember";
+export { removeTeamMember } from "./removeTeamMember";

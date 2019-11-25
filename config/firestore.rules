@@ -180,6 +180,19 @@ service cloud.firestore {
         // Allow managers and admins to manage participants
         allow write: if loggedIn() && (isRaceManager(raceId) || hasClaimAdmin())
       }
+
+      match /teams/{teamId} {
+        // Allow participants and managers to read teams
+        allow read: if loggedIn() && (isRaceParticipant(raceId) || isRaceManager(raceId))
+
+        // Allow managers to manage teams
+        allow write: if loggedIn() && isRaceManager(raceId)
+
+        match /members/{memberId} {
+          // Allow managers to add and remove team members
+          allow create, delete: if loggedIn() && isRaceManager(raceId)
+        }
+      }
     }
 
 
