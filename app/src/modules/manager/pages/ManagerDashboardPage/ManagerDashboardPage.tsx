@@ -154,8 +154,21 @@ export const ManagerDashboardPage: React.FC = () => {
             <StatDisplay caption="participants" singularCaption="participant" />
           </DataProvider>
         </StoryCard>
-        <StoryCard small title="Teams" subtitle="Teams in the race">
-          <StatDisplay caption="teams" singularCaption="team" nullable />
+        <StoryCard
+          small
+          title="Teams"
+          subtitle="Teams in the race"
+          appIcon={<TeamsIcon />}
+          appTooltip="View teams"
+          appLink="/manage/teams"
+        >
+          <DataProvider<Stat<number>>
+            data={{
+              value: race.teamIds.length
+            }}
+          >
+            <StatDisplay caption="teams" singularCaption="team" nullable />
+          </DataProvider>
         </StoryCard>
         <StoryCard small title="Nodes" subtitle="Nodes in the race">
           <StatDisplay caption="nodes" singularCaption="node" nullable />
