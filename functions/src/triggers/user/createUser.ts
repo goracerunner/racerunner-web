@@ -4,7 +4,7 @@ import { store, users } from "../../utils/firebase";
 import { Logger } from "../../utils/logger";
 import { incrementUsers } from "../../utils/stats";
 
-import { UserProfile, UserProtectedDetails } from "../../types/users";
+import { UserProfile, UserProtectedDetailsInput } from "../../types/users";
 
 /**
  * Create a user profile when a new user logs in to Firebase Auth
@@ -31,7 +31,7 @@ const createUserHandler: (
     roles: []
   };
 
-  const userDetails: UserProtectedDetails = {
+  const userDetails: UserProtectedDetailsInput = {
     uid: user.uid,
     email: user.email || "unknown",
     registered: new Date()

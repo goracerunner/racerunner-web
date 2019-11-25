@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import Typography from "@material-ui/core/Typography";
+import { useBooleanState } from "../../../base/hooks/useStateFactory";
+
+import RaceContext from "../../../core/contexts/RaceContext";
 
 import ManagerPageContainer from "../../components/ManagerPageContainer";
+import CreateTeamDialog from "../../components/CreateTeamDialog";
+import TeamList from "../../components/TeamList";
+
+import { Nullable } from "../../../../types/global";
 
 // import useStyles from "./styles";
 
 /**
- * TODO: add description
+ * This page shows the teams for the selected race.
  */
 export const ManagerTeamsPage: React.FC = () => {
-  return (
-    <ManagerPageContainer title="Teams">
-      <Typography variant="button" color="error">
-        <b>This feature is currently unavailable.</b>
-      </Typography>
-    </ManagerPageContainer>
-  );
+  const { race } = useContext(RaceContext);
+
+  const [showAddTeam, openAddTeam, closeAddTeam] = useBooleanState(false);
+
+  let content: Nullable<JSX.Element> = null;
+
+  if (race) {
+    content = (
+      <>
+        <TeamList raceId={race.uid} onAddTeam={openAddTeam} />
+        <CreateTeamDialog
+          open={showAddTeam}
+          onClose={closeAddTeam}
+          raceId={race.uid}
+        />
+      </>
+    );
+  }
+
+  return <ManagerPageContainer title="Teams">{content}</ManagerPageContainer>;
 };

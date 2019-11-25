@@ -106,6 +106,6 @@ export class RaceModel {
     await raceRef(raceId).update({
       teamIds: admin.firestore.FieldValue.arrayRemove(teamId)
     });
-    Logger.debug(`Removed <tema|${teamId}> from <race|${raceId}> team list.`);
+    Logger.debug(`Removed <team|${teamId}> from <race|${raceId}> team list.`);
   }
 }

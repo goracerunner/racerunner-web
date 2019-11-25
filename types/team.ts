@@ -3,6 +3,11 @@ import { Timestamp } from "./global";
 
 export interface TeamBase<T extends Timestamp> {
   /**
+   * The team's uid.
+   */
+  uid: string;
+
+  /**
    * The name of the team.
    */
   name: string;

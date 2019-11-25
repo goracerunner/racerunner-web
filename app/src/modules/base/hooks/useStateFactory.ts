@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 
+import { Nullable } from "../../../types/global";
 import {
   UseStateFactory,
   ToggleUseStateFactory,
@@ -40,13 +41,15 @@ export const useToggleBooleanState: ToggleUseStateFactory<boolean> = (
  * function that sets only the specified field.
  * @param defaultState initial value for the state
  */
-export const useMapState: UseMapStateFactory = (
+export const useMapState: UseMapStateFactory = <T = any>(
   defaultState: {
-    [key: string]: any;
+    [key: string]: Nullable<T>;
   } = {}
 ) => {
-  const [values, setValues] = useState<{ [key: string]: any }>(defaultState);
-  const setValue = (key: string, value: any) => {
+  const [values, setValues] = useState<{ [key: string]: Nullable<T> }>(
+    defaultState
+  );
+  const setValue = (key: string, value: Nullable<T>) => {
     setValues({
       ...values,
       [key]: value

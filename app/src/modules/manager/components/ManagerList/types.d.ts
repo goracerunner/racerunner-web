@@ -12,7 +12,7 @@ export interface ManagerListProps {
   onSelectManager: (user: UserProfile) => void;
 
   /**
-   * A callback function for when the add manager button is selected.
+   * A callback function for when the add manager button is clicked.
    */
   onAddManager: () => void;
 }

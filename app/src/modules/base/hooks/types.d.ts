@@ -1,3 +1,5 @@
+import { Nullable } from "../../../types/global";
+
 export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface UseStateFactory<T> {
@@ -9,9 +11,9 @@ export interface ToggleUseStateFactory<T> {
 }
 
 export interface UseMapStateFactory {
-  (defafultState?: { [key: string]: any }): [
-    { [key: string]: any },
-    (key: string, value: any) => void,
-    (value: { [key: string]: any }) => void
+  <T extends any>(defafultState?: { [key: string]: Nullable<T> }): [
+    { [key: string]: Nullable<T> },
+    (key: string, value: Nullable<T>) => void,
+    (value: { [key: string]: Nullable<T> }) => void
   ];
 }
