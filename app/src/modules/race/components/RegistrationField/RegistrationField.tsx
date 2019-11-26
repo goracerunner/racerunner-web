@@ -56,20 +56,22 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
     case "number":
     case "longtext": {
       return (
-        <TextField
-          fullWidth
-          multiline={type === "longtext"}
-          type={type === "number" ? "number" : "text"}
-          className={classes.field}
-          label={`${label}${required ? " *" : ""}`}
-          helperText={error || description}
-          error={Boolean(error)}
-          disabled={disabled}
-          placeholder={placeholder}
-          defaultValue={defaultvalue}
-          value={value || ""}
-          onChange={e => setValue(e.target.value)}
-        />
+        <div>
+          <TextField
+            fullWidth
+            multiline={type === "longtext"}
+            type={type === "number" ? "number" : "text"}
+            className={classes.field}
+            label={`${label}${required ? " *" : ""}`}
+            helperText={error || description}
+            error={Boolean(error)}
+            disabled={disabled}
+            placeholder={placeholder}
+            defaultValue={defaultvalue}
+            value={value || ""}
+            onChange={e => setValue(e.target.value)}
+          />
+        </div>
       );
     }
 
@@ -77,47 +79,49 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
     case "list": {
       if (values) {
         return (
-          <FormControl
-            component="fieldset"
-            className={clsx(classes.field, classes.list)}
-            disabled={disabled}
-            error={Boolean(error)}
-          >
-            <FormLabel component="legend">{`${label}${
-              required ? " *" : ""
-            }`}</FormLabel>
-            <FormHelperText>{error || description}</FormHelperText>
-            <RadioGroup
-              value={value || ""}
-              onChange={e => setValue(e.target.value)}
+          <div>
+            <FormControl
+              component="fieldset"
+              className={clsx(classes.field, classes.list)}
+              disabled={disabled}
+              error={Boolean(error)}
             >
-              {values.map(option => (
-                <FormControlLabel
-                  key={option}
-                  value={option}
-                  control={<Radio checked={option === value} />}
-                  label={option}
-                />
-              ))}
-              {type === "listcustom" && (
-                <FormControlLabel
-                  label=""
-                  control={
-                    <>
-                      <Radio
-                        checked={Boolean(value) && !values.includes(value)}
-                      />
-                      <TextField
-                        value={values.includes(value) ? "" : value || ""}
-                        onChange={e => setValue(e.target.value)}
-                        placeholder="Other..."
-                      />
-                    </>
-                  }
-                />
-              )}
-            </RadioGroup>
-          </FormControl>
+              <FormLabel component="legend">{`${label}${
+                required ? " *" : ""
+              }`}</FormLabel>
+              <FormHelperText>{error || description}</FormHelperText>
+              <RadioGroup
+                value={value || ""}
+                onChange={e => setValue(e.target.value)}
+              >
+                {values.map(option => (
+                  <FormControlLabel
+                    key={option}
+                    value={option}
+                    control={<Radio checked={option === value} />}
+                    label={option}
+                  />
+                ))}
+                {type === "listcustom" && (
+                  <FormControlLabel
+                    label=""
+                    control={
+                      <>
+                        <Radio
+                          checked={Boolean(value) && !values.includes(value)}
+                        />
+                        <TextField
+                          value={values.includes(value) ? "" : value || ""}
+                          onChange={e => setValue(e.target.value)}
+                          placeholder="Other..."
+                        />
+                      </>
+                    }
+                  />
+                )}
+              </RadioGroup>
+            </FormControl>
+          </div>
         );
       }
       break;
@@ -154,7 +158,12 @@ export const RegistrationField: FC<RegistrationFieldProps> = ({
   }
 
   return (
-    <Typography variant="body2" color="error" className={classes.field}>
+    <Typography
+      variant="body2"
+      color="error"
+      className={classes.field}
+      component="div"
+    >
       Field "{name}" is not available.
     </Typography>
   );

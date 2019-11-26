@@ -58,9 +58,7 @@ export const RegistrationFieldEditor: FC<RegistrationFieldEditorProps> = ({
         fields.map(field => (
           <ExpansionPanel key={field.name}>
             <ExpansionPanelSummary expandIcon={<ExpandIcon />}>
-              <Typography color="textPrimary">
-                <Property title="Field Id">{field.name}</Property>
-              </Typography>
+              <Property title="Field Id">{field.name}</Property>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <div className={classes.details}>
@@ -87,13 +85,11 @@ export const RegistrationFieldEditor: FC<RegistrationFieldEditorProps> = ({
                   <Property title="Prefill macro">{field.prefilled}</Property>
                 )}
                 <Property title="Preview">
-                  <div>
-                    <RegistrationField
-                      field={field}
-                      value={null}
-                      setValue={() => {}}
-                    />
-                  </div>
+                  <RegistrationField
+                    field={field}
+                    value={null}
+                    setValue={() => {}}
+                  />
                 </Property>
                 {/* TODO: Implement edit button */}
                 <Button color="primary" className={classes.edit} disabled>

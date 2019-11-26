@@ -65,9 +65,11 @@ export const ManagerSettingsPage: React.FC = () => {
           <Property title="Registration fields" noMargin />
           {/* TODO: implement add button */}
           <Tooltip title="Add a new registration field" placement="left">
-            <IconButton disabled>
-              <AddIcon />
-            </IconButton>
+            <div>
+              <IconButton disabled>
+                <AddIcon />
+              </IconButton>
+            </div>
           </Tooltip>
         </Paper>
         <RegistrationFieldEditor raceId={race.uid} />
