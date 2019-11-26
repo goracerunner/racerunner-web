@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 
-import DashboardIcon from "@material-ui/icons/Lock";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 import UsersIcon from "@material-ui/icons/Group";
 import RacesIcon from "@material-ui/icons/Flag";
 import ExitIcon from "@material-ui/icons/ExitToApp";
@@ -34,7 +34,7 @@ export const AdminDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         onClose={onClose}
         iconColor={iconColor()}
         itemStyle={itemStyle()}
-        name="Admin Home"
+        name="Dashboard"
         Icon={DashboardIcon}
       />
       <AppDrawerItem
@@ -57,7 +57,7 @@ export const AdminDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
       <AppDrawerItem
         to="/dashboard"
         onClose={onClose}
-        name="Exit to dashboard"
+        name="Exit administration"
         Icon={ExitIcon}
       />
     </List>

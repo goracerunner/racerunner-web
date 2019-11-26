@@ -11,6 +11,8 @@ import RaceIcon from "@material-ui/icons/Flag";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 import TeamsIcon from "@material-ui/icons/People";
 import UserIcon from "@material-ui/icons/AccountCircle";
+import ScoreboardIcon from "@material-ui/icons/Assessment";
+import ResponsesIcon from "@material-ui/icons/QuestionAnswer";
 
 import RaceContext from "../../../core/contexts/RaceContext";
 import { DataProvider } from "../../../core/contexts/DataContext";
@@ -73,6 +75,12 @@ export const ManagerDashboardPage: React.FC = () => {
             icon: <UserIcon />
           },
           {
+            id: "registrations",
+            name: "Registrations",
+            link: "/manage/registrations",
+            icon: <RegistrationIcon />
+          },
+          {
             id: "teams",
             name: "Teams",
             link: "/manage/teams",
@@ -85,10 +93,16 @@ export const ManagerDashboardPage: React.FC = () => {
             icon: <RaceIcon />
           },
           {
-            id: "registrations",
-            name: "Registrations",
-            link: "/manage/registrations",
-            icon: <RegistrationIcon />
+            id: "responses",
+            name: "Responses",
+            link: "/manage/responses",
+            icon: <ResponsesIcon />
+          },
+          {
+            id: "scoreboard",
+            name: "Scoreboard",
+            link: "/manage/scoreboard",
+            icon: <ScoreboardIcon />
           },
           {
             id: "settings",

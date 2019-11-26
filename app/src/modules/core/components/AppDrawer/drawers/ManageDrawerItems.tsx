@@ -4,11 +4,13 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import RegistrationIcon from "@material-ui/icons/AssignmentInd";
 import ManagerIcon from "@material-ui/icons/PermIdentity";
 import ParticipantsIcon from "@material-ui/icons/AccountCircle";
-import NodesIcon from "@material-ui/icons/Flag";
+import RegistrationIcon from "@material-ui/icons/AssignmentInd";
 import TeamsIcon from "@material-ui/icons/People";
+import NodesIcon from "@material-ui/icons/Flag";
+import ResponsesIcon from "@material-ui/icons/QuestionAnswer";
+import ScoreboardIcon from "@material-ui/icons/Assessment";
 import SettingsIcon from "@material-ui/icons/SettingsApplications";
 import ExitIcon from "@material-ui/icons/ExitToApp";
 
@@ -38,7 +40,7 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         onClose={onClose}
         iconColor={iconColor()}
         itemStyle={itemStyle()}
-        name="Manager Home"
+        name="Dashboard"
         Icon={DashboardIcon}
       />
       <AppDrawerItem
@@ -58,6 +60,14 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         Icon={ParticipantsIcon}
       />
       <AppDrawerItem
+        to="/manage/registrations"
+        onClose={onClose}
+        iconColor={iconColor("registrations")}
+        itemStyle={itemStyle("registrations")}
+        name="Registrations"
+        Icon={RegistrationIcon}
+      />
+      <AppDrawerItem
         to="/manage/teams"
         onClose={onClose}
         iconColor={iconColor("teams")}
@@ -74,12 +84,20 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
         Icon={NodesIcon}
       />
       <AppDrawerItem
-        to="/manage/registrations"
+        to="/manage/responses"
         onClose={onClose}
-        iconColor={iconColor("registrations")}
-        itemStyle={itemStyle("registrations")}
-        name="Registrations"
-        Icon={RegistrationIcon}
+        iconColor={iconColor("responses")}
+        itemStyle={itemStyle("responses")}
+        name="Responses"
+        Icon={ResponsesIcon}
+      />
+      <AppDrawerItem
+        to="/manage/scoreboard"
+        onClose={onClose}
+        iconColor={iconColor("scoreboard")}
+        itemStyle={itemStyle("scoreboard")}
+        name="Scoreboard"
+        Icon={ScoreboardIcon}
       />
       <AppDrawerItem
         to="/manage/settings"
@@ -93,7 +111,7 @@ export const ManageDrawerItems: FC<AppDrawerItemsProps> = ({ onClose }) => {
       <AppDrawerItem
         to="/dashboard"
         onClose={onClose}
-        name="Exit to dashboard"
+        name="Exit manager mode"
         Icon={ExitIcon}
       />
     </List>

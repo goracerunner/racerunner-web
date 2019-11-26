@@ -17,6 +17,8 @@ import ManagerTeamsPage from "./pages/ManagerTeamsPage";
 import ManagerManageTeamPage from "./pages/ManagerManageTeamPage";
 import ManagerNodesPage from "./pages/ManagerNodesPage";
 import ManagerRegistrationsPage from "./pages/ManagerRegistrationsPage";
+import ManagerResponsesPage from "./pages/ManagerResponsesPage";
+import ManagerScoreboardPage from "./pages/ManagerScoreboardPage";
 import ManagerSettingsPage from "./pages/ManagerSettingsPage";
 
 /**
@@ -68,6 +70,9 @@ const ManagerMode: React.FC = () => {
         <Route exact path="/manage/participants">
           <ManagerParticipantsPage />
         </Route>
+        <Route exact path="/manage/registrations">
+          <ManagerRegistrationsPage />
+        </Route>
         <Route exact path="/manage/teams">
           <ManagerTeamsPage />
         </Route>
@@ -77,8 +82,11 @@ const ManagerMode: React.FC = () => {
         <Route exact path="/manage/nodes">
           <ManagerNodesPage />
         </Route>
-        <Route exact path="/manage/registrations">
-          <ManagerRegistrationsPage />
+        <Route exact path="/manage/responses">
+          <ManagerResponsesPage />
+        </Route>
+        <Route exact path="/manage/scoreboard">
+          <ManagerScoreboardPage />
         </Route>
         <Route exact path="/manage/settings">
           <ManagerSettingsPage />
