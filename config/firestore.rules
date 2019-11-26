@@ -189,6 +189,9 @@ service cloud.firestore {
         allow write: if loggedIn() && isRaceManager(raceId)
 
         match /members/{memberId} {
+          // Allow participants and managers to read team members
+          allow read: if loggedIn() && (isRaceParticipant(raceId) || isRaceManager(raceId))
+
           // Allow managers to add and remove team members
           allow create, delete: if loggedIn() && isRaceManager(raceId)
         }

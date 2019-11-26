@@ -1,7 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import uuid from "uuid/v4";
 import { useSnackbar } from "notistack";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -9,23 +8,19 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Checkbox from "@material-ui/core/Checkbox";
 
 import { pluralise } from "../../../../utils/text";
 import { useFirestore } from "../../../core/hooks/useFirebase";
 import { useMapState } from "../../../base/hooks/useStateFactory";
 
+import SelectNewTeamMembers from "../SelectNewTeamMembers";
+
 import { UserProfile, RaceParticipantProfile } from "../../../../types/users";
 import { TeamInput } from "../../../../types/team";
 
 import { CreateTeamDialogProps } from "./types";
-import useStyles from "./styles";
+// import useStyles from "./styles";
 
 /**
  * This component renders a dialog for creating a new team.
@@ -35,19 +30,10 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
   onClose,
   raceId
 }) => {
-  const classes = useStyles();
-
   const store = useFirestore();
-  const [participants, loading] = useCollectionData<RaceParticipantProfile>(
-    store
-      .collection("races")
-      .doc(raceId)
-      .collection("participants")
-  );
 
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [filter, setFilter] = useState("");
   const [members, setMember, setMembers] = useMapState<UserProfile>({});
 
   const { enqueueSnackbar } = useSnackbar();
@@ -112,10 +98,9 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
   useEffect(() => {
     if (open) {
       setName("");
-      setFilter("");
       setMembers({});
     }
-  }, [open, setError, setName, setFilter, setMembers]);
+  }, [open, setError, setName, setMembers]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -135,49 +120,11 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
         <DialogContentText>
           Select members to add to this team. You can also do this later.
         </DialogContentText>
-        <TextField
-          placeholder="Filter users..."
-          fullWidth
-          value={filter}
-          onChange={e => setFilter(e.target.value)}
+        <SelectNewTeamMembers
+          raceId={raceId}
+          members={members}
+          setMember={setMember}
         />
-        <List dense className={classes.list}>
-          {!loading && participants && participants.length ? (
-            participants
-              .filter(participant => !participant.teamId)
-              .filter(
-                participant =>
-                  !filter ||
-                  participant.name.toLowerCase().includes(filter.toLowerCase())
-              )
-              .map(participant => (
-                <ListItem
-                  key={participant.uid}
-                  onClick={() => {
-                    if (members[participant.uid]) {
-                      setMember(participant.uid, null);
-                    } else {
-                      setMember(participant.uid, participant);
-                    }
-                  }}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={Boolean(members[participant.uid])}
-                      tabIndex={-1}
-                      disableRipple
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={participant.name} />
-                </ListItem>
-              ))
-          ) : (
-            <Typography variant="body2" color="textSecondary">
-              No participants available.
-            </Typography>
-          )}
-        </List>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
