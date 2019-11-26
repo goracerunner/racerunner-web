@@ -14,6 +14,7 @@ import FalseIcon from "@material-ui/icons/Clear";
 
 import { useSetSearch } from "../../../core/hooks/useSearch";
 import { useFirestore } from "../../../core/hooks/useFirebase";
+import { useMenuAnchor } from "../../../core/hooks/useMenu";
 
 import EnhancedTable from "../../../core/components/EnhancedTable";
 import { ColumnDefinition } from "../../../core/components/EnhancedTable/types";
@@ -243,15 +244,7 @@ export const RegistrationList: FC<RegistrationListProps> = ({ raceId }) => {
 
   // Filter menu
 
-  const [filterMenuAnchor, setFilterMenuAnchor] = useState<
-    Nullable<HTMLElement>
-  >(null);
-  const openFilterMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setFilterMenuAnchor(event.currentTarget);
-  };
-  const closeFilterMenu = () => {
-    setFilterMenuAnchor(null);
-  };
+  const [filterMenuAnchor, openFilterMenu, closeFilterMenu] = useMenuAnchor();
 
   const [filterField, setFilterField] = useState<Nullable<string>>(null);
   const [filterValue, setFilterValue] = useState<string>("");

@@ -3,6 +3,8 @@ import { withRouter } from "react-router";
 
 import Button from "@material-ui/core/Button";
 
+import BackIcon from "@material-ui/icons/ChevronLeft";
+
 import { BackButtonProps } from "./types";
 
 /**
@@ -13,6 +15,7 @@ const BackButtonComponent: React.FC<BackButtonProps> = props => {
   delete filteredProps.staticContext;
   return (
     <Button onClick={props.history.goBack} {...filteredProps}>
+      <BackIcon />
       <b>Go back</b>
     </Button>
   );

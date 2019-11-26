@@ -9,6 +9,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
 import { useFirestore } from "../../../core/hooks/useFirebase";
+import { useMenuAnchor } from "../../../core/hooks/useMenu";
 import { useSearch, useSetSearch } from "../../../core/hooks/useSearch";
 
 import EnhancedTable from "../../../core/components/EnhancedTable";
@@ -131,16 +132,7 @@ export const UserList: FC<UserListProps> = () => {
   ]);
 
   // Filter menu
-
-  const [filterMenuAnchor, setFilterMenuAnchor] = useState<
-    Nullable<HTMLElement>
-  >(null);
-  const openFilterMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setFilterMenuAnchor(event.currentTarget);
-  };
-  const closeFilterMenu = () => {
-    setFilterMenuAnchor(null);
-  };
+  const [filterMenuAnchor, openFilterMenu, closeFilterMenu] = useMenuAnchor();
 
   const [userSearch, setUserSearch] = useState("");
   const [filter, setFilter] = useState<UserFilters>("all");

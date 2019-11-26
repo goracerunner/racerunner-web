@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext } from "react";
 
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Bar from "@material-ui/core/AppBar";
@@ -7,8 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { Nullable } from "../../../../types/global";
 import AuthenticationContext from "../../contexts/AuthenticationContext";
+import { useMenuAnchor } from "../../hooks/useMenu";
 
 import { AppBarMenu } from "./AppBarMenu";
 import { AppBarProps } from "./types";
@@ -22,11 +22,7 @@ export const AppBar: FC<AppBarProps> = ({ onDrawerOpen }) => {
 
   const { user } = useContext(AuthenticationContext);
 
-  const [menuAnchor, setMenuAnchor] = useState<Nullable<HTMLElement>>(null);
-  const closeMenu = () => setMenuAnchor(null);
-  const openMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setMenuAnchor(event.currentTarget);
-  };
+  const [menuAnchor, openMenu, closeMenu] = useMenuAnchor();
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,

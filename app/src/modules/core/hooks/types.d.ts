@@ -60,3 +60,9 @@ export interface PromiseFeedbackOptions<T = any, E = any> {
 }
 
 export interface FeedbackOptions extends OptionsObject {}
+
+export type UseMenuAnchorHookResult = [
+  Nullable<HTMLElement>,
+  (event: React.MouseEvent<HTMLButtonElement>) => void,
+  () => void
+];
