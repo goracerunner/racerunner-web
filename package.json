@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "scripts": {
     "install-all": "yarn && cd app && yarn && cd ../functions && yarn && cd ..",
-    "sync-types": "cp types/{global,race,stats,team,users}.ts functions/src/types && cp types/{global,race,stats,team,users}.ts app/src/types",
+    "sync-types": "cp types/{global,race,stats,team,users,node}.ts functions/src/types && cp types/{global,race,stats,team,users,node}.ts app/src/types",
     "build-all": "yarn build:app && yarn build:functions",
     "build:app": "cd app && yarn build && cd ..",
     "build:functions": "cd functions && yarn lint && yarn build && cd ..",
