@@ -1,9 +1,5 @@
 import { store } from "./firebase";
-import { LogMessageInput } from "../types/stats";
-
-export enum LogCategory {
-  FUNCTIONS = "functions"
-}
+import { LogMessageInput, LogSource } from "../types/stats";
 
 export enum LogLevel {
   DEBUG = "debug",
@@ -16,38 +12,58 @@ export enum LogType {
   MESSAGE = "message"
 }
 
+export interface LogOptions {
+  /**
+   * The type of log message.
+   * @default "message"
+   */
+  logType?: LogType;
+
+  /**
+   * The source of the log message.
+   * @default "function"
+   */
+  source?: LogSource;
+
+  /**
+   * Additional log data to record.
+   */
+  data?: object;
+}
+
 /**
  * Logger utility that logs to the console and also records
  * the log to Firestore (WIP).
  */
 export class Logger {
-  public static debug(message: string, data?: object) {
-    this.log(LogLevel.DEBUG, message, data);
+  public static debug(message: string, options?: LogOptions) {
+    this.log(LogLevel.DEBUG, message, options);
   }
 
-  public static info(message: string, data?: object) {
-    this.log(LogLevel.INFO, message, data);
+  public static info(message: string, options?: LogOptions) {
+    this.log(LogLevel.INFO, message, options);
   }
 
-  public static warn(message: string, data?: object) {
-    this.log(LogLevel.WARN, message, data);
+  public static warn(message: string, options?: LogOptions) {
+    this.log(LogLevel.WARN, message, options);
   }
 
-  public static error(message: string, data?: object) {
-    this.log(LogLevel.ERROR, message, data);
+  public static error(message: string, options?: LogOptions) {
+    this.log(LogLevel.ERROR, message, options);
   }
 
   private static log(
     level: LogLevel,
     message: string,
-    data?: object,
-    logType: LogType = LogType.MESSAGE
+    options: LogOptions = {}
   ) {
+    const { data, logType = "message", source = "function" } = options;
+
     // Log information to Firestore for auditing purposes.
 
     const logMessage: LogMessageInput = {
       date: new Date(),
-      source: "function",
+      source,
       level,
       message,
       logType

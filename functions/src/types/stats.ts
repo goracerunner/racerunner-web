@@ -20,6 +20,7 @@ export interface Stat<T> {
 
 export type LogSource =
   | "function"
+  | "storage"
   | "app-participant"
   | "app-manager"
   | "app-admin";

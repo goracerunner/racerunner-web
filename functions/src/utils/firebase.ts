@@ -6,6 +6,7 @@ const firebase = admin.initializeApp();
 export default firebase;
 
 export const store = firebase.firestore();
+export const storage = firebase.storage();
 export const auth = firebase.auth();
 export const config = functions.config;
 
@@ -17,6 +18,7 @@ export const localHttps = functions.region(LOCAL_REGION).https;
 export const users = functions.region(LOCAL_REGION).auth.user();
 export const document = functions.region(LOCAL_REGION).firestore.document;
 export const pubsub = functions.region(LOCAL_REGION).pubsub;
+export const files = functions.region(REGION).storage;
 
 /**
  * Validate that a functions context is authenticated with the

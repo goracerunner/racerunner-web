@@ -3,6 +3,7 @@ import { Logger } from "../utils/logger";
 import { userRef } from "../utils/refs";
 
 import { Race } from "../types/race";
+import { firestore } from "firebase-admin";
 
 /**
  * A list of recognised roles which can be assigned through a user's claims.
@@ -19,12 +20,17 @@ export class UserModel {
    * @param uid the user's uid
    * @param claims a map containing the claims to give to the user
    */
-  public static async setUserClaims(uid: string, claims?: object) {
+  public static async setUserClaims(
+    uid: string,
+    claims?: { [key: string]: any }
+  ) {
     if (claims) {
-      const claimsObject = Object.keys(claims).reduce(
-        (obj, key) => ({ ...obj, [key]: true }),
-        {}
-      );
+      const claimsObject = Object.keys(claims).reduce((obj, key) => {
+        if (ROLES.includes(key)) {
+          return { ...obj, [key]: true };
+        }
+        return { ...obj, [key]: claims[key] };
+      }, {});
       await auth.setCustomUserClaims(uid, claimsObject);
       await userRef(uid).update({
         roles: Object.keys(claims)
@@ -50,6 +56,13 @@ export class UserModel {
         description: race.description,
         eventDate: race.eventDate
       });
+    await userRef(uid)
+      .collection("private")
+      .doc("claims")
+      .set(
+        { races: firestore.FieldValue.arrayUnion(race.uid) },
+        { merge: true }
+      );
     Logger.debug(`Added <race|${race.uid}> to <user|${uid}>.`);
   }
 
@@ -63,6 +76,13 @@ export class UserModel {
         description: race.description,
         eventDate: race.eventDate
       });
+    await userRef(uid)
+      .collection("private")
+      .doc("claims")
+      .set(
+        { managedRaces: firestore.FieldValue.arrayUnion(race.uid) },
+        { merge: true }
+      );
     Logger.debug(`Added <race|${race.uid}> to <user|${uid}>'s managed races.`);
   }
 
@@ -71,6 +91,13 @@ export class UserModel {
       .collection("races")
       .doc(raceId)
       .delete();
+    await userRef(uid)
+      .collection("private")
+      .doc("claims")
+      .set(
+        { races: firestore.FieldValue.arrayRemove(raceId) },
+        { merge: true }
+      );
     Logger.debug(`Removed <race|${raceId}> from <user|${uid}>.`);
   }
 
@@ -79,6 +106,13 @@ export class UserModel {
       .collection("managedRaces")
       .doc(raceId)
       .delete();
+    await userRef(uid)
+      .collection("private")
+      .doc("claims")
+      .set(
+        { managedRaces: firestore.FieldValue.arrayRemove(raceId) },
+        { merge: true }
+      );
     Logger.debug(
       `Removed <race|${raceId}> from <user|${uid}>'s managed races.`
     );
