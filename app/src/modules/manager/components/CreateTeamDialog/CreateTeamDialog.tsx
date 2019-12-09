@@ -45,27 +45,27 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
       return;
     }
 
-    // Create team
     onClose();
-    const uid = uuid();
+
+    const raceRef = store.collection("races").doc(raceId);
+    const teamRef = raceRef.collection("teams").doc();
+
+    // Create team
     const team: TeamInput = {
-      uid,
+      teamId: teamRef.id,
       name: name.trim(),
       created: new Date(),
       memberIds: [],
       points: 0
     };
 
-    const raceRef = store.collection("races").doc(raceId);
-    const teamRef = raceRef.collection("teams").doc(uid);
-
     await teamRef.set(team);
 
+    // Add members to the members collection
     const membersToAdd = Object.keys(members)
       .filter(key => members[key])
       .map(key => members[key] as RaceParticipantProfile);
 
-    // Add members to the members collection
     await Promise.all(
       membersToAdd.map(
         async member =>

@@ -49,7 +49,7 @@ export const AddMemberDialog: FC<AddMemberDialogProps> = ({
             .collection("races")
             .doc(raceId)
             .collection("teams")
-            .doc(team.uid)
+            .doc(team.teamId)
             .collection("members")
             .doc(member.uid)
             .set(member)

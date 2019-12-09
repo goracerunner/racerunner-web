@@ -5,7 +5,7 @@ export interface TeamBase<T extends Timestamp> {
   /**
    * The team's uid.
    */
-  uid: string;
+  teamId: string;
 
   /**
    * The name of the team.

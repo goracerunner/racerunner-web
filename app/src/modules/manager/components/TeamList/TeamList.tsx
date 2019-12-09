@@ -64,10 +64,10 @@ export const TeamList: FC<TeamListProps> = ({ onAddTeam, raceId }) => {
           {teams.length > 0 &&
             teams.map(team => (
               <ListItem
-                key={team.uid}
+                key={team.teamId}
                 button
                 component={Link}
-                to={`/manage/teams/${team.uid}`}
+                to={`/manage/teams/${team.teamId}`}
               >
                 <ListItemText
                   primary={team.name}

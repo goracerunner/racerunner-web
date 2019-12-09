@@ -6,13 +6,13 @@ import RaceContext from "../../../core/contexts/RaceContext";
 
 import ManagerPageContainer from "../../components/ManagerPageContainer";
 import ParticipantList from "../../components/ParticipantList";
+import RemoveParticipantDialog from "../../components/RemoveParticipantDialog";
 
 import { Nullable } from "../../../../types/global";
 import { UserProfile } from "../../../../types/users";
 import { useBooleanState } from "../../../base/hooks/useStateFactory";
 
 import useStyles from "./styles";
-import RemoveParticipantDialog from "../../components/RemoveParticipantDialog";
 
 /**
  * This page shows a list of participants in the current race.

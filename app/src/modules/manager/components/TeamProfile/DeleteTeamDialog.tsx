@@ -37,7 +37,7 @@ export const DeleteTeamDialog: FC<DeleteTeamDialogProps> = ({
           .collection("races")
           .doc(raceId)
           .collection("teams")
-          .doc(team.uid)
+          .doc(team.teamId)
           .delete();
         enqueueSnackbar(`Delete the team "${team.name}".`, {
           variant: "success"
