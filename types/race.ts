@@ -68,6 +68,11 @@ export interface RaceBase<T = Timestamp> {
    * The list of teams in the race.
    */
   teamIds: string[];
+
+  /**
+   * The list of nodes in the race.
+   */
+  nodeIds: string[];
 }
 
 /**

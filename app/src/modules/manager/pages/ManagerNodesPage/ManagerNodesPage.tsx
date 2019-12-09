@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import Typography from "@material-ui/core/Typography";
+import { useBooleanState } from "../../../base/hooks/useStateFactory";
+
+import RaceContext from "../../../core/contexts/RaceContext";
 
 import ManagerPageContainer from "../../components/ManagerPageContainer";
+import CreateNodeDialog from "../../components/CreateNodeDialog";
+import NodeList from "../../components/NodeList";
+
+import { Nullable } from "../../../../types/global";
 
 // import useStyles from "./styles";
 
 /**
- * TODO: add description
+ * This component renders a dialog for creating a new node.
  */
 export const ManagerNodesPage: React.FC = () => {
-  return (
-    <ManagerPageContainer title="Nodes">
-      <Typography variant="button" color="error">
-        <b>This feature is currently unavailable.</b>
-      </Typography>
-    </ManagerPageContainer>
-  );
+  const { race } = useContext(RaceContext);
+
+  const [showAddNode, openAddNode, closeAddNode] = useBooleanState(false);
+
+  let content: Nullable<JSX.Element> = null;
+
+  if (race) {
+    content = (
+      <>
+        <NodeList raceId={race.uid} onAddNode={openAddNode} />
+        <CreateNodeDialog
+          open={showAddNode}
+          onClose={closeAddNode}
+          raceId={race.uid}
+        />
+      </>
+    );
+  }
+
+  return <ManagerPageContainer title="Nodes">{content} </ManagerPageContainer>;
 };

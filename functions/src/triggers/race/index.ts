@@ -9,3 +9,5 @@ export { addTeam } from "./addTeam";
 export { removeTeam } from "./removeTeam";
 export { addTeamMember } from "./addTeamMember";
 export { removeTeamMember } from "./removeTeamMember";
+export { addNode } from "./addNode";
+export { removeNode } from "./removeNode";

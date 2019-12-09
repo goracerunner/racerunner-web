@@ -70,6 +70,8 @@ service cloud.firestore {
       return doc.hasAny([request.auth.uid])
     }
 
+    // Get a piece of data at the specified path.
+    // 1 document read.
     function getData(path) {
       return get(path("/databases/{database}/documents/" + path).bind({ "database": database })).data
     }
@@ -119,17 +121,73 @@ service cloud.firestore {
 
 
     //
-    // Races
+    // Race getters
     //
 
+    // Get the race with the specified id.
+    // 1 document read.
+    function getRace(raceId) {
+      return getData("races/" + raceId)
+    }
+
+    // Get the team with the specified id.
+    // 1 document read.
+    function getTeam(raceId, teamId) {
+      return getData("races/" + raceId + "/teams/" + teamId)
+    }
+  
+    // Get the node with the specified id.
+    // 1 document read.
+    function getNode(raceId, nodeId) {
+      return getData("races/" + raceId + "/nodes/" + nodeId)
+    }
+
+    // Get the response with the specified id.
+    // 1 document read.
+    function getResponse(raceId, nodeId, responseId) {
+      return getData("races/" + raceId + "/nodes/" + nodeId + "/responses/" + responseId)
+    }
+
+    // Get the repsonse check with the specified id.
+    // 1 document read.
+    function getResponseCheck(raceId, nodeId, responseId) {
+      return getData("races/" + raceId + "/nodes/" + nodeId + "/checks/" + responseId)
+    }
+
+    // Get the team that submitted the specified response.
+    // 2 document reads.
+    function getResponseTeam(raceId, nodeId, responseId) {
+      return getTeam(raceId, getResponse(raceId, nodeId, responseId).teamId)
+    }
+
+
+    //
+    // Race checks
+    //
+
+    // Check if the current user is a race participant.
+    // 1 document read.
     function isRaceParticipant(raceId) {
       return fieldListsUser(getData("races/" + raceId).participantIds)
     }
 
+    // Check if the current user is a race manager.
+    // 1 document read.
     function isRaceManager(raceId) {
       return fieldListsUser(getData("races/" + raceId).managerIds)
     }
     
+    // Check if the current user has unlocked the specified node.
+    // 1 document read.
+    function isUnlocked(raceId, nodeId) {
+      return fieldListsUser(getData("races/" + raceId + "/nodes/" + nodeId).unlockedUsers)
+    }
+
+    // Check if the current user is in the team that submitted the specified response.
+    function isResponseFromTeam(raceId, nodeId, responseId) {
+      return fieldListsUser(getResponseTeam(raceId, nodeId, responseId).memberIds)
+    }
+
 
     match /races/{raceId} {
       // Allow admins to get a race's details
@@ -194,6 +252,51 @@ service cloud.firestore {
 
           // Allow managers to add and remove team members
           allow create, delete: if loggedIn() && isRaceManager(raceId)
+        }
+      }
+
+      match /nodes/{nodeId} {
+        // Allow race managers to read and manage nodes
+        allow read, write: if loggedIn() && isRaceManager(raceId)
+
+        // Only allow users who have unlocked the node to view the nodes
+        allow read: if loggedIn() && isUnlocked(raceId, nodeId)
+
+        match /protected/meta {
+          // Allow race managers to read and manage meta
+          allow read, write: if loggedIn() && isRaceManager(raceId)
+
+          // Only allow users who have unlocked the node to view the meta information
+          allow read: if loggedIn() && isUnlocked(raceId, nodeId)
+        }
+
+        match /protected/secrets {
+          // Allow race managers to read and manage secrets
+          allow read, write: if loggedIn() && isRaceManager(raceId)
+        }
+
+        match /tasks/{taskId} {
+          // Allow race managers to read and manage tasks
+          allow read, write: if loggedIn() && isRaceManager(raceId)
+
+          // Only allow users who have unlocked the node to view tasks
+          allow read: if loggedIn() && isUnlocked(raceId, nodeId)
+        }
+
+        match /repsonses/{responseId} {
+          // Allow race managers to read responses
+          allow read: if loggedIn() && isRaceManager(raceId)
+
+          // Only allow users who have unlocked the node to view their own responses
+          allow read, create: if loggedIn() && isUnlocked(raceId, nodeId) && isResponseFromTeam(raceId, nodeId, responseId)
+        }
+
+        match /checks/{responseId} {
+          // Allow race managers to check responses
+          allow read, write: if loggedIn() && isRaceManager(raceId)
+
+          // Only allow users who have unlocked the node to view their own response checks
+          allow read: if loggedIn() && isUnlocked(raceId, nodeId) && isResponseFromTeam(raceId, nodeId, responseId)
         }
       }
     }

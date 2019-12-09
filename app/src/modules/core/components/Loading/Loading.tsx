@@ -10,9 +10,10 @@ import useStyles from "./styles";
  */
 export const Loading: FC<LoadingProps> = props => {
   const classes = useStyles(props);
+  const { size } = props;
   return (
     <div className={classes.centered}>
-      <CircularProgress />
+      <CircularProgress size={size} />
     </div>
   );
 };

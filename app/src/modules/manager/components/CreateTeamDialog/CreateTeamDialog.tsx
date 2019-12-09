@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from "react";
-import uuid from "uuid/v4";
 import { useSnackbar } from "notistack";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -31,13 +30,26 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
   raceId
 }) => {
   const store = useFirestore();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [members, setMember, setMembers] = useMapState<UserProfile>({});
 
-  const { enqueueSnackbar } = useSnackbar();
+  // Clear error when the dialog closes or if the user edits the name field.
+  useEffect(() => {
+    if (open) setError("");
+  }, [open, name, setError]);
 
+  // Reset the values when the dialog opens
+  useEffect(() => {
+    if (open) {
+      setName("");
+      setMembers({});
+    }
+  }, [open, setError, setName, setMembers]);
+
+  // Function to create a team
   const createTeam = async () => {
     // Validation
     if (name.length < 3) {
@@ -88,19 +100,6 @@ export const CreateTeamDialog: FC<CreateTeamDialogProps> = ({
       enqueueSnackbar(`Created team ${name}`, { variant: "success" });
     }
   };
-
-  // Clear error when the dialog closes or if the user edits the name field.
-  useEffect(() => {
-    if (open) setError("");
-  }, [open, name, setError]);
-
-  // Reset the values when the dialog opens
-  useEffect(() => {
-    if (open) {
-      setName("");
-      setMembers({});
-    }
-  }, [open, setError, setName, setMembers]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">

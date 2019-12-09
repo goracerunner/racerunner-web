@@ -108,4 +108,18 @@ export class RaceModel {
     });
     Logger.debug(`Removed <team|${teamId}> from <race|${raceId}> team list.`);
   }
+
+  public static async addNodeToNodeList(raceId: string, nodeId: string) {
+    await raceRef(raceId).update({
+      nodeIds: admin.firestore.FieldValue.arrayUnion(nodeId)
+    });
+    Logger.debug(`Added <node|${nodeId}> to <race|${raceId}> node list.`);
+  }
+
+  public static async removeNodeFromNodeList(raceId: string, nodeId: string) {
+    await raceRef(raceId).update({
+      nodeIds: admin.firestore.FieldValue.arrayRemove(nodeId)
+    });
+    Logger.debug(`Removed <node|${nodeId}> from <race|${raceId}> node list.`);
+  }
 }
