@@ -57,7 +57,7 @@ export const RichTextPreview: FC<RichTextPreviewProps> = props => {
         createDecorators(tokens)
       )
     );
-  }, [value, setEditorState]);
+  }, [value, setEditorState, tokens]);
 
   const blockStyleFn = (block: ContentBlock) => {
     switch (block.getType()) {

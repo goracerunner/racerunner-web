@@ -11,3 +11,4 @@ export { addTeamMember } from "./addTeamMember";
 export { removeTeamMember } from "./removeTeamMember";
 export { addNode } from "./addNode";
 export { removeNode } from "./removeNode";
+export { updateNode } from "./updateNode";

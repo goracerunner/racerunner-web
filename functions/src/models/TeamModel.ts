@@ -3,12 +3,17 @@ import * as admin from "firebase-admin";
 import { Logger } from "../utils/logger";
 import { teamRef, participantRef } from "../utils/refs";
 import { UserProfile } from "../types/users";
+import { Team } from "../types/team";
 
 /**
  * This class provides a set of convenience methods for modifying
  * known fields and subcollection documents of a Team model.
  */
 export class TeamModel {
+  public static async getTeam(raceId: string, teamId: string) {
+    return (await teamRef(raceId, teamId).get()).data() as Team;
+  }
+
   public static async getMembers(raceId: string, teamId: string) {
     return (
       await teamRef(raceId, teamId)
