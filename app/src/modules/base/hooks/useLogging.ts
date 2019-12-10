@@ -12,5 +12,5 @@ import { Logger } from "../../../utils";
 export const useErrorLogging = (name: string, message: string, error: any) => {
   useEffect(() => {
     if (error) Logger.error(name, message, error);
-  }, [error]);
+  }, [error, name, message]);
 };

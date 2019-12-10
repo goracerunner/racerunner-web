@@ -15,7 +15,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import { useFirestore } from "../../../core/hooks/useFirebase";
 
-import RichTextEditor from "../../../core/components/RichTextEditor";
+import * as RichText from "../../../core/components/RichText";
 
 import { Node, NodeMeta, NodeSecrets } from "../../../../types/node";
 import { Race } from "../../../../types/race";
@@ -42,7 +42,6 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
   const [notes, setNotes] = useState("");
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState("");
-  const [required, setRequired] = useState("");
 
   // Clear error when the dialog is opened or if the user edits the field.
 
@@ -64,7 +63,6 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
       setNotes("");
       setCode("");
       setCodeError("");
-      setRequired("");
     }
   }, [
     open,
@@ -73,8 +71,7 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
     setNameError,
     setDescription,
     setNotes,
-    setCode,
-    setRequired
+    setCode
   ]);
 
   const createNode = async () => {
@@ -154,7 +151,7 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
             this node.
           </FormHelperText>
         </FormControl>
-        <RichTextEditor
+        <RichText.Editor
           classes={{ root: classes.editor }}
           placeholder="Node description"
           onChange={(text, html) => setDescription(html)}
@@ -168,7 +165,7 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
             checking responses.
           </FormHelperText>
         </FormControl>
-        <RichTextEditor
+        <RichText.Editor
           classes={{ root: classes.editor }}
           placeholder="Private notes"
           onChange={(text, html) => setNotes(html)}

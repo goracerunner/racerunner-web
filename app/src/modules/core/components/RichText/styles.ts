@@ -2,10 +2,11 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import {
   EditorButtonProps,
   RichTextEditorProps,
+  RichTextPreviewProps,
   RichTextEditorToolbarProps
 } from "./types";
 
-export default makeStyles<Theme, RichTextEditorProps>(theme =>
+export const useEditorStyles = makeStyles<Theme, RichTextEditorProps>(theme =>
   createStyles({
     root: ({ readOnly }) => ({
       border: readOnly ? "solid 1px #f8f8f8" : "solid 1px #efefef",
@@ -16,6 +17,10 @@ export default makeStyles<Theme, RichTextEditorProps>(theme =>
     },
     toolbar: {}
   })
+);
+
+export const usePreviewStyles = makeStyles<Theme, RichTextPreviewProps>(
+  createStyles({})
 );
 
 export const useToolbarStyles = makeStyles<Theme, RichTextEditorToolbarProps>(

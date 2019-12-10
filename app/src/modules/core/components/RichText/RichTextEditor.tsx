@@ -17,17 +17,16 @@ import { RichTextEditorToolbar } from "./RichTextEditorToolbar";
 import { createDecorators } from "./decorators";
 import plugins from "./plugins";
 
+import { MAX_INDENT_DEPTH } from ".";
 import { RichTextEditorProps } from "./types";
-import useStyles from "./styles";
+import { useEditorStyles } from "./styles";
 import "./custom.scss";
-
-const MAX_INDENT_DEPTH = 6;
 
 /**
  * This component shows a rich text editor built on top of `draft-js`.
  */
 export const RichTextEditor: FC<RichTextEditorProps> = props => {
-  const classes = useStyles(props);
+  const classes = useEditorStyles(props);
   const {
     value,
     onChange = () => {},
@@ -56,24 +55,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = props => {
       : EditorState.createEmpty(createDecorators(tokens))
   );
 
-  // Update the state if given value changes in readOnly mode.
-  // If it is not in readOnly mode, updating the internal state
-  // using useEffect causes an infinite loop.
-  useEffect(() => {
-    if (
-      readOnly &&
-      value &&
-      value !== stateToHTML(editorState.getCurrentContent())
-    ) {
-      setEditorState(
-        EditorState.createWithContent(
-          stateFromHTML(value),
-          createDecorators(tokens)
-        )
-      );
-    }
-  }, [value, editorState, setEditorState]);
-
   // Update token decorators when recognised tokens change
   useEffect(() => {
     // If there is a difference in tokens, update editor decorators
@@ -91,7 +72,6 @@ export const RichTextEditor: FC<RichTextEditorProps> = props => {
   // Capture when the editor state changes and update
   // the parent state if we are not in `readOnly` mode.
   useEffect(() => {
-    // if (readOnly) returnx;
     const content = editorState.getCurrentContent();
     if (plain) {
       onChange(content.getPlainText(), content.getPlainText());
@@ -130,14 +110,14 @@ export const RichTextEditor: FC<RichTextEditorProps> = props => {
   const blockStyleFn = (block: ContentBlock) => {
     switch (block.getType()) {
       case "atomic":
-        return "draft-custom-atomic";
+        return "draft-component-atomic";
       default:
         return "";
     }
   };
 
   return (
-    <div className={clsx(classes.root, root, "draft-custom-editor")}>
+    <div className={clsx(classes.root, root, "draft-rich-text")}>
       {!hideToolbar && !readOnly && !plain && (
         <RichTextEditorToolbar
           classes={{ toolbar }}

@@ -5,7 +5,7 @@ import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
 import { CustomComponentProps } from "./types";
 
-const useStyles = makeStyles<Theme>(theme =>
+const useStyles = makeStyles<Theme>(
   createStyles({
     image: {
       width: "100%"
@@ -22,7 +22,13 @@ const Image: FC<CustomComponentProps> = props => {
   const { contentState, block, className, theme = {} } = props;
   const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
 
-  return <img src={src} className={clsx(image, theme.image, className)} />;
+  return (
+    <img
+      src={src}
+      className={clsx(image, theme.image, className)}
+      alt="component"
+    />
+  );
 };
 
 export default Image;

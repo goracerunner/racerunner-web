@@ -15,7 +15,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import { useFirestore } from "../../../core/hooks/useFirebase";
 
-import RichTextEditor from "../../../core/components/RichTextEditor";
+import * as RichText from "../../../core/components/RichText";
 
 import { EditNodeSecretsDialogProps } from "./types";
 import useStyles from "./styles";
@@ -43,7 +43,7 @@ export const EditNodeSecretsDialog: FC<EditNodeSecretsDialogProps> = ({
 
   useEffect(() => {
     if (open) setCodeError("");
-  }, [open, code, setCodeError]);
+  }, [open, code, isProtected, setCodeError]);
 
   // Reset the values when the dialog opens
   useEffect(() => {
@@ -53,7 +53,15 @@ export const EditNodeSecretsDialog: FC<EditNodeSecretsDialogProps> = ({
       setCode(secrets.code);
       setCodeError("");
     }
-  }, [open, setIsProtected, setNotes, setCode]);
+  }, [
+    open,
+    setIsProtected,
+    setNotes,
+    setCode,
+    node.protected,
+    secrets.notes,
+    secrets.code
+  ]);
 
   const onSave = async () => {
     if (isProtected && code.length < 3) {
@@ -120,7 +128,7 @@ export const EditNodeSecretsDialog: FC<EditNodeSecretsDialogProps> = ({
             checking responses.
           </FormHelperText>
         </FormControl>
-        <RichTextEditor
+        <RichText.Editor
           classes={{ root: classes.editor }}
           placeholder="Private notes"
           onChange={(text, html) => setNotes(html)}

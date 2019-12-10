@@ -13,7 +13,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 import { useFirestore } from "../../../core/hooks/useFirebase";
 
-import RichTextEditor from "../../../core/components/RichTextEditor";
+import * as RichText from "../../../core/components/RichText";
 
 import { EditNodeMetaDialogProps } from "./types";
 import useStyles from "./styles";
@@ -48,7 +48,14 @@ export const EditNodeMetaDialog: FC<EditNodeMetaDialogProps> = ({
       setNameError("");
       setDescription(meta.description);
     }
-  }, [open, setName, setNameError, setDescription]);
+  }, [
+    open,
+    setName,
+    setNameError,
+    setDescription,
+    meta.name,
+    meta.description
+  ]);
 
   const onSave = async () => {
     // Validation checks
@@ -96,7 +103,7 @@ export const EditNodeMetaDialog: FC<EditNodeMetaDialogProps> = ({
             this node.
           </FormHelperText>
         </FormControl>
-        <RichTextEditor
+        <RichText.Editor
           classes={{ root: classes.editor }}
           placeholder="Node description"
           onChange={(text, html) => setDescription(html)}

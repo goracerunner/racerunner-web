@@ -1,5 +1,34 @@
 import { EditorState } from "draft-js";
 
+export interface RichTextPreviewProps {
+  /**
+   * The value in the preview.
+   */
+  value?: string;
+
+  /**
+   * The names of recognised tokens that will be displayed in the
+   * editor. Tokens are recognised in the editor if they are prefixed
+   * with the `@` character and will be rendered inside the `TokenSpan`
+   * component.
+   */
+  tokens?: string[];
+
+  /**
+   * The text alignment to use.
+   * @default "left"
+   */
+  textAlignment?: "left" | "center" | "right";
+
+  /**
+   * Custom styles to apply to inner elements.
+   */
+  classes?: {
+    root?: string;
+    editor?: string;
+  };
+}
+
 export interface RichTextEditorProps {
   /**
    * The value in the editor.
