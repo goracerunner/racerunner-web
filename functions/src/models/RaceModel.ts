@@ -122,4 +122,28 @@ export class RaceModel {
     });
     Logger.debug(`Removed <node|${nodeId}> from <race|${raceId}> node list.`);
   }
+
+  public static async addTask(raceId: string, nodeId: string) {
+    await raceRef(raceId)
+      .collection("nodes")
+      .doc(nodeId)
+      .collection("protected")
+      .doc("meta")
+      .update({
+        numberOfTasks: admin.firestore.FieldValue.increment(1)
+      });
+    Logger.debug(`Added task to <node|${nodeId}> in <race|${raceId}>.`);
+  }
+
+  public static async removeTask(raceId: string, nodeId: string) {
+    await raceRef(raceId)
+      .collection("nodes")
+      .doc(nodeId)
+      .collection("protected")
+      .doc("meta")
+      .update({
+        numberOfTasks: admin.firestore.FieldValue.increment(-1)
+      });
+    Logger.debug(`Removed task from <node|${nodeId}> in <race|${raceId}>.`);
+  }
 }

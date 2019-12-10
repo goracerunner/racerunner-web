@@ -1,5 +1,5 @@
 import { Race } from "../../../../types/race";
-import { Node } from "../../../../types/node";
+import { Node, Task } from "../../../../types/node";
 
 export interface NodeProfileProps {
   /**
@@ -28,4 +28,21 @@ export interface TeamPreviewProps {
    * The id of the team to show.
    */
   teamId: string;
+}
+
+export interface TaskCardProps {
+  /**
+   * The node the task is in.
+   */
+  node: Node;
+
+  /**
+   * The id of the race.
+   */
+  raceId: string;
+
+  /**
+   * The task to show.
+   */
+  task: Task;
 }

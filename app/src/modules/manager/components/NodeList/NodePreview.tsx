@@ -36,8 +36,8 @@ import { NodePreviewProps } from "./types";
  */
 export const NodePreview: FC<NodePreviewProps> = ({ raceId, node }) => {
   const store = useFirestore();
-
   const { enqueueSnackbar } = useSnackbar();
+
   const [anchor, openMenu, closeMenu] = useMenuAnchor();
   const [showDelete, openDelete, closeDelete] = useBooleanState(false);
 

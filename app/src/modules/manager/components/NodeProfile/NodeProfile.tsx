@@ -1,5 +1,9 @@
 import React, { FC, useEffect } from "react";
-import { useDocument, useDocumentData } from "react-firebase-hooks/firestore";
+import {
+  useDocument,
+  useDocumentData,
+  useCollectionData
+} from "react-firebase-hooks/firestore";
 import { Redirect } from "react-router";
 import { useSnackbar } from "notistack";
 
@@ -21,11 +25,13 @@ import Loading from "../../../core/components/Loading";
 import * as RichText from "../../../core/components/RichText";
 import EditNodeMetaDialog from "../EditNodeMetaDialog";
 import EditNodeSecretsDialog from "../EditNodeSecretsDialog";
+import AddTaskDialog from "../AddTaskDialog";
 import UnlockTeamDialog from "../UnlockTeamDialog";
 
-import { Node, NodeMeta, NodeSecrets } from "../../../../types/node";
+import { Node, NodeMeta, NodeSecrets, Task } from "../../../../types/node";
 
 import { TeamPreview } from "./TeamPreview";
+import { TaskCard } from "./TaskCard";
 import { NodeProfileProps } from "./types";
 import useStyles from "./styles";
 
@@ -41,6 +47,7 @@ export const NodeProfile: FC<NodeProfileProps> = ({ race, nodeId }) => {
     false
   );
   const [showAddTeam, openAddTeam, closeAddTeam] = useBooleanState(false);
+  const [showAddTask, openAddTask, closeAddTask] = useBooleanState(false);
 
   const store = useFirestore();
   const { enqueueSnackbar } = useSnackbar();
@@ -57,6 +64,9 @@ export const NodeProfile: FC<NodeProfileProps> = ({ race, nodeId }) => {
   );
   const [secrets, secretsLoading, secretsError] = useDocumentData<NodeSecrets>(
     nodeRef.collection("protected").doc("secrets")
+  );
+  const [tasks, tasksLoading, tasksError] = useCollectionData<Task>(
+    nodeRef.collection("tasks").orderBy("order")
   );
 
   useErrorLogging(
@@ -77,13 +87,19 @@ export const NodeProfile: FC<NodeProfileProps> = ({ race, nodeId }) => {
     secretsError
   );
 
+  useErrorLogging(
+    "NodeProfile",
+    "Error occurred while retrieving node tasks",
+    tasksError
+  );
+
   useEffect(() => {
     if (node && !node.exists) {
       enqueueSnackbar("Node not found.", { variant: "error" });
     }
   }, [node, enqueueSnackbar]);
 
-  if (nodeLoading || metaLoading || secretsLoading) {
+  if (nodeLoading || metaLoading || secretsLoading || tasksLoading) {
     return <Loading margin="8rem" />;
   }
 
@@ -138,6 +154,40 @@ export const NodeProfile: FC<NodeProfileProps> = ({ race, nodeId }) => {
                 raceId={race.uid}
                 node={nodeData}
                 secrets={secrets}
+              />
+            </>
+          )}
+        </Paper>
+        <Paper className={classes.profile}>
+          <Tooltip title="Create task" placement="left">
+            <IconButton className={classes.more} onClick={openAddTask}>
+              <AddIcon />
+            </IconButton>
+          </Tooltip>
+          {tasks && (
+            <>
+              <Property title="Tasks" />
+              {tasks.length === 0 ? (
+                <Typography variant="body2" color="textSecondary">
+                  This node has no tasks.
+                </Typography>
+              ) : (
+                <List>
+                  {tasks.map(task => (
+                    <TaskCard
+                      key={task.taskId}
+                      raceId={race.uid}
+                      node={nodeData}
+                      task={task}
+                    />
+                  ))}
+                </List>
+              )}
+              <AddTaskDialog
+                open={showAddTask}
+                onClose={closeAddTask}
+                node={nodeData}
+                raceId={race.uid}
               />
             </>
           )}

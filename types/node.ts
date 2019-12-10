@@ -133,7 +133,7 @@ export interface Task {
   /**
    * The order which the task should appear in.
    */
-  order: string;
+  order: number;
 
   /**
    * The type of task.
