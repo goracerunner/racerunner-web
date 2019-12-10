@@ -27,11 +27,10 @@ import {
 } from "../../../base/hooks/useStateFactory";
 import { useFirestore } from "../../../core/hooks/useFirebase";
 import { useMenuAnchor } from "../../../core/hooks/useMenu";
+import { useErrorLogging } from "../../../base/hooks/useLogging";
 
 import Loading from "../../../core/components/Loading";
 import Property from "../../../core/components/Property";
-
-import { Logger } from "../../../../utils";
 
 import { Team } from "../../../../types/team";
 import { UserProfile } from "../../../../types/users";
@@ -81,23 +80,17 @@ export const TeamProfile: FC<TeamProfileProps> = ({ race, teamId }) => {
     UserProfile
   >(teamRef.collection("members"));
 
-  useEffect(() => {
-    if (teamError)
-      Logger.error(
-        "TeamProfile",
-        "Error occurred while retrieving team",
-        teamError
-      );
-  }, [teamError]);
+  useErrorLogging(
+    "TeamProfile",
+    "Error occurred while retrieving team",
+    teamError
+  );
 
-  useEffect(() => {
-    if (membersError)
-      Logger.error(
-        "TeamProfile",
-        "Error occurred while retrieving team members",
-        membersError
-      );
-  }, [membersError]);
+  useErrorLogging(
+    "TeamProfile",
+    "Error occurred while retrieving team members",
+    membersError
+  );
 
   useEffect(() => {
     if (team && !team.exists) {

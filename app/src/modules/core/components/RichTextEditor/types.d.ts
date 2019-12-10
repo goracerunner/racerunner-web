@@ -2,14 +2,14 @@ import { EditorState } from "draft-js";
 
 export interface RichTextEditorProps {
   /**
-   * Callback function for when the text in the editor changes.
-   */
-  onChange: (text: string, html: string) => void;
-
-  /**
    * The value in the editor.
    */
   value: string;
+
+  /**
+   * Callback function for when the text in the editor changes.
+   */
+  onChange?: (text: string, html: string) => void;
 
   /**
    * The names of recognised tokens that will be displayed in the

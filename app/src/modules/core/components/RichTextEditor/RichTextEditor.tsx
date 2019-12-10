@@ -29,8 +29,8 @@ const MAX_INDENT_DEPTH = 6;
 export const RichTextEditor: FC<RichTextEditorProps> = props => {
   const classes = useStyles(props);
   const {
-    onChange,
     value,
+    onChange = () => {},
     tokens = [],
     placeholder = "",
     textAlignment = "left",
@@ -56,6 +56,24 @@ export const RichTextEditor: FC<RichTextEditorProps> = props => {
       : EditorState.createEmpty(createDecorators(tokens))
   );
 
+  // Update the state if given value changes in readOnly mode.
+  // If it is not in readOnly mode, updating the internal state
+  // using useEffect causes an infinite loop.
+  useEffect(() => {
+    if (
+      readOnly &&
+      value &&
+      value !== stateToHTML(editorState.getCurrentContent())
+    ) {
+      setEditorState(
+        EditorState.createWithContent(
+          stateFromHTML(value),
+          createDecorators(tokens)
+        )
+      );
+    }
+  }, [value, editorState, setEditorState]);
+
   // Update token decorators when recognised tokens change
   useEffect(() => {
     // If there is a difference in tokens, update editor decorators
@@ -73,7 +91,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = props => {
   // Capture when the editor state changes and update
   // the parent state if we are not in `readOnly` mode.
   useEffect(() => {
-    if (readOnly) return;
+    // if (readOnly) returnx;
     const content = editorState.getCurrentContent();
     if (plain) {
       onChange(content.getPlainText(), content.getPlainText());

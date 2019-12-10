@@ -7,26 +7,26 @@ import RaceContext from "../../../core/contexts/RaceContext";
 
 import BackButton from "../../../base/components/BackButton";
 import ManagerPageContainer from "../../components/ManagerPageContainer";
-import TeamProfile from "../../components/TeamProfile";
+import NodeProfile from "../../components/NodeProfile";
 
 import useStyles from "./styles";
 
 /**
- * This page provides controls for a race manager to manage a team.
+ * This page provides controls for a race manager to manage a node.
  */
-export const ManagerManageTeamPage: React.FC = () => {
+export const ManagerManageNodePage: React.FC = () => {
   const classes = useStyles();
-  const { teamId } = useParams();
+  const { nodeId } = useParams();
   const { race } = useContext(RaceContext);
 
   let content: Nullable<JSX.Element> = null;
 
-  if (teamId && race) {
-    content = <TeamProfile race={race} teamId={teamId} />;
+  if (nodeId && race) {
+    content = <NodeProfile race={race} nodeId={nodeId} />;
   }
 
   return (
-    <ManagerPageContainer title="Manage Team">
+    <ManagerPageContainer title="Manage Node">
       <BackButton className={classes.back} />
       {content}
     </ManagerPageContainer>

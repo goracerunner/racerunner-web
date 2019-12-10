@@ -63,7 +63,7 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
       setDescription("");
       setNotes("");
       setCode("");
-      setNameError("");
+      setCodeError("");
       setRequired("");
     }
   }, [
@@ -118,7 +118,7 @@ export const CreateNodeDialog: FC<CreateNodeDialogProps> = ({
         required: []
       }
     };
-    console.log(node, meta, secrets);
+
     await nodeRef.set(node);
     await nodeRef
       .collection("protected")
