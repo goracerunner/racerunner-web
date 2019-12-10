@@ -51,13 +51,14 @@ export const RichTextPreview: FC<RichTextPreviewProps> = props => {
 
   // Update value when it changes
   useEffect(() => {
+    // If there is no change in tokens
     setEditorState(
       EditorState.createWithContent(
         stateFromHTML(value),
-        createDecorators(tokens)
+        createDecorators(knownTokens)
       )
     );
-  }, [value, setEditorState, tokens]);
+  }, [value, setEditorState, knownTokens]);
 
   const blockStyleFn = (block: ContentBlock) => {
     switch (block.getType()) {
