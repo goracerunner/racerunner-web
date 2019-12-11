@@ -49,7 +49,7 @@ export const TeamMemberList: FC<TeamMemberListProps> = ({
 
   return (
     <List>
-      {membersToShow.length == 0 ? (
+      {membersToShow.length === 0 ? (
         <ListItem>
           <ListItemText secondary="No team members" />
         </ListItem>

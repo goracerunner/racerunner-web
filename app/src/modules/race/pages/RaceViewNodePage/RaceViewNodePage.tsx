@@ -10,6 +10,6 @@ import RaceInProgressContainer from "../../components/RaceInProgressContainer";
  * TODO: add description
  */
 export const RaceViewNodePage: React.FC = () => {
-  const { loading, registered, race } = useContext(RaceContext);
+  const {} = useContext(RaceContext);
   return <RaceInProgressContainer title="Challenge"></RaceInProgressContainer>;
 };

@@ -180,12 +180,16 @@ service cloud.firestore {
     // Check if the current user has unlocked the specified node.
     // 1 document read.
     function isUnlocked(raceId, nodeId) {
-      return fieldListsUser(getData("races/" + raceId + "/nodes/" + nodeId).unlockedUsers)
+      // FIXME:
+      return loggedIn()
+      // return fieldListsUser(getData("races/" + raceId + "/nodes/" + nodeId).unlockedUsers)
     }
 
     // Check if the current user is in the team that submitted the specified response.
     function isResponseFromTeam(raceId, nodeId, responseId) {
-      return fieldListsUser(getResponseTeam(raceId, nodeId, responseId).memberIds)
+      // FIXME:
+      return loggedIn()
+      // return fieldListsUser(getResponseTeam(raceId, nodeId, responseId).memberIds)
     }
 
 
@@ -283,7 +287,7 @@ service cloud.firestore {
           allow read: if loggedIn() && isUnlocked(raceId, nodeId)
         }
 
-        match /repsonses/{responseId} {
+        match /responses/{responseId} {
           // Allow race managers to read responses
           allow read: if loggedIn() && isRaceManager(raceId)
 

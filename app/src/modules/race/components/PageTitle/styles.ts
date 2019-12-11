@@ -5,18 +5,6 @@ export default makeStyles<Theme>(theme =>
     title: {
       marginTop: theme.spacing(4),
       marginBottom: theme.spacing(1)
-    },
-    divider: {
-      margin: theme.spacing(4)
-    },
-    noTeam: {
-      marginTop: theme.spacing(4),
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center"
-    },
-    submit: {
-      color: "white"
     }
   })
 );

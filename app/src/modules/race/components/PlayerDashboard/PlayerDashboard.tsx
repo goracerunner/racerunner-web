@@ -15,6 +15,7 @@ import Loading from "../../../core/components/Loading";
 import LinkList from "../../../core/components/LinkList";
 import Property from "../../../core/components/Property";
 
+import PageTitle from "../PageTitle";
 import RaceNotInProgress from "../RaceNotInProgress";
 import PlayerTeamProfile from "../PlayerTeamProfile";
 import TeamMemberList from "../TeamMemberList";
@@ -65,7 +66,13 @@ export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
         <Divider className={classes.divider} />
         <PlayerTeamProfile team={team} />
         <Divider className={classes.divider} />
-        <Button fullWidth size="large" color="secondary" variant="contained">
+        <Button
+          fullWidth
+          size="large"
+          color="secondary"
+          variant="contained"
+          className={classes.submit}
+        >
           <b>Submit code</b>
         </Button>
         <Divider className={classes.divider} />
@@ -90,7 +97,7 @@ export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
               id: "complete",
               name: "Completed challenges",
               description: "Challenges that have been scored",
-              link: "/race/nodes/complete",
+              link: "/race/nodes/completed",
               icon: <CompletedIcon />
             }
           ]}
@@ -105,12 +112,14 @@ export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h3" className={classes.title}>
-        Dashboard
-      </Typography>
-      <Typography variant="body2" color="textSecondary">
-        Event: <b>{race.name}</b>
-      </Typography>
+      <PageTitle
+        title="Dashboard"
+        subtitle={
+          <>
+            Event: <b>{race.name}</b>
+          </>
+        }
+      />
       {content}
     </Container>
   );
