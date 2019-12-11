@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions";
+import "firebase/storage";
 
 import { Maybe } from "../../../types/global";
 
@@ -14,6 +15,11 @@ export const useAuth = () => firebase.auth();
  * Returns the Firebase Firestore instance.
  */
 export const useFirestore = () => firebase.firestore();
+
+/**
+ * Returns the Firebase Storage instance.
+ */
+export const useStorage = () => firebase.storage();
 
 /**
  * Returns the Firebase Functions instance.

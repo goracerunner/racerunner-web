@@ -9,6 +9,14 @@ import { Response, ResponseCheck } from "../../../../types/node";
 import { NodeCard } from "./NodeCard";
 import { NodeContainerProps } from "./types";
 
+/**
+ * This component retrieves information about a Node and its repsonses.
+ * If the node responses matches the desired filter, it is rendered
+ * as a card. Otherwise, it will render `null`.
+ *
+ * FIXME: currently the filtering feature does not work correctly
+ * when there are **multiple** tasks.
+ */
 export const NodeContainer: FC<NodeContainerProps> = ({
   race,
   team,
