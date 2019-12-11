@@ -9,6 +9,11 @@ import { UserRaceProvider } from "../core/contexts/RaceContext";
 import NotFoundPage from "../core/pages/NotFoundPage";
 
 import RaceDashboardPage from "./pages/RaceDashboardPage";
+import RaceNodesPage from "./pages/RaceNodesPage";
+import RaceNodesNewPage from "./pages/RaceNodesNewPage";
+import RaceNodesPendingPage from "./pages/RaceNodesPendingPage";
+import RaceNodesCompletedPage from "./pages/RaceNodesCompletedPage";
+import RaceViewNodePage from "./pages/RaceViewNodePage";
 
 /**
  * This component provides race information to the routes (children) if
@@ -49,6 +54,21 @@ const RaceMode: React.FC = () => {
     <RaceRoutesProvider>
       <Route exact path="/race">
         <RaceDashboardPage />
+      </Route>
+      <Route exact path="/race/nodes">
+        <RaceNodesPage />
+      </Route>
+      <Route exact path="/race/nodes/new">
+        <RaceNodesNewPage />
+      </Route>
+      <Route exact path="/race/nodes/pending">
+        <RaceNodesPendingPage />
+      </Route>
+      <Route exact path="/race/nodes/completed">
+        <RaceNodesCompletedPage />
+      </Route>
+      <Route exact path="/race/nodes/:nodeId">
+        <RaceViewNodePage />
       </Route>
     </RaceRoutesProvider>
   );

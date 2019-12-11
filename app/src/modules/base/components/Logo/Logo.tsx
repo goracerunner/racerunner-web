@@ -8,8 +8,7 @@ import { LogoProps } from "./types";
 import useStyles from "./styles";
 
 /**
- * Render the logo. Change the variation via the
- * `logoOnly` and `inverted` props.
+ * Render the logo. Change the variation via the `inverted` prop.
  */
 export const Logo: React.FC<LogoProps> = props => {
   const classes = useStyles(props);

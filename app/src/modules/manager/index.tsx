@@ -19,6 +19,7 @@ import ManagerNodesPage from "./pages/ManagerNodesPage";
 import ManagerManageNodePage from "./pages/ManagerManageNodePage";
 import ManagerRegistrationsPage from "./pages/ManagerRegistrationsPage";
 import ManagerResponsesPage from "./pages/ManagerResponsesPage";
+import ManagerManageResponsePage from "./pages/ManagerManageResponsePage";
 import ManagerScoreboardPage from "./pages/ManagerScoreboardPage";
 import ManagerSettingsPage from "./pages/ManagerSettingsPage";
 
@@ -88,6 +89,9 @@ const ManagerMode: React.FC = () => {
         </Route>
         <Route exact path="/manage/responses">
           <ManagerResponsesPage />
+        </Route>
+        <Route exact path="/manage/responses/:responseId">
+          <ManagerManageResponsePage />
         </Route>
         <Route exact path="/manage/scoreboard">
           <ManagerScoreboardPage />
