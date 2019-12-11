@@ -11,6 +11,8 @@ import CompletedIcon from "@material-ui/icons/CheckCircle";
 
 import RaceContext from "../../../core/contexts/RaceContext";
 
+import { useBooleanState } from "../../../base/hooks/useStateFactory";
+
 import Loading from "../../../core/components/Loading";
 import LinkList from "../../../core/components/LinkList";
 import Property from "../../../core/components/Property";
@@ -19,6 +21,7 @@ import PageTitle from "../PageTitle";
 import RaceNotInProgress from "../RaceNotInProgress";
 import PlayerTeamProfile from "../PlayerTeamProfile";
 import TeamMemberList from "../TeamMemberList";
+import SubmitCodeDialog from "../SubmitCodeDialog";
 
 import { Nullable } from "../../../../types/global";
 
@@ -31,6 +34,8 @@ import useStyles from "./styles";
 export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
   const classes = useStyles();
   const { loading, team } = useContext(RaceContext);
+
+  const [showCode, openCode, closeCode] = useBooleanState(false);
 
   if (race.status !== "in_progress") {
     return <RaceNotInProgress race={race} />;
@@ -72,9 +77,16 @@ export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
           color="secondary"
           variant="contained"
           className={classes.submit}
+          onClick={openCode}
         >
           <b>Submit code</b>
         </Button>
+        <SubmitCodeDialog
+          open={showCode}
+          onClose={closeCode}
+          raceId={race.uid}
+          teamId={team.teamId}
+        />
         <Divider className={classes.divider} />
         <LinkList
           fullWidth

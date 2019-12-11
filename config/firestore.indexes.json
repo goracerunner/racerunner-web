@@ -33,7 +33,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "unlockedUsers",
+          "fieldPath": "unlockedMembers",
           "arrayConfig": "CONTAINS"
         },
         {
@@ -85,5 +85,28 @@
       ]
     }
   ],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {
+      "collectionGroup": "protected",
+      "fieldPath": "code",
+      "indexes": [
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "order": "DESCENDING",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "arrayConfig": "CONTAINS",
+          "queryScope": "COLLECTION"
+        },
+        {
+          "order": "ASCENDING",
+          "queryScope": "COLLECTION_GROUP"
+        }
+      ]
+    }
+  ]
 }

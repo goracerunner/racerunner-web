@@ -31,7 +31,9 @@ export const NodesList: FC<NodesListProps> = ({ race, team, user, state }) => {
     nodesRef.where("protected", "==", false).orderBy("order")
   );
   const [nodes, loading, error] = useCollectionData<Node>(
-    nodesRef.where("unlockedUsers", "array-contains", user.uid).orderBy("order")
+    nodesRef
+      .where("unlockedMembers", "array-contains", user.uid)
+      .orderBy("order")
   );
 
   useErrorLogging(
