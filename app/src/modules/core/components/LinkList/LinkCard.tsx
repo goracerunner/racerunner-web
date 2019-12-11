@@ -18,10 +18,10 @@ import useStyles from "./styles";
  */
 export const LinkCard: FC<LinkCardProps> = props => {
   const classes = useStyles(props);
-  const { name, description, link, icon, largeTitle } = props;
+  const { name, description, link, icon, largeTitle, fullWidth } = props;
 
   return (
-    <Grid item xs={12} sm={4} md={3}>
+    <Grid item xs={12} sm={fullWidth ? 12 : 4} md={fullWidth ? 12 : 3}>
       <Card>
         <CardActionArea className={classes.card} component={Link} to={link}>
           <CardContent className={classes.content}>

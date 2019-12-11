@@ -1,5 +1,6 @@
 import React, { FC, useContext } from "react";
 
+import AuthenticationContext from "../../../core/contexts/AuthenticationContext";
 import RaceContext from "../../../core/contexts/RaceContext";
 
 import RacePageContainer from "../../components/RacePageContainer";
@@ -14,19 +15,20 @@ import { RaceDashboardPageProps } from "./types";
  * This component shows a dashboard for the currently selected race.
  */
 export const RaceDashboardPage: FC<RaceDashboardPageProps> = () => {
+  const { user } = useContext(AuthenticationContext);
   const { loading, registered, race } = useContext(RaceContext);
 
   let content: Nullable<JSX.Element> = null;
 
-  if (!loading && race) {
+  if (!loading && race && user) {
     if (!registered) {
       // Show the registration page if not registered
       if (race.status === "registration_open") {
         content = <RegistrationPage />;
       }
-    } else if (race) {
+    } else {
       // Otherwise, show the dashboard
-      content = <PlayerDashboard race={race} />;
+      content = <PlayerDashboard race={race} user={user} />;
     }
   }
 

@@ -8,11 +8,11 @@ import { LinkListProps } from "./types";
 /**
  * This component renders a list of links.
  */
-export const LinkList: FC<LinkListProps> = ({ links }) => {
+export const LinkList: FC<LinkListProps> = ({ links, fullWidth }) => {
   return (
     <Grid container spacing={2}>
       {links.map(item => (
-        <LinkCard key={item.id} {...item} />
+        <LinkCard key={item.id} fullWidth={fullWidth} {...item} />
       ))}
     </Grid>
   );

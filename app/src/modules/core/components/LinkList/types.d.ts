@@ -3,6 +3,11 @@ export interface LinkListProps {
    * A list of links to render in the link list.
    */
   links: Array<LinkCardProps>;
+
+  /**
+   * If `true`, link cards will always be rendered at full width.
+   */
+  fullWidth?: boolean;
 }
 
 export interface LinkCardProps {
@@ -37,4 +42,9 @@ export interface LinkCardProps {
    * The icon for the link.
    */
   icon: JSX.Element;
+
+  /**
+   * If `true`, the link card will always be rendered at full width.
+   */
+  fullWidth?: boolean;
 }

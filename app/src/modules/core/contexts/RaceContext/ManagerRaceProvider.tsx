@@ -34,7 +34,8 @@ export const ManagerRaceProvider: FC<RaceProviderProps> = ({
       value={{
         loading: raceLoading,
         registered: false,
-        race: race ? (race.data() as Race) : null
+        race: race ? (race.data() as Race) : null,
+        team: null
       }}
     >
       {children}

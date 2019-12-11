@@ -7,7 +7,8 @@ import { RaceContextState } from "./types";
 const RaceContext = React.createContext<RaceContextState>({
   loading: false,
   registered: false,
-  race: null
+  race: null,
+  team: null
 });
 
 export default RaceContext;
