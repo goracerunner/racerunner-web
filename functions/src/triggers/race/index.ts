@@ -14,3 +14,6 @@ export { removeNode } from "./removeNode";
 export { updateNode } from "./updateNode";
 export { addTask } from "./addTask";
 export { removeTask } from "./removeTask";
+export { addCheck } from "./addCheck";
+export { removeCheck } from "./removeCheck";
+export { updateCheck } from "./updateCheck";

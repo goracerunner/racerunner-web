@@ -1,10 +1,10 @@
 import { firestore } from "firebase-admin";
 
-import { raceRef } from "../utils/refs";
+import { nodeRef } from "../utils/refs";
 import { Logger } from "../utils/logger";
+import { pluralise } from "../utils/text";
 
 import { Node } from "../types/node";
-import { pluralise } from "../utils/text";
 
 /**
  * This class provides a set of convenience methods for modifying
@@ -12,12 +12,7 @@ import { pluralise } from "../utils/text";
  */
 export class NodeModel {
   public static async getNode(raceId: string, nodeId: string) {
-    return (
-      await raceRef(raceId)
-        .collection("nodes")
-        .doc(nodeId)
-        .get()
-    ).data() as Node;
+    return (await nodeRef(raceId, nodeId).get()).data() as Node;
   }
 
   public static async addMembers(
@@ -25,12 +20,9 @@ export class NodeModel {
     nodeId: string,
     memberIds: string[]
   ) {
-    await raceRef(raceId)
-      .collection("nodes")
-      .doc(nodeId)
-      .update({
-        unlockedMembers: firestore.FieldValue.arrayUnion(...memberIds)
-      });
+    await nodeRef(raceId, nodeId).update({
+      unlockedMembers: firestore.FieldValue.arrayUnion(...memberIds)
+    });
     Logger.debug(
       `Added ${memberIds.length} ${pluralise(
         "member",
@@ -44,17 +36,33 @@ export class NodeModel {
     nodeId: string,
     memberIds: string[]
   ) {
-    await raceRef(raceId)
-      .collection("nodes")
-      .doc(nodeId)
-      .update({
-        unlockedMembers: firestore.FieldValue.arrayRemove(...memberIds)
-      });
+    await nodeRef(raceId, nodeId).update({
+      unlockedMembers: firestore.FieldValue.arrayRemove(...memberIds)
+    });
     Logger.debug(
       `Removed ${memberIds.length} ${pluralise(
         "member",
         memberIds.length
       )} from <node|${nodeId}>.`
+    );
+  }
+
+  public static async checkResponse(
+    raceId: string,
+    nodeId: string,
+    responseId: string,
+    checked: boolean
+  ) {
+    await nodeRef(raceId, nodeId)
+      .collection("responses")
+      .doc(responseId)
+      .update({
+        checked
+      });
+    Logger.debug(
+      `Marked <response|${responseId}> as ${
+        checked ? "checked" : "unchecked"
+      } in <node|${nodeId}>`
     );
   }
 }

@@ -77,4 +77,16 @@ export class TeamModel {
 
     Logger.debug(`Removed all members from team <team|${teamId}>.`);
   }
+
+  public static async updatePoints(
+    raceId: string,
+    teamId: string,
+    increment: number
+  ) {
+    console.info(`Updating <team|${teamId}> points by ${increment}...`);
+    console.info(raceId, teamId);
+    await teamRef(raceId, teamId).update({
+      points: admin.firestore.FieldValue.increment(increment)
+    });
+  }
 }

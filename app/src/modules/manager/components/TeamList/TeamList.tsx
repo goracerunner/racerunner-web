@@ -74,7 +74,7 @@ export const TeamList: FC<TeamListProps> = ({ onAddTeam, raceId }) => {
                   secondary={`${team.memberIds.length} ${pluralise(
                     "member",
                     team.memberIds.length
-                  )}`}
+                  )}, ${team.points} ${pluralise("point", team.points)}`}
                 />
               </ListItem>
             ))}

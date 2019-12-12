@@ -39,7 +39,7 @@ export const SubmissionField: FC<SubmissionFieldProps> = ({
 
   const [loading, setLoading] = useState(false);
 
-  const submitResponse = (type: "phrase" | "photo") => async () => {
+  const submitResponse = (type: "phrase" | "photo" | "manual") => async () => {
     if (!user) return;
 
     setLoading(true);
@@ -68,12 +68,14 @@ export const SubmissionField: FC<SubmissionFieldProps> = ({
     const response: ResponseInput = {
       responseId: responseRef.id,
       date: new Date(),
+      raceId: race.uid,
       nodeId: task.nodeId,
       taskId: task.taskId,
       teamId: team.teamId,
       userId: user.uid,
+      checked: false,
       type,
-      value: phrase
+      value
     };
     await responseRef.set(response);
 
@@ -120,7 +122,11 @@ export const SubmissionField: FC<SubmissionFieldProps> = ({
               >
                 <ClearIcon />
               </IconButton>
-              <img className={classes.previewImage} src={preview} />
+              <img
+                className={classes.previewImage}
+                src={preview}
+                alt="Preview"
+              />
               <Button
                 variant="outlined"
                 fullWidth
@@ -150,6 +156,18 @@ export const SubmissionField: FC<SubmissionFieldProps> = ({
             />
           )}
         </div>
+      );
+    }
+    case "manual": {
+      return (
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={submitResponse("manual")}
+          disabled={loading}
+        >
+          Complete this challenge
+        </Button>
       );
     }
   }

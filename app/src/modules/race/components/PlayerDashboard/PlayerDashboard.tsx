@@ -6,8 +6,8 @@ import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 
 import NewIcon from "@material-ui/icons/Whatshot";
-import PendingIcon from "@material-ui/icons/HourglassFull";
-import CompletedIcon from "@material-ui/icons/CheckCircle";
+// import PendingIcon from "@material-ui/icons/HourglassFull";
+// import CompletedIcon from "@material-ui/icons/CheckCircle";
 
 import RaceContext from "../../../core/contexts/RaceContext";
 
@@ -93,25 +93,25 @@ export const PlayerDashboard: FC<PlayerDashboardProps> = ({ race, user }) => {
           links={[
             {
               id: "new",
-              name: "New challenges",
-              description: "Challenges you have not completed yet",
-              link: "/race/nodes/new",
+              name: "Your challenges",
+              description: "View challenges you've unlocked",
+              link: "/race/nodes",
               icon: <NewIcon />
-            },
-            {
-              id: "pending",
-              name: "Pending challenges",
-              description: "Challenges awaiting feedback",
-              link: "/race/nodes/pending",
-              icon: <PendingIcon />
-            },
-            {
-              id: "complete",
-              name: "Completed challenges",
-              description: "Challenges that have been scored",
-              link: "/race/nodes/completed",
-              icon: <CompletedIcon />
             }
+            // {
+            //   id: "pending",
+            //   name: "Pending challenges",
+            //   description: "Challenges awaiting feedback",
+            //   link: "/race/nodes/pending",
+            //   icon: <PendingIcon />
+            // },
+            // {
+            //   id: "complete",
+            //   name: "Completed challenges",
+            //   description: "Challenges that have been scored",
+            //   link: "/race/nodes/completed",
+            //   icon: <CompletedIcon />
+            // }
           ]}
         />
         <Divider className={classes.divider} />

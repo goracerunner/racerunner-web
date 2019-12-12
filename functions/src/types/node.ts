@@ -148,6 +148,11 @@ export interface Task {
 
 export interface ResponseBase<T extends Timestamp> {
   /**
+   * The id of the race this response belongs to.
+   */
+  raceId: string;
+
+  /**
    * The id of the parent node.
    */
   nodeId: string;
@@ -186,6 +191,12 @@ export interface ResponseBase<T extends Timestamp> {
    * The response value.
    */
   value: string;
+
+  /**
+   * This value flags whether the response has been checked.
+   * Automatically updated by a cloud function.
+   */
+  checked: boolean;
 }
 
 /**
@@ -204,9 +215,19 @@ export interface ResponseInput extends ResponseBase<Date> {}
 
 export interface ResponseCheckBase<T extends Timestamp> {
   /**
+   * The id of the race this response check belongs to.
+   */
+  raceId: string;
+
+  /**
    * The id of the parent node.
    */
   nodeId: string;
+
+  /**
+   * The id of the team that provided the response.
+   */
+  teamId: string;
 
   /**
    * The id of the response.

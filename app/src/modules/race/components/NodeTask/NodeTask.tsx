@@ -7,6 +7,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import WaitIcon from "@material-ui/icons/HourglassFull";
+import CorrectIcon from "@material-ui/icons/CheckCircle";
+import IncorrectIcon from "@material-ui/icons/Clear";
+import RetryIcon from "@material-ui/icons/Loop";
 
 import { useErrorLogging } from "../../../base/hooks/useLogging";
 import { useFirestore } from "../../../core/hooks/useFirebase";
@@ -50,6 +53,7 @@ export const NodeTask: FC<NodeTaskProps> = ({ race, team, node, task }) => {
       .collection("checks")
       .where("teamId", "==", team.teamId)
       .where("taskId", "==", task.taskId)
+      .orderBy("date", "desc")
   );
 
   useErrorLogging(
@@ -112,10 +116,27 @@ export const NodeTask: FC<NodeTaskProps> = ({ race, team, node, task }) => {
     );
   } else if (latestCheck.retry) {
     // Multiple submissions allowed
-    content = <SubmissionField race={race} task={task} team={team} />;
+    content = (
+      <>
+        <ListItem>
+          <ListItemIcon>
+            <RetryIcon />
+          </ListItemIcon>
+          <ListItemText secondary="Response checked, retry allowed" />
+        </ListItem>
+        <SubmissionField race={race} task={task} team={team} />
+      </>
+    );
   } else {
     // Submission is finalised.
-    content = <>Checked for {latestCheck.points} points </>;
+    content = (
+      <ListItem>
+        <ListItemIcon>
+          {latestCheck.correct ? <CorrectIcon /> : <IncorrectIcon />}
+        </ListItemIcon>
+        <ListItemText secondary="Response checked." />
+      </ListItem>
+    );
   }
 
   return (
